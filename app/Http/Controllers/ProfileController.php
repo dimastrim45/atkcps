@@ -12,8 +12,18 @@ class ProfileController extends Controller
         return view('auth.profile');
     }
 
+    public function showITAdmin()
+    {
+        // auth()->user()->department = 'MGM';
+
+        return view('it_admin.users.profile',[
+            'title' => 'profile'
+        ]);
+    }
+
     public function update(ProfileUpdateRequest $request)
     {
+        // dd($request->all());
         if ($request->password) {
             auth()->user()->update(['password' => Hash::make($request->password)]);
         }
@@ -21,6 +31,9 @@ class ProfileController extends Controller
         auth()->user()->update([
             'name' => $request->name,
             'email' => $request->email,
+            'branch' => $request->branch,
+            'department' => $request->department,
+            'license' => $request->license,
         ]);
 
         return redirect()->back()->with('success', 'Profile updated.');

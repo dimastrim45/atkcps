@@ -40,6 +40,7 @@
                                     <tr class="text-center">
                                         <th>Group Code</th>
                                         <th>Group Name</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,6 +48,12 @@
                                     <tr class="text-center">
                                         <td>{{ 'ATK' }}</td>
                                         <td>{{ 'Alat Tulis Kantor' }}</td>
+                                        <td class="d-flex justify-content-center">
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                {{-- <button type="button" class="btn btn-danger">Inactive</button> --}}
+                                                <button type="button" class="btn btn-warning">Edit</button>
+                                            </div>
+                                        </td>
                                     </tr>
                                     {{-- @endforeach --}}
                                 </tbody>

@@ -21,7 +21,19 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                // return redirect(RouteServiceProvider::HOME);
+                // return redirect()->intended('/view')
+                if (auth()->user()->license === 'administrator') {
+                    return redirect(RouteServiceProvider::HOME);
+                } else  if (auth()->user()->license === 'staff'){
+                    return redirect(RouteServiceProvider::HOME);
+                } else  if (auth()->user()->license === 'hradmin'){
+                    return redirect(RouteServiceProvider::HOME);
+                } else  if (auth()->user()->license === 'manager'){
+                    return redirect(RouteServiceProvider::NEWITEMADMIN);
+                } else {
+                    return redirect()->intended('/');
+                }
             }
         }
 

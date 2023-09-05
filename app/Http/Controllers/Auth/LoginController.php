@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use \Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -21,12 +22,43 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    protected function authenticated(Request $request, $user)
+    {
+        if (auth()->user()->license === 'administrator') {
+            return redirect(RouteServiceProvider::HOME);
+        } else  if (auth()->user()->license === 'staff'){
+            return redirect(RouteServiceProvider::HOME);
+        } else  if (auth()->user()->license === 'hradmin'){
+            return redirect(RouteServiceProvider::HOME);
+        } else  if (auth()->user()->license === 'manager'){
+            return redirect(RouteServiceProvider::NEWITEMADMIN);
+        } else {
+            return redirect()->intended('/');
+        }
+    }
+
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    // Override the redirectTo property
+    protected function redirectTo()
+    {
+        if (auth()->user()->license === 'administrator') {
+            return redirect(RouteServiceProvider::HOME);
+        } else  if (auth()->user()->license === 'staff'){ 
+            return redirect(RouteServiceProvider::HOME);
+        } else  if (auth()->user()->license === 'hradmin'){
+            return redirect(RouteServiceProvider::HOME);
+        } else  if (auth()->user()->license === 'manager'){
+            return redirect(RouteServiceProvider::NEWITEMADMIN);
+        } else {
+            return redirect()->intended('/');
+        }
+    }
 
     /**
      * Create a new controller instance.

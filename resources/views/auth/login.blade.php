@@ -8,30 +8,32 @@
             @csrf
 
             <div class="input-group mb-3">
-                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="{{ __('Email') }}" required autofocus>
+                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                    placeholder="{{ __('Email') }}" required autofocus>
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-envelope"></span>
                     </div>
                 </div>
                 @error('email')
-                <span class="error invalid-feedback">
-                    {{ $message }}
-                </span>
+                    <span class="error invalid-feedback">
+                        {{ $message }}
+                    </span>
                 @enderror
             </div>
 
             <div class="input-group mb-3">
-                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="{{ __('Password') }}" required>
+                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                    placeholder="{{ __('Password') }}" required>
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-lock"></span>
                     </div>
                 </div>
                 @error('password')
-                <span class="error invalid-feedback">
-                    {{ $message }}
-                </span>
+                    <span class="error invalid-feedback">
+                        {{ $message }}
+                    </span>
                 @enderror
             </div>
 
@@ -57,6 +59,9 @@
                 <a href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
             </p>
         @endif
+        <p class="mb-1">
+            <a href="/register">Don't have user? Register here.</a>
+        </p>
     </div>
     <!-- /.login-card-body -->
 @endsection

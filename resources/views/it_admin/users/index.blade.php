@@ -37,7 +37,7 @@
                             </div> --}}
                         </div>
                     </div>
-                    
+
                     <div class="card">
                         <div class="card-body p-0">
 
@@ -45,7 +45,6 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>Name</th>
-                                        <th>Username</th>
                                         <th>Email</th>
                                         <th>Branch</th>
                                         <th>Department</th>
@@ -57,16 +56,23 @@
                                     @foreach ($users as $user)
                                         <tr class="text-center">
                                             <td>{{ $user->name }}</td>
-                                            <td>{{ 'sammartintm45' }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ 'Wonosari' }}</td>
-                                            <td>{{ 'FAT' }}</td>
-                                            <td>{{ 'Professional' }}</td>
+                                            <td>{{ $user->branch }}</td>
+                                            <td>{{ $user->department }}</td>
+                                            <td>{{ $user->license }}</td>
                                             <td class="d-flex justify-content-center">
                                                 <div class="btn-group" role="group"
                                                     aria-label="Basic mixed styles example">
-                                                    <button type="button" class="btn btn-danger">Remove</button>
-                                                    <button type="button" class="btn btn-warning">Edit</button>
+                                                    <form method="POST" action="{{ route('users.delete', $user->id) }}">
+                                                        @csrf
+                                                        @method('DELETE')
+
+                                                        <button type="submit" class="btn btn-danger"
+                                                            onclick="return confirm('Are you sure you want to delete this user?')">Remove</button>
+                                                    </form>
+                                                    <a href="user/edit/{{ $user->email }}"><button type="button"
+                                                            class="btn btn-warning">Edit</button></a>
+                                                    {{-- user/remove/{{ $user->email }} --}}
                                                     {{-- <button type="button" class="btn btn-success">Right</button> --}}
                                                 </div>
                                             </td>
