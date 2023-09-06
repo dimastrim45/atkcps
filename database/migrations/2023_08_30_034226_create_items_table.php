@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('itemgroup_id');
             $table->string('name');
             $table->string('uom');      // 'uom' field of type string
             $table->integer('price');   // 'price' field of type decimal with precision 

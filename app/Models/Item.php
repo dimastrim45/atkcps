@@ -11,10 +11,15 @@ class Item extends Model
 
     protected $fillable = [
         'name',
+        'itemgroup_id',
         'uom',
         'price',
         'expdate',
         'qty',
         'status',
     ];
+
+    public function itemgroup(){
+        return $this->belongsTo(ItemGroup::class);
+    }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\itemgroup;
-use App\Http\Requests\StoreitemgroupRequest;
-use App\Http\Requests\UpdateitemgroupRequest;
+use App\Models\ItemGroup;
+use App\Http\Requests\StoreItemGroupRequest;
+use App\Http\Requests\UpdateItemGroupRequest;
 
-class ItemgroupController extends Controller
+class ItemGroupController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ItemgroupController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreitemgroupRequest $request)
+    public function store(StoreItemGroupRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class ItemgroupController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(itemgroup $itemgroup)
+    public function show(ItemGroup $itemGroup)
     {
         //
     }
@@ -43,7 +43,7 @@ class ItemgroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(itemgroup $itemgroup)
+    public function edit(ItemGroup $itemGroup)
     {
         //
     }
@@ -51,7 +51,7 @@ class ItemgroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateitemgroupRequest $request, itemgroup $itemgroup)
+    public function update(UpdateItemGroupRequest $request, ItemGroup $itemGroup)
     {
         //
     }
@@ -59,7 +59,7 @@ class ItemgroupController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(itemgroup $itemgroup)
+    public function destroy(ItemGroup $itemGroup)
     {
         //
     }
