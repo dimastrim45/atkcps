@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+// use Carbon\Carbon;
+// use Illuminate\Pagination\Paginator;
 
 class ItemController extends Controller
 {
@@ -13,13 +15,11 @@ class ItemController extends Controller
      */
     public function index()
     {
-        // return view('surat.contents.list-surat',[
-        //     "title" => 'view',
-        //     "surats" => $surats->paginate(20)->withQueryString()
-        //     // "surats" => auth()->user()->surat->latest
-        // ]);
+        $items = Item::paginate(20);
+
         return view('it_admin.items',[
             "title" => 'items',
+            "items" => $items,
         ]);
     }
 
@@ -28,7 +28,9 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        return view('it_admin.item-add',[
+            "title" => 'itemadd'
+        ]);
     }
 
     /**
@@ -36,7 +38,14 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        //
+        // dd($request);
+        // Validate the request data using the StoreItemRequest validation rules
+        $validatedData = $request->validated();
+
+        // Create a new Item record using the validated data
+        Item::create($validatedData);
+
+        return redirect()->back()->with('success', 'Item Created');
     }
 
     /**

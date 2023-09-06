@@ -60,14 +60,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($users as $user) --}}
+                                    @foreach ($items as $item)
                                     <tr class="text-center">
-                                        <td>{{ 'Bolpoint' }}</td>
-                                        <td>{{ 'Pcs' }}</td>
-                                        <td>{{ '1500' }}</td>
-                                        <td>{{ '10-08-2025' }}</td>
-                                        <td>{{ '50' }}</td>
-                                        <td>{{ 'Active' }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->uom }}</td>
+                                        <td>{{ $item->price }}</td>
+                                        <td>{{ $item->expdate }}</td>
+                                        <td>{{ $item->qty }}</td>
+                                        <td>{{ $item->status }}</td>
                                         <td class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                 <button type="button" class="btn btn-danger">Inactive</button>
@@ -76,7 +76,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    {{-- @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

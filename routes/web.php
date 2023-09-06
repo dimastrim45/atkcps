@@ -5,6 +5,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\UserController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,10 +32,11 @@ Route::middleware('auth')->group(function () {
 
     // for admin
     Route::get('homeadminit', [HomeController::class, 'indexadminit'])->name('homeadminit');
-    Route::get('items', [ItemController::class, 'index'])->name('items');
 
     // Item CRUD
-    Route::view('itemadd', 'it_admin.item-add', ['title' => 'itemadd'])->name('itemadd');
+    Route::get('items', [ItemController::class, 'index'])->name('items');
+    Route::get('itemadd', [ItemController::class, 'create'])->name('itemadd');
+    Route::post('itemadd', [ItemController::class, 'store'])->name('itemadd');
     Route::view('itemgroups', 'it_admin.item-groups', ['title' => 'itemgroups'])->name('itemgroups');
     Route::view('itemgrpadd', 'it_admin.item-group-add', ['title' => 'groupadd'])->name('itemgrpadd');
 

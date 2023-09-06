@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('Bolpoin Sparco 2B') }}</h1>
+                    <h1 class="m-0">{{ __('Add New Item') }}</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -19,17 +19,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <form action="{{ route('profile.update') }}" method="POST">
+                        <form action="{{ route('itemadd') }}" method="POST">
                             @csrf
-                            @method('PUT')
 
                             <div class="card-body">
                                 <label for="">Item Name</label>
                                 <div class="input-group mb-4">
                                     <input type="text" name="name"
                                         class="form-control @error('name') is-invalid @enderror"
-                                        placeholder="{{ __('Name') }}" value="{{ old('name', auth()->user()->name) }}"
-                                        required>
+                                        placeholder="{{ __('Name') }}" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-user"></span>
@@ -44,16 +42,20 @@
 
                                 <label for="">Unit of Measurement</label>
                                 <div class="input-group mb-4">
-                                    <input type="uom" name="uom"
+                                    <select type="text" name="uom"
                                         class="form-control @error('uom') is-invalid @enderror"
-                                        placeholder="uom"
-                                        required>
+                                        placeholder="{{ __('UoM') }}" required>
+                                        <option value="PCS">PCS</option>
+                                        <option value="KG">Kilogram</option>
+                                        <option value="G">Gram</option>
+                                        <option value="DZ">Dozen</option>
+                                    </select>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-envelope"></span>
                                         </div>
                                     </div>
-                                    @error('email')
+                                    @error('uom')
                                         <span class="error invalid-feedback">
                                             {{ $message }}
                                         </span>
@@ -64,7 +66,7 @@
                                 <div class="input-group mb-4">
                                     <input type="text" name="price"
                                         class="form-control @error('price') is-invalid @enderror"
-                                        placeholder="{{ __('Price') }}" value="Rp. 5000" required>
+                                        placeholder="{{ __('Price') }}" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-envelope"></span>
@@ -81,7 +83,7 @@
                                 <div class="input-group mb-4">
                                     <input type="date" name="expdate"
                                         class="form-control @error('expdate') is-invalid @enderror"
-                                        placeholder="{{ __('Expdate') }}" value="10-08-2025" required>
+                                        placeholder="{{ __('Expdate') }}">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-envelope"></span>
@@ -94,11 +96,11 @@
                                     @enderror
                                 </div>
 
-                                <label for="">Quantity</label>
+                                {{-- <label for="">Quantity</label>
                                 <div class="input-group mb-4">
                                     <input type="text" name="qty"
                                         class="form-control @error('qty') is-invalid @enderror"
-                                        placeholder="{{ __('Qty') }}" value="50" required>
+                                        placeholder="{{ __('Qty') }}" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-envelope"></span>
@@ -109,14 +111,13 @@
                                             {{ $message }}
                                         </span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <label for="">Status</label>
                                 <div class="input-group mb-4">
                                     <select type="text" name="status"
                                         class="form-control @error('status') is-invalid @enderror"
-                                        placeholder="{{ __('Status') }}"required>
-                                        <option selected>ACTIVE</option>
+                                        placeholder="{{ __('Status') }}" required>
                                         <option value="active">ACTIVE</option>
                                         <option value="inactive">INACTIVE</option>
                                     </select>

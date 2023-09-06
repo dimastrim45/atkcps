@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('uom');      // 'uom' field of type string
+            $table->integer('price');   // 'price' field of type decimal with precision 
+            $table->date('expdate')->nullable();   // 'expdate' field of type date, nullable
+            $table->integer('qty')->nullable()->default(0);    // 'qty' field of type integer
+            $table->string('status');  // 'status' field of type string
             $table->timestamps();
         });
     }
