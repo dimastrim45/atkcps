@@ -13,7 +13,12 @@ class ItemGroupController extends Controller
      */
     public function index()
     {
-        //
+        $itemgroups = ItemGroup::paginate(10);
+
+        return view('it_admin.item-groups',[
+            "title" => 'itemgroups',
+            "itemgroups" => $itemgroups,
+        ]);
     }
 
     /**
@@ -21,7 +26,9 @@ class ItemGroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('it_admin.item-group-add',[
+            "title" => 'itemgrpadd',
+        ]);
     }
 
     /**
@@ -29,7 +36,14 @@ class ItemGroupController extends Controller
      */
     public function store(StoreItemGroupRequest $request)
     {
-        //
+        //Validating Data
+        $validatedData = $request->validated();
+        // dd($validatedData);
+
+        // Create a new Item Group record using the validated data
+        ItemGroup::create($validatedData);
+
+        return redirect()->back()->with('success', 'Item Created');
     }
 
     /**
@@ -45,7 +59,11 @@ class ItemGroupController extends Controller
      */
     public function edit(ItemGroup $itemGroup)
     {
-        //
+        // dd($itemGroup);
+        return view('it_admin.item-group-edit',[
+            "title" => 'itemgrpedit',
+            'itemgroup' => $itemGroup,
+        ]);
     }
 
     /**

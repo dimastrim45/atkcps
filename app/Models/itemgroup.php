@@ -9,15 +9,10 @@ class ItemGroup extends Model
 {
     use HasFactory;
 
-    // protected $fillable = [
-    //     'name',
-    //     'itemgroup_id',
-    //     'uom',
-    //     'price',
-    //     'expdate',
-    //     'qty',
-    //     'status',
-    // ];
+    protected $fillable = [
+        'name',
+        'code',
+    ];
 
     public function item(){
         return $this->hasMany(Item::class);

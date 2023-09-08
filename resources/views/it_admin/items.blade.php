@@ -34,7 +34,7 @@
                                         <i class="bi bi-plus-lg pr-1"></i>
                                         Tambah Item
                                     </button></a>
-                                <a href="{{ route('itemgroups') }}">
+                                <a href="{{ route('itemgroups.index') }}">
                                     <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
                                         autocomplete="off">
                                         <i class="bi bi-stack pr-1"></i>
@@ -51,6 +51,7 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>Item Name</th>
+                                        <th>Item Group</th>
                                         <th>UoM</th>
                                         <th>Price</th>
                                         <th>Expired Date</th>
@@ -61,21 +62,29 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($items as $item)
-                                    <tr class="text-center">
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->uom }}</td>
-                                        <td>{{ $item->price }}</td>
-                                        <td>{{ $item->expdate }}</td>
-                                        <td>{{ $item->qty }}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td class="d-flex justify-content-center">
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <button type="button" class="btn btn-danger">Inactive</button>
-                                                <button type="button" class="btn btn-warning">Edit</button>
-                                                <button type="button" class="btn btn-success">Active</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        <tr class="text-center">
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->itemgroup->code }}</td>
+                                            <td>{{ $item->uom }}</td>
+                                            <td>{{ $item->price }}</td>
+                                            <td>{{ $item->expdate }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>{{ $item->status }}</td>
+                                            <td class="d-flex justify-content-center">
+                                                <div class="btn-group" role="group"
+                                                    aria-label="Basic mixed styles example">
+                                                    @unless ($item->status === 'inactive')
+                                                        <button type="button" class="btn btn-danger">Inactive</button>
+                                                    @endunless
+
+                                                    <button type="button" class="btn btn-warning">Edit</button>
+
+                                                    @unless ($item->status === 'active')
+                                                        <button type="button" class="btn btn-success">Active</button>
+                                                    @endunless
+                                                </div>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\ItemGroup;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 // use Carbon\Carbon;
@@ -16,10 +17,12 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::paginate(20);
+        $itemgroups = ItemGroup::all();
 
         return view('it_admin.items',[
             "title" => 'items',
             "items" => $items,
+            "itemgroups" => $itemgroups,
         ]);
     }
 
@@ -28,8 +31,11 @@ class ItemController extends Controller
      */
     public function create()
     {
+        $itemgroups = ItemGroup::all();
+
         return view('it_admin.item-add',[
-            "title" => 'itemadd'
+            "title" => 'itemadd',
+            "itemgroups" => $itemgroups,
         ]);
     }
 

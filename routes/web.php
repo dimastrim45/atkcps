@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ItemGroupController;
 use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\UserController;
 
@@ -37,8 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::get('items', [ItemController::class, 'index'])->name('items');
     Route::get('itemadd', [ItemController::class, 'create'])->name('itemadd');
     Route::post('itemadd', [ItemController::class, 'store'])->name('itemadd');
-    Route::view('itemgroups', 'it_admin.item-groups', ['title' => 'itemgroups'])->name('itemgroups');
-    Route::view('itemgrpadd', 'it_admin.item-group-add', ['title' => 'groupadd'])->name('itemgrpadd');
+    Route::get('itemgroups', [ItemGroupController::class, 'index'])->name('itemgroups.index');
+    Route::get('itemgroups/create', [ItemGroupController::class, 'create'])->name('itemgroups.create');
+    Route::post('itemgroups/store', [ItemGroupController::class, 'store'])->name('itemgroups.store');
+    Route::get('itemgroups/edit/{itemgroup:code}', [ItemGroupController::class, 'edit']);
+    Route::put('itemgroups/edit/{itemgroup:code}', [ItemGroupController::class, 'update']);
 
     // Permintaan CRUD
     Route::view('requests', 'it_admin.requests', ['title' => 'requests'])->name('requests');

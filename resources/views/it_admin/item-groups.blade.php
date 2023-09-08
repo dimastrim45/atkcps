@@ -24,7 +24,7 @@
                         </div>
                         <div class="col float-right w-50 text-right">
                             <div class=" pr-3 ">
-                                <a href="{{ route('itemgrpadd') }}"><button type="button" class="btn btn-primary"
+                                <a href="{{ route('itemgroups.create') }}"><button type="button" class="btn btn-primary"
                                         data-toggle="button" aria-pressed="false" autocomplete="off">
                                         <i class="bi bi-plus-lg pr-1"></i>
                                         Tambah Item Group
@@ -44,18 +44,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($users as $user) --}}
-                                    <tr class="text-center">
-                                        <td>{{ 'ATK' }}</td>
-                                        <td>{{ 'Alat Tulis Kantor' }}</td>
-                                        <td class="d-flex justify-content-center">
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                {{-- <button type="button" class="btn btn-danger">Inactive</button> --}}
-                                                <button type="button" class="btn btn-warning">Edit</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {{-- @endforeach --}}
+                                    @foreach ($itemgroups as $itemgroup)
+                                        <tr class="text-center">
+                                            <td>{{ $itemgroup->code }}</td>
+                                            <td>{{ $itemgroup->name }}</td>
+                                            <td class="d-flex justify-content-center">
+                                                <div class="btn-group" role="group"
+                                                    aria-label="Basic mixed styles example">
+                                                    {{-- <button type="button" class="btn btn-danger">Inactive</button> --}}
+                                                    <a href="itemgroups/edit/{{ $itemgroup->code }}"><button type="button"
+                                                            class="btn btn-warning">Edit</button></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

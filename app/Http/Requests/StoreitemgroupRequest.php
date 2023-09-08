@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\ItemGroup;
 
 class StoreItemGroupRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreItemGroupRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,8 @@ class StoreItemGroupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255', Rule::unique((new ItemGroup)->getTable(), 'name'),],
+            'code' => ['required', 'string', Rule::unique((new ItemGroup)->getTable(), 'code'),],
         ];
     }
 }

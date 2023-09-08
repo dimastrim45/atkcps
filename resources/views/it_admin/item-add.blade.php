@@ -96,22 +96,26 @@
                                     @enderror
                                 </div>
 
-                                {{-- <label for="">Quantity</label>
+                                <label for="">Item Group</label>
                                 <div class="input-group mb-4">
-                                    <input type="text" name="qty"
-                                        class="form-control @error('qty') is-invalid @enderror"
-                                        placeholder="{{ __('Qty') }}" required>
+                                    <select type="text" name="itemgroup_id"
+                                        class="form-control @error('itemgroup_id') is-invalid @enderror"
+                                        placeholder="{{ __('Itemgroup') }}" required>
+                                        @foreach ($itemgroups as $itemgroup)
+                                            <option value="{{ $itemgroup->id }}">{{ $itemgroup->name }}</option>
+                                        @endforeach
+                                    </select>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-envelope"></span>
                                         </div>
                                     </div>
-                                    @error('qty')
+                                    @error('itemgroup_id')
                                         <span class="error invalid-feedback">
                                             {{ $message }}
                                         </span>
                                     @enderror
-                                </div> --}}
+                                </div>
 
                                 <label for="">Status</label>
                                 <div class="input-group mb-4">
@@ -138,7 +142,8 @@
 
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-success">{{ __('Submit') }}</button>
-                                <button type="cancel" class="btn btn-danger">{{ __('Cancel') }}</button>
+                                <a href="{{ route('items') }}"><button type="button"
+                                        class="btn btn-danger">{{ __('Cancel') }}</button></a>
                             </div>
                         </form>
 

@@ -21,6 +21,7 @@ class StoreItemRequest extends FormRequest
             'price' => ['required', 'integer'],
             'expdate' => ['nullable'],
             'status' => ['required'],
+            'itemgroup_id' => ['required'],
         ];
     }
 
