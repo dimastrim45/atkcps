@@ -57,12 +57,12 @@ class ItemGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ItemGroup $itemGroup)
+    public function edit(ItemGroup $itemgroup)
     {
         // dd($itemGroup);
         return view('it_admin.item-group-edit',[
             "title" => 'itemgrpedit',
-            'itemgroup' => $itemGroup,
+            'itemgroup' => $itemgroup,
         ]);
     }
 
