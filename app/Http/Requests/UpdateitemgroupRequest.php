@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\ItemGroup;
 
 class UpdateItemGroupRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateItemGroupRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +23,13 @@ class UpdateItemGroupRequest extends FormRequest
      */
     public function rules(): array
     {
+        // dd($this->route('itemgroup'));
+        $itemGroupCode = $this->route('itemgroup');
+        $itemGroupId = ItemGroup::where('code', $itemGroupCode)->value('id');
+
         return [
-            //
+            'name' => ['required', 'string', 'max:255', Rule::unique('item_groups', 'name')->ignore($itemGroupId),],
+            'code' => ['required', 'string', Rule::unique('item_groups', 'code')->ignore($itemGroupId),],
         ];
     }
 }

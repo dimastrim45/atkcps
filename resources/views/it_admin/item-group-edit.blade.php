@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <form action="itemgroups/edit/{{ $itemgroup->code }}" method="POST">
+                        <form action="/itemgroups/edit/{{ $itemgroup->code }}" method="POST">
                             @method('PUT')
                             @csrf
 

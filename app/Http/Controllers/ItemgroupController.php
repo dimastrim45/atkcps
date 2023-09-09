@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ItemGroup;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\StoreItemGroupRequest;
 use App\Http\Requests\UpdateItemGroupRequest;
 
@@ -69,9 +71,25 @@ class ItemGroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateItemGroupRequest $request, ItemGroup $itemGroup)
+    public function update(Request $request, ItemGroup $itemgroup)
     {
-        //
+        // Validate the request data based on UpdateItemGroupRequest rules
+        // $validatedData = $request->validated();
+        // dd($itemgroup->id);
+        // $itemGroupCode = $this->route('itemgroup');
+        // $itemGroupId = ItemGroup::where('code', $itemGroupCode)->value('id');
+        // $itemGroupId = $itemGroup->id;
+        // dd($itemGroupId);
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', 'max:255', Rule::unique('item_groups', 'name')->ignore($itemgroup->id),],
+            'code' => ['required', 'string', Rule::unique('item_groups', 'code')->ignore($itemgroup->id),],
+        ]);
+        // dd($validatedData);
+
+        // Update the ItemGroup using the code as the identifier
+        ItemGroup::where('id', $itemgroup->id)->update($validatedData);
+
+        return redirect(route("itemgroups.index"))->with('success', 'Item Group updated.');
     }
 
     /**
