@@ -74,13 +74,21 @@
                                                 <div class="btn-group" role="group"
                                                     aria-label="Basic mixed styles example">
                                                     @unless ($item->status === 'inactive')
-                                                        <button type="button" class="btn btn-danger">Inactive</button>
+                                                        <form action="/items/inactive/{{ $item->id }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-danger">Inactive</button>
+                                                        </form>
                                                     @endunless
 
                                                     <button type="button" class="btn btn-warning">Edit</button>
 
                                                     @unless ($item->status === 'active')
-                                                        <button type="button" class="btn btn-success">Active</button>
+                                                        <form action="items/active/{{ $item->id }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success">Active</button>
+                                                        </form>
                                                     @endunless
                                                 </div>
                                             </td>

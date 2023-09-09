@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\ItemGroup;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 // use Carbon\Carbon;
@@ -84,5 +85,23 @@ class ItemController extends Controller
     public function destroy(Item $item)
     {
         //
+    }
+
+    // to set the status of selected item to active
+    public function active(Request $request, Item $item)
+    {
+        //
+        // dd($item->id);
+        Item::where('id', $item->id)->update(['status' => 'active']);
+        return redirect(route("items"))->with('success', 'Item updated.');
+    }
+
+    // to set the status of selected item to inactive
+    public function inactive(Request $request, Item $item)
+    {
+        //
+        // dd($item->id);
+        Item::where('id', $item->id)->update(['status' => 'inactive']);
+        return redirect(route("items"))->with('success', 'Item updated.');
     }
 }

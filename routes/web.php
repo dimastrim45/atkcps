@@ -43,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::post('itemgroups/store', [ItemGroupController::class, 'store'])->name('itemgroups.store');
     Route::get('itemgroups/edit/{itemgroup:code}', [ItemGroupController::class, 'edit']);
     Route::put('itemgroups/edit/{itemgroup:code}', [ItemGroupController::class, 'update']);
+    Route::put('items/inactive/{item:id}', [ItemController::class, 'inactive'])->name('item.inactive');
+    Route::put('items/active/{item:id}', [ItemController::class, 'active'])->name('item.active');
 
     // Permintaan CRUD
     Route::view('requests', 'it_admin.requests', ['title' => 'requests'])->name('requests');
