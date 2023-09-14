@@ -22,4 +22,8 @@ class Item extends Model
     public function itemgroup(){
         return $this->belongsTo(ItemGroup::class);
     }
+
+    public function barangmasuk(){
+        return $this->belongsTo(BarangMasuk::class);
+    }
 }

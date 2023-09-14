@@ -23,7 +23,9 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body p-0">
-                            <form action="">
+                            <form action="{{ route('barangmasukadd.store') }}" method="POST">
+                                @csrf
+
                                 <table class="table" id="thetable">
                                     <thead>
                                         <tr class="text-center">
@@ -36,10 +38,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($users as $user) --}}
                                         <tr class="text-center">
-                                            <td><input type="text" name="item_name[]"></td>
-                                            <td><input type="text" name="uom[]"></td>
+                                            <td>
+                                                <select name="item_name[]" class="form-select w-100"
+                                                    onchange="updateUOM(this)">
+                                                    @foreach ($items as $item)
+                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="uom[]" id="uomInput" value="" readonly>
+                                            </td>
                                             <td><input type="number" name="price[]"></td>
                                             <td><input type="date" name="expdate[]"></td>
                                             <td><input type="number" name="qty[]"></td>
@@ -51,7 +61,6 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        {{-- @endforeach --}}
                                     </tbody>
                                 </table>
                                 <button type="button" onclick="addRow()">Add Item</button>
@@ -75,32 +84,53 @@
                 var newRow = table.insertRow(table.rows.length);
                 newRow.classList.add("text-center");
 
-                var itemNameCell = newRow.insertCell(0);
-                var uomCell = newRow.insertCell(1);
-                var priceCell = newRow.insertCell(2);
-                var expdateCell = newRow.insertCell(3);
-                var qtyCell = newRow.insertCell(4);
-                var actionCell = newRow.insertCell(5);
+                // Clone the first row (template)
+                var templateRow = table.rows[0].cloneNode(true);
 
-                itemNameCell.innerHTML = '<input type="text" name="item_name[]">';
-                uomCell.innerHTML = '<input type="text" name="uom[]">';
-                priceCell.innerHTML = '<input type="number" name="price[]">';
-                expdateCell.innerHTML = '<input type="date" name="expdate[]">';
-                qtyCell.innerHTML = '<input type="number" name="qty[]">';
-                actionCell.innerHTML = `
-                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button>
-                                        </div>
-                                    `;
+                // Reset input values in the new row (optional)
+                templateRow.querySelectorAll('input[type="text"], input[type="number"]').forEach(function(input) {
+                    input.value = "";
+                });
+
+                // Assign unique IDs to the UoM input field in the new row
+                var uomInput = templateRow.querySelector('input[name="uom[]"]');
+                uomInput.id = 'uomInput' + table.rows.length;
+
+                table.appendChild(templateRow);
             }
 
             function removeRow(button) {
                 var row = button.closest('tr');
                 row.parentNode.removeChild(row);
             }
+
+            // Update UoM based on the selected item in the row
+            function updateUOM(selectElement) {
+                var selectedItem = selectElement.value;
+                var row = selectElement.closest('tr');
+                var uomInput = row.querySelector('input[name="uom[]"]');
+                uomInput.value = uomValues[selectedItem] || '';
+            }
         </script>
 
-        <script></script>
+        <script>
+            var uomValues = {
+                @foreach ($items as $item)
+                    '{{ $item->name }}': '{{ $item->uom }}',
+                @endforeach
+            };
+
+            // function updateUOM(selectElement) {
+            //     var selectedItem = selectElement.value;
+            //     var uomInput = document.getElementById('uomInput');
+            //     uomInput.value = uomValues[selectedItem] || '';
+            // }
+            
+            // Initialize UoM values for the existing rows
+            document.querySelectorAll('select[name="item_name[]"]').forEach(function(selectElement) {
+                updateUOM(selectElement);
+            });
+        </script>
     </div>
     <!-- /.content -->
 @endsection

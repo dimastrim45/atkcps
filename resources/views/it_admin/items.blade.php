@@ -19,14 +19,22 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row mb-2">
-                        <div class="col input-group w-50">
-                            <input type="text" class="form-control" placeholder="Search for item ...">
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                        <form action="{{ route('item.search') }}" method="GET" class="w-50">
+                            <div class="col input-group w-50">
+                                <input type="text" name="query" id="search" class="form-control"
+                                    placeholder="Search for item ...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
+                        {{-- @foreach ($items as $item)
+                            <!-- Display each live search result here -->
+                            <div>{{ $item->name }}</div>
+                        @endforeach --}}
+
                         <div class="col float-right w-50 text-right">
                             <div class=" pr-3 ">
                                 <a href="{{ route('itemadd') }}"><button type="button" class="btn btn-primary"
@@ -109,4 +117,23 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+    <script>
+        $(document).ready(function() {
+            $('#search').on('keyup', function() {
+                let query = $(this).val();
+
+                $.ajax({
+                    url: '{{ route('item.search') }}', // Replace with your search route
+                    method: 'GET',
+                    data: {
+                        query: query
+                    },
+                    success: function(data) {
+                        // Update the search results div with the received data
+                        $('#search-results').html(data);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

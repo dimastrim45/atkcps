@@ -104,4 +104,19 @@ class ItemController extends Controller
         Item::where('id', $item->id)->update(['status' => 'inactive']);
         return redirect(route("items"))->with('success', 'Item updated.');
     }
+
+    public function search(Request $request)
+    {
+        $itemgroups = ItemGroup::all();
+        $query = $request->input('query');
+
+        // Perform the search query using Eloquent or other database methods
+        $items = Item::where('name', 'like', '%' . $query . '%')->get();
+
+        return view('it_admin.items', [
+            'items' => $items,
+            'title' => 'itemsSearch',
+            'itemgroups' => $itemgroups,
+        ]);
+    }
 }

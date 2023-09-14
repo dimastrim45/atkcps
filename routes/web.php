@@ -5,6 +5,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ItemGroupController;
 use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\BarangMasukController;
 
 
 /*
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     // Item CRUD
     Route::get('items', [ItemController::class, 'index'])->name('items');
+    Route::get('items/search', [ItemController::class, 'search'])->name('item.search');
     Route::get('itemadd', [ItemController::class, 'create'])->name('itemadd');
     Route::post('itemadd', [ItemController::class, 'store'])->name('itemadd');
     Route::get('itemgroups', [ItemGroupController::class, 'index'])->name('itemgroups.index');
@@ -51,8 +53,9 @@ Route::middleware('auth')->group(function () {
     Route::view('requestadd', 'it_admin.request-add', ['title' => 'addrequest'])->name('requestadd');
 
     // Barang Masuk
-    Route::view('barangmasuks', 'it_admin.pemasukans', ['title' => 'barangmasuks'])->name('barangmasuks');
-    Route::view('barangmasukadd', 'it_admin.pemasukan-add', ['title' => 'barangmasukadd'])->name('barangmasukadd');
+    Route::get('barangmasuks', [BarangMasukController::class, 'index'])->name('barangmasuks');
+    Route::get('barangmasukadd', [BarangMasukController::class, 'create'])->name('barangmasukadd');
+    Route::post('barangmasukadd/store', [BarangMasukController::class, 'store'])->name('barangmasukadd.store');
 
     // Pengeluaran
     Route::view('pengeluarans', 'it_admin.pengeluarans', ['title' => 'pengeluarans'])->name('pengeluarans');
