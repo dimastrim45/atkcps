@@ -22,7 +22,13 @@ class StoreBarangMasukRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nomorpo' => 'required|string|max:255',
+            'item_id.*' => 'required|exists:items,id', // Validate each item_id in the array to exist in the "items" table
+            'uom.*' => 'required|string|max:255',
+            'price.*' => 'required|numeric|min:0',
+            'expdate.*' => 'nullable|date',
+            'qty.*' => 'required|integer|min:1',
+            'remarks' => 'nullable|string|max:255',
         ];
     }
 }

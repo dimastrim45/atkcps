@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('docdate');
             $table->date('expdate')->nullable();   // 'expdate' field of type date, nullable
             $table->integer('qty');
+            $table->integer('price');   // 'price' field of type decimal with precision 
             $table->string('admin');
             $table->string('po_docnum');
             $table->string('remarks');

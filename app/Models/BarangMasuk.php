@@ -14,6 +14,7 @@ class BarangMasuk extends Model
         'docnum',
         'docdate',
         'qty',
+        'price',
         'admin',
         'po_docnum',
         'expdate',

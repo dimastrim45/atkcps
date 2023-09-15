@@ -17,15 +17,15 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                {{ 'Nomor PO' }}
-            </div>
-            <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body p-0">
                             <form action="{{ route('barangmasukadd.store') }}" method="POST">
                                 @csrf
-
+                                <div class="row pl-2 m-2">
+                                    {{ 'Nomor PO' }}
+                                    <input type="text" class="ml-2" name="nomorpo">
+                                </div>
                                 <table class="table" id="thetable">
                                     <thead>
                                         <tr class="text-center">
@@ -40,15 +40,16 @@
                                     <tbody>
                                         <tr class="text-center">
                                             <td>
-                                                <select name="item_name[]" class="form-select w-100"
+                                                <select name="item_id[]" class="form-select w-100"
                                                     onchange="updateUOM(this)">
                                                     @foreach ($items as $item)
-                                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" name="uom[]" id="uomInput" value="" readonly>
+                                                <input class="" type="text" name="uom[]" id="uomInput"
+                                                    value="" readonly>
                                             </td>
                                             <td><input type="number" name="price[]"></td>
                                             <td><input type="date" name="expdate[]"></td>
@@ -63,9 +64,15 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <button type="button" onclick="addRow()">Add Item</button>
-                                <br><br>
-                                <input type="submit" value="Submit">
+                                <button type="button" onclick="addRow()" class="ml-4">Add Item</button>
+                                <br>
+                                <br>
+                                <div class="form-outline w-50 mb-4 ml-4">
+                                    <label class="form-label" for="remarks">Remarks</label>
+                                    <textarea class="form-control" id="remarks" rows="3" name="remarks"></textarea>
+                                </div>
+                                <br>
+                                <input type="submit" value="Submit" class="ml-4 btn btn-success">
                             </form>
                         </div>
                         <!-- /.card-body -->
@@ -116,7 +123,7 @@
         <script>
             var uomValues = {
                 @foreach ($items as $item)
-                    '{{ $item->name }}': '{{ $item->uom }}',
+                    '{{ $item->id }}': '{{ $item->uom }}',
                 @endforeach
             };
 
@@ -125,7 +132,7 @@
             //     var uomInput = document.getElementById('uomInput');
             //     uomInput.value = uomValues[selectedItem] || '';
             // }
-            
+
             // Initialize UoM values for the existing rows
             document.querySelectorAll('select[name="item_name[]"]').forEach(function(selectElement) {
                 updateUOM(selectElement);
