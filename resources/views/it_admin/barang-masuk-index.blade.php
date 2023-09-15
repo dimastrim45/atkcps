@@ -53,16 +53,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($users as $user) --}}
+                                    @foreach ($barangmasuks as $barangmasuk)
                                     <tr class="text-center">
-                                        <td>{{ '20230817001' }}</td>
-                                        <td>{{ 'Izza' }}</td>
-                                        <td>{{ '20230817025' }}</td>
-                                        <td>{{ '05-08-2023' }}</td>
+                                        <td>{{ $barangmasuk->docnum }}</td>
+                                        <td>{{ $barangmasuk->admin }}</td>
+                                        <td>{{ $barangmasuk->po_docnum }}</td>
+                                        <td>{{ $barangmasuk->docdate }}</td>
                                         <td class="word-wrap: break-word w-25">
-                                            {{ 'Stock Tinta bulan Januari aaaaaaaaa aaaaa aaaaaa aaaaaaa aaaaaa aaaaaa aaaa aaaaa aaaaa aaaaaa aaaaaaaaa aaaaaaaaaaaa aa aaaaaaaaa aaaaaaaa aaaa aaaaaaa aaaaa' }}
+                                            {{ $barangmasuk->remarks }}
                                         </td>
                                     </tr>
+                                    @endforeach
                             </table>
                         </div>
                         <!-- /.card-body -->
