@@ -16,7 +16,12 @@ class BarangMasukController extends Controller
      */
     public function index()
     {
-        $barangmasuks = BarangMasuk::paginate(20);
+        $barangmasuks = $barangmasuks = BarangMasuk::whereIn('id', function($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('barang_masuks')
+                ->groupBy('docnum');
+        })->paginate(20);
+        
         return view('it_admin.barang-masuk-index', [
             'title' => 'barangmasuks',
             'barangmasuks' => $barangmasuks,
@@ -87,9 +92,14 @@ class BarangMasukController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BarangMasuk $barangMasuk)
+    public function show(BarangMasuk $barangmasuk)
     {
-        //
+        $barangmasukdoc = BarangMasuk::where('docnum', $barangmasuk->docnum)->get();
+
+        return view('it_admin.barang-masuk-show', [
+                    'title' => 'barangmasuk-show',
+                    'barangmasuks' => $barangmasukdoc,
+        ]);
     }
 
     /**

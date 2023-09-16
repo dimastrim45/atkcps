@@ -56,6 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::get('barangmasuks', [BarangMasukController::class, 'index'])->name('barangmasuks');
     Route::get('barangmasukadd', [BarangMasukController::class, 'create'])->name('barangmasukadd');
     Route::post('barangmasukadd/store', [BarangMasukController::class, 'store'])->name('barangmasukadd.store');
+    Route::get('barangmasuk/show/{barangmasuk:docnum}', [BarangMasukController::class, 'show'])->name('barangmasuk.show');
+    // Route::get('barangmasuk/show/{barangmasuk}', [BarangMasukController::class, 'show'])->name('barangmasuk.show');
+
 
     // Pengeluaran
     Route::view('pengeluarans', 'it_admin.pengeluarans', ['title' => 'pengeluarans'])->name('pengeluarans');

@@ -21,7 +21,8 @@ class BarangMasuk extends Model
         'remarks',
     ];
 
-    public function item(){
-        return $this->hasMany(Item::class);
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
     }
 }
