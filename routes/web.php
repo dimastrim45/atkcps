@@ -49,8 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::put('items/active/{item:id}', [ItemController::class, 'active'])->name('item.active');
 
     // Permintaan CRUD
-    Route::view('requests', 'it_admin.requests', ['title' => 'requests'])->name('requests');
-    Route::view('requestadd', 'it_admin.request-add', ['title' => 'addrequest'])->name('requestadd');
+    Route::view('permintaans', 'it_admin.permintaans', ['title' => 'permintaans'])->name('permintaans');
+    Route::view('permintaanadd', 'it_admin.permintaan-add', ['title' => 'addpermintaan'])->name('permintaanadd');
 
     // Barang Masuk
     Route::get('barangmasuks', [BarangMasukController::class, 'index'])->name('barangmasuks');

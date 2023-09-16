@@ -46,11 +46,11 @@
                 </a>
             </li>
 
-            <li class="nav-item  {{ $title === 'requests' ? 'bg-primary rounded' : '' }}">
-                <a href="{{ route('requests') }}" class="nav-link">
+            <li class="nav-item  {{ $title === 'permintaans' ? 'bg-primary rounded' : '' }}">
+                <a href="{{ route('permintaans') }}" class="nav-link">
                     <i class="nav-icon far fa-envelope"></i>
                     <p>
-                        {{ __('Request') }}
+                        {{ __('Permintaan') }}
                     </p>
                 </a>
             </li>

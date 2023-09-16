@@ -29,7 +29,7 @@
                         </div>
                         <div class="col float-right w-50 text-right">
                             <div class=" pr-3">
-                                <a href="{{ route('requestadd') }}">
+                                <a href="{{ route('permintaanadd') }}">
                                     <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
                                         autocomplete="off">
                                         <i class="bi bi-plus-lg pr-1"></i>
