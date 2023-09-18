@@ -83,10 +83,21 @@ class BarangMasukController extends Controller
 
             // Save the current item to the database
             $barangMasuk->save();
+
+            // Update the field in the "Item" table
+            $item = Item::find($itemId);
+            if ($item) {
+                // Add the added quantity to the current "qty"
+                $item->qty += $qtys[$key];
+                $item->expdate = $expDates[$key];
+                $averagePrice = ($item->price + $prices[$key]) / 2;
+                $item->price = $averagePrice;
+                $item->save();
+            }
         }
 
         // Redirect back or to a success page
-        return redirect()->route('barangmasuks'); // Replace 'your.route.name' with the appropriate route name.
+        return redirect()->route('barangmasuks');
     }
 
     /**
