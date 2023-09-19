@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Http\Requests\StorePermintaanRequest;
 use App\Http\Requests\UpdatePermintaanRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PermintaanController extends Controller
 {
@@ -65,7 +66,27 @@ class PermintaanController extends Controller
         $expDates = $request->input('expdate');
         $qtys = $request->input('qty');
 
+        // foreach ($itemIds as $key => $itemIdTemp){
+        //     $permintaan->item_id = $itemIdTemp;
+        //     // Check if subtracting the quantity results in a negative value
+        //     if ($item && $item->qty - $qtys[$key] >= 0) {
+        //         // Save the current item to the database
+        //         $permintaan->save();
+
+        //         $item->qty -= $qtys[$key];
+        //         $item->save();
+        //     } else {
+        //         // Handle the case where subtracting the quantity would be negative
+        //         // You can add an error message or redirect with a message
+        //         return redirect()->back()->with('error', 'Insufficient quantity for the selected item.');
+        //     }
+        // }
+
         foreach ($itemIds as $key => $itemId) {
+            // Retrieve the item based on the current $itemId
+            $item = Item::find($itemId);
+
+            if ($item && $item->qty - $qtys[$key] >= 0) {
             // Create a new instance of the permin$permintaan model for each item
             $permintaan = new Permintaan();
             $permintaan->docnum = $currentYear . $currentMonth . $formattedID;
@@ -86,6 +107,15 @@ class PermintaanController extends Controller
 
             // Save the current item to the database
             $permintaan->save();
+
+            // Update the item's quantity
+            $item->qty -= $qtys[$key];
+            $item->save();
+            } else {
+                // Handle the case where subtracting the quantity would be negative
+                // You can add an error message or redirect with a message
+                return redirect()->back()->withErrors(['error' => 'Insufficient quantity for the selected item.']);
+            }
         }
 
         // Redirect back or to a success page
@@ -129,5 +159,25 @@ class PermintaanController extends Controller
     public function destroy(Permintaan $permintaan)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function approve(Request $request, Permintaan $permintaan)
+    {
+        //
+        Permintaan::where('id', $permintaan->id)->update(['status' => 'Approved']);
+        return redirect(route("permintaans"))->with('success', 'Permintaan updated.');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function reject(Request $request, Permintaan $permintaan)
+    {
+        //
+        Permintaan::where('id', $permintaan->id)->update(['status' => 'Rejected']);
+        return redirect(route("permintaans"))->with('success', 'Permintaan updated.');
     }
 }

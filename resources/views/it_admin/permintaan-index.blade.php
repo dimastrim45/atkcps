@@ -16,6 +16,15 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row mb-2">
@@ -68,9 +77,32 @@
                                             <td class="d-flex justify-content-center">
                                                 <div class="btn-group" role="group"
                                                     aria-label="Basic mixed styles example">
-                                                    <button type="button" class="btn btn-danger">Reject</button>
-                                                    <button type="button" class="btn btn-warning">Open</button>
-                                                    <button type="button" class="btn btn-success">Approve</button>
+                                                    {{-- @unless ($permintaan->status == 'Open' || $permintaan->status == 'Approved')
+                                                        <form action="/permintaan/reject/{{ $permintaan->id }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-danger">Reject</button>
+                                                        </form>
+                                                    @endunless
+                                                    <button type="button" class="btn btn-success">Approve</button> --}}
+                                                    @if ($permintaan->status == 'Open' || $permintaan->status == 'Approved')
+                                                        <form action="/permintaan/reject/{{ $permintaan->id }}"
+                                                            method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-danger mr-2">Reject</button>
+                                                        </form>
+                                                    @endif
+
+                                                    @if ($permintaan->status == 'Open' || $permintaan->status == 'Rejected')
+                                                        <form action="/permintaan/approve/{{ $permintaan->id }}"
+                                                            method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success">Approve</button>
+                                                        </form>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

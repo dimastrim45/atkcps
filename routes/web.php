@@ -54,7 +54,8 @@ Route::middleware('auth')->group(function () {
     Route::get('permintaanadd', [PermintaanController::class, 'create'])->name('permintaanadd');
     Route::post('permintaanadd/store', [PermintaanController::class, 'store'])->name('permintaanadd.store');
     Route::get('permintaan/show/{permintaan:docnum}', [PermintaanController::class, 'show'])->name('permintaan.show');
-
+    Route::put('permintaan/approve/{permintaan:id}', [PermintaanController::class, 'approve'])->name('permintaan.approve');
+    Route::put('permintaan/reject/{permintaan:id}', [PermintaanController::class, 'reject'])->name('permintaan.reject');
 
     // Barang Masuk
     Route::get('barangmasuks', [BarangMasukController::class, 'index'])->name('barangmasuks');

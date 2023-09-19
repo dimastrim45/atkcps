@@ -16,6 +16,15 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -48,16 +57,16 @@
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td><input class="form-control form-control-sm text-center" type="availqty" name="availqty[]" id="availqtyInput"
-                                                value="" readonly></td>
+                                            <td><input class="form-control form-control-sm text-center" type="availqty"
+                                                    name="availqty[]" id="availqtyInput" value="" readonly></td>
                                             <td>
-                                                <input class="form-control form-control-sm text-center" type="text" name="uom[]" id="uomInput"
-                                                    value="" readonly>
+                                                <input class="form-control form-control-sm text-center" type="text"
+                                                    name="uom[]" id="uomInput" value="" readonly>
                                             </td>
-                                            <td><input class="form-control form-control-sm text-center" type="number" name="price[]" id="priceInput"
-                                                value="" readonly></td>
-                                            <td><input class="form-control form-control-sm text-center" type="date" name="expdate[]" id="expdateInput"
-                                                value="" readonly></td>
+                                            <td><input class="form-control form-control-sm text-center" type="number"
+                                                    name="price[]" id="priceInput" value="" readonly></td>
+                                            <td><input class="form-control form-control-sm text-center" type="date"
+                                                    name="expdate[]" id="expdateInput" value="" readonly></td>
                                             <td><input type="number" name="qty[]"></td>
                                             <td class="d-flex justify-content-center" id="removeBtn">
                                                 <div class="btn-group" role="group"
@@ -121,36 +130,36 @@
             function updateFields(selectElement) {
                 var selectedItem = selectElement.value;
                 var row = selectElement.closest('tr');
-                
+
                 // Update UoM input
                 var uomInput = row.querySelector('input[name="uom[]"]');
                 uomInput.value = uomValues[selectedItem] || '';
-            
+
                 // Update Price input
                 var priceInput = row.querySelector('input[name="price[]"]');
                 priceInput.value = priceValues[selectedItem] || '';
-            
+
                 // Update Expdate input
                 var expdateInput = row.querySelector('input[name="expdate[]"]');
                 expdateInput.value = expdateValues[selectedItem] || '';
 
-                 // Update Available Qty input
+                // Update Available Qty input
                 var availqtyInput = row.querySelector('input[name="availqty[]"]');
                 availqtyInput.value = availqtyValues[selectedItem] || '';
             }
-            
+
             var uomValues = {
                 @foreach ($items as $item)
                     '{{ $item->id }}': '{{ $item->uom }}',
                 @endforeach
             };
-            
+
             var priceValues = {
                 @foreach ($items as $item)
                     '{{ $item->id }}': '{{ $item->price }}',
                 @endforeach
             };
-            
+
             var expdateValues = {
                 @foreach ($items as $item)
                     '{{ $item->id }}': '{{ $item->expdate }}',
@@ -162,13 +171,13 @@
                     '{{ $item->id }}': '{{ $item->qty }}',
                 @endforeach
             };
-            
+
             // Initialize values for the existing rows
             document.querySelectorAll('select[name="item_id[]"]').forEach(function(selectElement) {
                 updateFields(selectElement);
             });
-            </script>
-            
+        </script>
+
     </div>
     <!-- /.content -->
 @endsection
