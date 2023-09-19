@@ -127,12 +127,6 @@
                 @endforeach
             };
 
-            // function updateUOM(selectElement) {
-            //     var selectedItem = selectElement.value;
-            //     var uomInput = document.getElementById('uomInput');
-            //     uomInput.value = uomValues[selectedItem] || '';
-            // }
-
             // Initialize UoM values for the existing rows
             document.querySelectorAll('select[name="item_name[]"]').forEach(function(selectElement) {
                 updateUOM(selectElement);

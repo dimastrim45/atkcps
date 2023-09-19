@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('Request List') }}</h1>
+                    <h1 class="m-0">{{ __('List Permintaan') }}</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -33,7 +33,7 @@
                                     <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
                                         autocomplete="off">
                                         <i class="bi bi-plus-lg pr-1"></i>
-                                        Tambah Request
+                                        Tambah Permintaan
                                     </button>
                                 </a>
                             </div>
@@ -55,23 +55,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($users as $user) --}}
-                                    <tr class="text-center">
-                                        <td>{{ '20230817001' }}</td>
-                                        <td>{{ 'Toni' }}</td>
-                                        <td>{{ '05-08-2023' }}</td>
-                                        <td>{{ '10-08-2023' }}</td>
-                                        <td>{{ 'Wonosari' }}</td>
-                                        <td>{{ 'Open' }}</td>
-                                        <td class="d-flex justify-content-center">
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <button type="button" class="btn btn-danger">Reject</button>
-                                                <button type="button" class="btn btn-warning">Open</button>
-                                                <button type="button" class="btn btn-success">Approve</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {{-- @endforeach --}}
+                                    @foreach ($permintaans as $permintaan)
+                                        <tr class="text-center">
+                                            <td><a
+                                                    href="{{ route('permintaan.show', ['permintaan' => $permintaan->docnum]) }}">{{ $permintaan->docnum }}</a>
+                                            </td>
+                                            <td>{{ $permintaan->admin }}</td>
+                                            <td>{{ $permintaan->docdate }}</td>
+                                            <td>{{ $permintaan->duedate }}</td>
+                                            <td>{{ $permintaan->user->branch }}</td>
+                                            <td>{{ $permintaan->status }}</td>
+                                            <td class="d-flex justify-content-center">
+                                                <div class="btn-group" role="group"
+                                                    aria-label="Basic mixed styles example">
+                                                    <button type="button" class="btn btn-danger">Reject</button>
+                                                    <button type="button" class="btn btn-warning">Open</button>
+                                                    <button type="button" class="btn btn-success">Approve</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

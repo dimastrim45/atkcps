@@ -84,7 +84,11 @@ class BarangMasukController extends Controller
             // Save the current item to the database
             $barangMasuk->save();
 
-            // Update the field in the "Item" table
+            // Update the corresponding item in the "Item" table:
+            // - Increment the quantity ("qty") by the quantity of the new "BarangMasuk."
+            // - Update the expiration date ("expdate") with the new value.
+            // - Calculate and set the average price by averaging the existing price and the new price.
+            // - Save the changes to the "Item" model in the database.
             $item = Item::find($itemId);
             if ($item) {
                 // Add the added quantity to the current "qty"

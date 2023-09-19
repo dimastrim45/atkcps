@@ -11,7 +11,7 @@ class StorePermintaanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StorePermintaanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'item_id.*'   => 'required|exists:items,id',
+            'qty.*'       => 'required|numeric|min:0',
+            'price.*'     => 'required|numeric|min:0',
+            'expdate.*'   => 'nullable|date',
+            'remarks'     => 'nullable|string|max:255',
+            'duwdate.*'   => 'required|date',
         ];
     }
 }

@@ -14,12 +14,16 @@ return new class extends Migration
         Schema::create('permintaans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->string('admin');
             $table->foreignId('item_id');
             $table->integer('qty')->default(0);
+            $table->integer('price');   // 'price' field of type decimal with precision 
+            $table->date('expdate')->nullable();   // 'expdate' field of type date, nullable
             $table->string('docnum');
             $table->date('docdate');
             $table->date('duedate');
             $table->string('status');
+            $table->string('remarks');
             $table->timestamps();
         });
     }
@@ -31,13 +35,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('permintaans');
     }
-
-    // user_id
-    // item_id
-    // qty
-    // docnum
-    // docdate
-    // duedate
-    // status
 
 };

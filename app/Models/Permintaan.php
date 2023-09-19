@@ -11,16 +11,20 @@ class Permintaan extends Model
 
     protected $fillable = [
         'user_id',
+        'admin',
         'item_id',
         'qty',
+        'price',
+        'expdate',
         'docnum',
         'docdate',
         'duedate',
         'status',
+        'remarks',
     ];
 
     public function item(){
-        return $this->hasMany(Item::class);
+        return $this->belongsTo(Item::class, 'item_id');
     }
 
     public function user(){

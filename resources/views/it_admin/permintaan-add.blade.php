@@ -20,16 +20,17 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body p-0">
-                            <form action="{{ route('barangmasukadd.store') }}" method="POST">
+                            <form action="{{ route('permintaanadd.store') }}" method="POST">
                                 @csrf
                                 <div class="row pl-2 m-2">
-                                    {{ 'Nomor PO' }}
-                                    <input type="text" class="ml-2" name="nomorpo">
+                                    {{ 'Due Date' }}
+                                    <input type="date" class="ml-2" name="duedate">
                                 </div>
                                 <table class="table" id="thetable">
                                     <thead>
                                         <tr class="text-center">
                                             <th>Item Name</th>
+                                            <th>Available Qty</th>
                                             <th>UoM</th>
                                             <th>Price</th>
                                             <th>Expired Date</th>
@@ -39,20 +40,24 @@
                                     </thead>
                                     <tbody>
                                         <tr class="text-center">
-                                            <td>
+                                            <td class=" w-25">
                                                 <select name="item_id[]" class="form-select w-100"
-                                                    onchange="updateUOM(this)">
+                                                    onchange="updateFields(this)">
                                                     @foreach ($items as $item)
                                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </td>
+                                            <td><input class="form-control form-control-sm text-center" type="availqty" name="availqty[]" id="availqtyInput"
+                                                value="" readonly></td>
                                             <td>
-                                                <input class="" type="text" name="uom[]" id="uomInput"
+                                                <input class="form-control form-control-sm text-center" type="text" name="uom[]" id="uomInput"
                                                     value="" readonly>
                                             </td>
-                                            <td><input type="number" name="price[]"></td>
-                                            <td><input type="date" name="expdate[]"></td>
+                                            <td><input class="form-control form-control-sm text-center" type="number" name="price[]" id="priceInput"
+                                                value="" readonly></td>
+                                            <td><input class="form-control form-control-sm text-center" type="date" name="expdate[]" id="expdateInput"
+                                                value="" readonly></td>
                                             <td><input type="number" name="qty[]"></td>
                                             <td class="d-flex justify-content-center" id="removeBtn">
                                                 <div class="btn-group" role="group"
@@ -110,34 +115,60 @@
                 var row = button.closest('tr');
                 row.parentNode.removeChild(row);
             }
-
-            // Update UoM based on the selected item in the row
-            function updateUOM(selectElement) {
-                var selectedItem = selectElement.value;
-                var row = selectElement.closest('tr');
-                var uomInput = row.querySelector('input[name="uom[]"]');
-                uomInput.value = uomValues[selectedItem] || '';
-            }
         </script>
 
         <script>
+            function updateFields(selectElement) {
+                var selectedItem = selectElement.value;
+                var row = selectElement.closest('tr');
+                
+                // Update UoM input
+                var uomInput = row.querySelector('input[name="uom[]"]');
+                uomInput.value = uomValues[selectedItem] || '';
+            
+                // Update Price input
+                var priceInput = row.querySelector('input[name="price[]"]');
+                priceInput.value = priceValues[selectedItem] || '';
+            
+                // Update Expdate input
+                var expdateInput = row.querySelector('input[name="expdate[]"]');
+                expdateInput.value = expdateValues[selectedItem] || '';
+
+                 // Update Available Qty input
+                var availqtyInput = row.querySelector('input[name="availqty[]"]');
+                availqtyInput.value = availqtyValues[selectedItem] || '';
+            }
+            
             var uomValues = {
                 @foreach ($items as $item)
                     '{{ $item->id }}': '{{ $item->uom }}',
                 @endforeach
             };
+            
+            var priceValues = {
+                @foreach ($items as $item)
+                    '{{ $item->id }}': '{{ $item->price }}',
+                @endforeach
+            };
+            
+            var expdateValues = {
+                @foreach ($items as $item)
+                    '{{ $item->id }}': '{{ $item->expdate }}',
+                @endforeach
+            };
 
-            // function updateUOM(selectElement) {
-            //     var selectedItem = selectElement.value;
-            //     var uomInput = document.getElementById('uomInput');
-            //     uomInput.value = uomValues[selectedItem] || '';
-            // }
-
-            // Initialize UoM values for the existing rows
-            document.querySelectorAll('select[name="item_name[]"]').forEach(function(selectElement) {
-                updateUOM(selectElement);
+            var availqtyValues = {
+                @foreach ($items as $item)
+                    '{{ $item->id }}': '{{ $item->qty }}',
+                @endforeach
+            };
+            
+            // Initialize values for the existing rows
+            document.querySelectorAll('select[name="item_id[]"]').forEach(function(selectElement) {
+                updateFields(selectElement);
             });
-        </script>
+            </script>
+            
     </div>
     <!-- /.content -->
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\ItemGroupController;
 use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\BarangMasukController;
+use \App\Http\Controllers\PermintaanController;
 
 
 /*
@@ -49,8 +50,11 @@ Route::middleware('auth')->group(function () {
     Route::put('items/active/{item:id}', [ItemController::class, 'active'])->name('item.active');
 
     // Permintaan CRUD
-    Route::view('permintaans', 'it_admin.permintaans', ['title' => 'permintaans'])->name('permintaans');
-    Route::view('permintaanadd', 'it_admin.permintaan-add', ['title' => 'addpermintaan'])->name('permintaanadd');
+    Route::get('permintaans', [PermintaanController::class, 'index'])->name('permintaans');
+    Route::get('permintaanadd', [PermintaanController::class, 'create'])->name('permintaanadd');
+    Route::post('permintaanadd/store', [PermintaanController::class, 'store'])->name('permintaanadd.store');
+    Route::get('permintaan/show/{permintaan:docnum}', [PermintaanController::class, 'show'])->name('permintaan.show');
+
 
     // Barang Masuk
     Route::get('barangmasuks', [BarangMasukController::class, 'index'])->name('barangmasuks');
