@@ -69,7 +69,7 @@
                                             <td><a
                                                     href="{{ route('permintaan.show', ['permintaan' => $permintaan->docnum]) }}">{{ $permintaan->docnum }}</a>
                                             </td>
-                                            <td>{{ $permintaan->admin }}</td>
+                                            <td>{{ $permintaan->requester }}</td>
                                             <td>{{ $permintaan->docdate }}</td>
                                             <td>{{ $permintaan->duedate }}</td>
                                             <td>{{ $permintaan->user->branch }}</td>
@@ -77,15 +77,7 @@
                                             <td class="d-flex justify-content-center">
                                                 <div class="btn-group" role="group"
                                                     aria-label="Basic mixed styles example">
-                                                    {{-- @unless ($permintaan->status == 'Open' || $permintaan->status == 'Approved')
-                                                        <form action="/permintaan/reject/{{ $permintaan->id }}" method="POST">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger">Reject</button>
-                                                        </form>
-                                                    @endunless
-                                                    <button type="button" class="btn btn-success">Approve</button> --}}
-                                                    @if ($permintaan->status == 'Open' || $permintaan->status == 'Approved')
+                                                    @if ($permintaan->status == 'Open')
                                                         <form action="/permintaan/reject/{{ $permintaan->id }}"
                                                             method="POST">
                                                             @method('PUT')
@@ -93,14 +85,11 @@
                                                             <button type="submit"
                                                                 class="btn btn-danger mr-2">Reject</button>
                                                         </form>
-                                                    @endif
-
-                                                    @if ($permintaan->status == 'Open' || $permintaan->status == 'Rejected')
-                                                        <form action="/permintaan/approve/{{ $permintaan->id }}"
+                                                        <form action="/permintaan/close/{{ $permintaan->id }}"
                                                             method="POST">
                                                             @method('PUT')
                                                             @csrf
-                                                            <button type="submit" class="btn btn-success">Approve</button>
+                                                            <button type="submit" class="btn btn-success">Close</button>
                                                         </form>
                                                     @endif
                                                 </div>

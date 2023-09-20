@@ -66,22 +66,6 @@ class PermintaanController extends Controller
         $expDates = $request->input('expdate');
         $qtys = $request->input('qty');
 
-        // foreach ($itemIds as $key => $itemIdTemp){
-        //     $permintaan->item_id = $itemIdTemp;
-        //     // Check if subtracting the quantity results in a negative value
-        //     if ($item && $item->qty - $qtys[$key] >= 0) {
-        //         // Save the current item to the database
-        //         $permintaan->save();
-
-        //         $item->qty -= $qtys[$key];
-        //         $item->save();
-        //     } else {
-        //         // Handle the case where subtracting the quantity would be negative
-        //         // You can add an error message or redirect with a message
-        //         return redirect()->back()->with('error', 'Insufficient quantity for the selected item.');
-        //     }
-        // }
-
         foreach ($itemIds as $key => $itemId) {
             // Retrieve the item based on the current $itemId
             $item = Item::find($itemId);
@@ -97,11 +81,12 @@ class PermintaanController extends Controller
             $permintaan->user_id = auth()->id();
             $permintaan->status = "Open";
             $permintaan->remarks = $request->input('remarks');
-            $permintaan->admin = auth()->user()->name; // Assuming you're storing the admin's name
+            $permintaan->requester = auth()->user()->name; // Assuming you're storing the requester's name
 
             // Set the item-specific data
             $permintaan->item_id = $itemId;
             $permintaan->qty = $qtys[$key];
+            $permintaan->openqty = $qtys[$key];
             $permintaan->expdate = $expDates[$key];
             $permintaan->price = $prices[$key];
 
@@ -164,10 +149,10 @@ class PermintaanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function approve(Request $request, Permintaan $permintaan)
+    public function close(Request $request, Permintaan $permintaan)
     {
         //
-        Permintaan::where('id', $permintaan->id)->update(['status' => 'Approved']);
+        Permintaan::where('id', $permintaan->id)->update(['status' => 'Closed']);
         return redirect(route("permintaans"))->with('success', 'Permintaan updated.');
     }
 

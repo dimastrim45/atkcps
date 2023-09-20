@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Permintaan extends Model
+class Pengeluaran extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'permintaan_id',
         'user_id',
         'requester',
+        'admin',
         'item_id',
         'qty',
-        'openqty',
         'price',
         'expdate',
         'docnum',
         'docdate',
-        'duedate',
         'status',
         'remarks',
     ];
@@ -29,10 +29,12 @@ class Permintaan extends Model
     }
 
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function pengeluaran(){
-        return $this->hasMany(Pengeluaran::class);
+    public function permintaan(){
+        return $this->belongsTo(Permintaan::class, 'permintaan_id');
     }
 }
+
+

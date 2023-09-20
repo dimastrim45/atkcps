@@ -30,4 +30,8 @@ class Item extends Model
     public function permintaan(){
         return $this->belongsTo(Permintaan::class);
     }
+
+    public function pengeluaran(){
+        return $this->belongsTo(Pengeluaran::class);
+    }
 }

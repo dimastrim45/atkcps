@@ -29,7 +29,7 @@
                                 <div>
                                     {{ 'Requester' }}
                                     <input type="text" class="ml-2 " name="requester"
-                                        value="{{ $permintaans->first()->admin }}" disabled>
+                                        value="{{ $permintaans->first()->requester }}" disabled>
                                 </div>
                             </div>
                             <table class="table" id="thetable">
@@ -37,6 +37,7 @@
                                     <tr class="text-center">
                                         <th>Item Name</th>
                                         <th>Qty</th>
+                                        <th>Open Qty</th>
                                         <th>UoM</th>
                                         <th>Price</th>
                                         <th>Expired Date</th>
@@ -50,6 +51,9 @@
                                             </td>
                                             <td>
                                                 {{ $permintaan->qty }}
+                                            </td>
+                                            <td>
+                                                {{ $permintaan->openqty }}
                                             </td>
                                             <td>
                                                 {{ $permintaan->item->uom }}

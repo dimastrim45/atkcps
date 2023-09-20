@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('permintaans', function (Blueprint $table) {
+        Schema::create('pengeluarans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('permintaan_id');
             $table->foreignId('user_id');
             $table->string('requester');
+            $table->string('admin');
             $table->foreignId('item_id');
             $table->integer('qty')->default(0);
-            $table->integer('openqty')->default(0);
-            $table->integer('price');   // 'price' field of type decimal with precision 
-            $table->date('expdate')->nullable();   // 'expdate' field of type date, nullable
+            $table->integer('price');
+            $table->date('expdate')->nullable();
             $table->string('docnum');
             $table->date('docdate');
-            $table->date('duedate');
             $table->string('status');
             $table->string('remarks');
             $table->timestamps();
@@ -34,7 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('permintaans');
+        Schema::dropIfExists('pengeluarans');
     }
-
 };

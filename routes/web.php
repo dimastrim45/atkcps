@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\BarangMasukController;
 use \App\Http\Controllers\PermintaanController;
+use \App\Http\Controllers\PengeluaranController;
 
 
 /*
@@ -49,14 +50,6 @@ Route::middleware('auth')->group(function () {
     Route::put('items/inactive/{item:id}', [ItemController::class, 'inactive'])->name('item.inactive');
     Route::put('items/active/{item:id}', [ItemController::class, 'active'])->name('item.active');
 
-    // Permintaan CRUD
-    Route::get('permintaans', [PermintaanController::class, 'index'])->name('permintaans');
-    Route::get('permintaanadd', [PermintaanController::class, 'create'])->name('permintaanadd');
-    Route::post('permintaanadd/store', [PermintaanController::class, 'store'])->name('permintaanadd.store');
-    Route::get('permintaan/show/{permintaan:docnum}', [PermintaanController::class, 'show'])->name('permintaan.show');
-    Route::put('permintaan/approve/{permintaan:id}', [PermintaanController::class, 'approve'])->name('permintaan.approve');
-    Route::put('permintaan/reject/{permintaan:id}', [PermintaanController::class, 'reject'])->name('permintaan.reject');
-
     // Barang Masuk
     Route::get('barangmasuks', [BarangMasukController::class, 'index'])->name('barangmasuks');
     Route::get('barangmasukadd', [BarangMasukController::class, 'create'])->name('barangmasukadd');
@@ -64,9 +57,20 @@ Route::middleware('auth')->group(function () {
     Route::get('barangmasuk/show/{barangmasuk:docnum}', [BarangMasukController::class, 'show'])->name('barangmasuk.show');
     // Route::get('barangmasuk/show/{barangmasuk}', [BarangMasukController::class, 'show'])->name('barangmasuk.show');
 
+    // Permintaan CRUD
+    Route::get('permintaans', [PermintaanController::class, 'index'])->name('permintaans');
+    Route::get('permintaanadd', [PermintaanController::class, 'create'])->name('permintaanadd');
+    Route::post('permintaanadd/store', [PermintaanController::class, 'store'])->name('permintaanadd.store');
+    Route::get('permintaan/show/{permintaan:docnum}', [PermintaanController::class, 'show'])->name('permintaan.show');
+    Route::put('permintaan/close/{permintaan:id}', [PermintaanController::class, 'close'])->name('permintaan.close');
+    Route::put('permintaan/reject/{permintaan:id}', [PermintaanController::class, 'reject'])->name('permintaan.reject');
 
     // Pengeluaran
-    Route::view('pengeluarans', 'it_admin.pengeluarans', ['title' => 'pengeluarans'])->name('pengeluarans');
+    Route::get('pengeluarans', [PengeluaranController::class, 'index'])->name('pengeluarans');
+    // Route::get('pengeluaranadd/{permintaan:docnum}', [PengeluaranController::class, 'create'])->name('pengeluaranadd');
+    Route::get('pengeluaranadd', [PengeluaranController::class, 'create'])->name('pengeluaranadd');
+    Route::post('pengeluaranadd/store', [PengeluaranController::class, 'store'])->name('pengeluaranadd.store');
+
 
     // Selisih for stock opnam
     Route::view('selisihs', 'it_admin.selisihs', ['title' => 'selisihs'])->name('selisihs');
