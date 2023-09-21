@@ -45,8 +45,6 @@ class PermintaanController extends Controller
      */
     public function store(StorePermintaanRequest $request)
     {
-        //
-        // dd($request);
         // Get the current year and month
         $currentYear = date('Y');
         $currentMonth = date('m');
@@ -58,54 +56,71 @@ class PermintaanController extends Controller
 
         // Format the next ID as a three-digit string (e.g., 001)
         $formattedID = str_pad($nextID, 3, '0', STR_PAD_LEFT);
-        // dd($formattedID);
 
-        // Loop through the items and insert them into the "barang_masuks" table
+        // Loop through the items and validate them
         $itemIds = $request->input('item_id');
         $prices = $request->input('price');
         $expDates = $request->input('expdate');
         $qtys = $request->input('qty');
+
+        // Define a flag to track if all items are valid
+        $allItemsValid = true;
 
         foreach ($itemIds as $key => $itemId) {
             // Retrieve the item based on the current $itemId
             $item = Item::find($itemId);
 
             if ($item && $item->qty - $qtys[$key] >= 0) {
-            // Create a new instance of the permin$permintaan model for each item
-            $permintaan = new Permintaan();
-            $permintaan->docnum = $currentYear . $currentMonth . $formattedID;
-            // Convert the docdate to the desired format (dd-mm-yyyy)
-            $currentDate = Carbon::now()->format('Y-m-d');
-            $permintaan->docdate = $currentDate;
-            $permintaan->duedate = $request->input('duedate');
-            $permintaan->user_id = auth()->id();
-            $permintaan->status = "Open";
-            $permintaan->remarks = $request->input('remarks');
-            $permintaan->requester = auth()->user()->name; // Assuming you're storing the requester's name
-
-            // Set the item-specific data
-            $permintaan->item_id = $itemId;
-            $permintaan->qty = $qtys[$key];
-            $permintaan->openqty = $qtys[$key];
-            $permintaan->expdate = $expDates[$key];
-            $permintaan->price = $prices[$key];
-
-            // Save the current item to the database
-            $permintaan->save();
-
-            // Update the item's quantity
-            $item->qty -= $qtys[$key];
-            $item->save();
+                // Continue validating other items
             } else {
-                // Handle the case where subtracting the quantity would be negative
-                // You can add an error message or redirect with a message
-                return redirect()->back()->withErrors(['error' => 'Insufficient quantity for the selected item.']);
+                // Set the flag to false if any item is not valid
+                $allItemsValid = false;
+                break; // Exit the loop immediately
             }
         }
 
-        // Redirect back or to a success page
-        return redirect()->route('permintaans');
+        // Check if all items are valid before saving any data
+        if ($allItemsValid) {
+            // Save all items to the database
+            foreach ($itemIds as $key => $itemId) {
+            // Retrieve the item based on the current $itemId
+                $item = Item::find($itemId);
+                // Create a new instance of the Permintaan model for each item
+                $permintaan = new Permintaan();
+                $permintaan->docnum = $currentYear . $currentMonth . $formattedID;
+                // Convert the docdate to the desired format (dd-mm-yyyy)
+                $currentDate = Carbon::now()->format('Y-m-d');
+                $permintaan->docdate = $currentDate;
+                $permintaan->duedate = $request->input('duedate');
+                $permintaan->user_id = auth()->id();
+                $permintaan->status = "Open";
+                $permintaan->remarks = $request->input('remarks');
+                $permintaan->requester = auth()->user()->name; // Assuming you're storing the requester's name
+
+                // Set the item-specific data
+                $permintaan->item_id = $itemId;
+                $permintaan->qty = $qtys[$key];
+                $permintaan->openqty = $qtys[$key];
+                $permintaan->expdate = $expDates[$key];
+                $permintaan->price = $prices[$key];
+
+                // Save the current item to the database
+                $permintaan->save();
+
+                // Update the item's quantity
+                $item->qty -= $qtys[$key];
+                $item->save();
+            }
+
+            // Redirect back or to a success page after all items are saved
+            return redirect()->route('permintaans');
+        } else {
+            // Handle the case where at least one item is not valid
+            // You can add an error message or redirect with a message
+            return redirect()->back()->withErrors(['error' => 'At least one item has insufficient quantity.']);
+        }
     }
+
 
     /**
      * Display the specified resource.

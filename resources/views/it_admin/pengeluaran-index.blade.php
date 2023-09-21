@@ -53,7 +53,8 @@
                                         <div class="modal-body" class="">
                                             <div class="form-group">
                                                 <label for="permintaan_docnum">Nomor Permintaan</label>
-                                                <input type="text" class="form-control" id="permintaan_docnum" name="permintaan_docnum">
+                                                <input type="text" class="form-control" id="permintaan_docnum"
+                                                    name="permintaan_docnum">
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -75,31 +76,31 @@
                                         <th>Nomor Pengeluaran</th>
                                         <th>Admin</th>
                                         <th>Requester</th>
-                                        <th>Request Date</th>
-                                        <th>Due Date</th>
+                                        <th>Document Date</th>
                                         <th>Branch</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($users as $user) --}}
-                                    <tr class="text-center">
-                                        <td>{{ '20230817001' }}</td>
-                                        <td>{{ 'Izza' }}</td>
-                                        <td>{{ 'Toni' }}</td>
-                                        <td>{{ '05-08-2023' }}</td>
-                                        <td>{{ '10-08-2023' }}</td>
-                                        <td>{{ 'Wonosari' }}</td>
-                                        <td>{{ 'Open' }}</td>
-                                        <td class="d-flex justify-content-center">
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <button type="button" class="btn btn-danger">Cancel</button>
-                                                <button type="button" class="btn btn-warning">Open</button>
-                                                <button type="button" class="btn btn-success">Picked</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @foreach ($pengeluarans as $pengeluaran)
+                                        <tr class="text-center">
+                                            <td><a href="{{ route('pengeluaran.show', ['pengeluaran' => $pengeluaran->docnum]) }}">{{ $pengeluaran->docnum }}</a></td>
+                                            <td>{{ $pengeluaran->admin }}</td>
+                                            <td>{{ $pengeluaran->requester }}</td>
+                                            <td>{{ $pengeluaran->docdate }}</td>
+                                            <td>{{ $pengeluaran->user->branch }}</td>
+                                            <td>{{ $pengeluaran->status }}</td>
+                                            <td class="d-flex justify-content-center">
+                                                <div class="btn-group" role="group"
+                                                    aria-label="Basic mixed styles example">
+                                                    <button type="button" class="btn btn-danger">Cancel</button>
+                                                    <button type="button" class="btn btn-warning">Open</button>
+                                                    <button type="button" class="btn btn-success">Picked</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                             </table>
                         </div>
                         <!-- /.card-body -->

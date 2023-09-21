@@ -67,9 +67,10 @@ Route::middleware('auth')->group(function () {
 
     // Pengeluaran
     Route::get('pengeluarans', [PengeluaranController::class, 'index'])->name('pengeluarans');
-    // Route::get('pengeluaranadd/{permintaan:docnum}', [PengeluaranController::class, 'create'])->name('pengeluaranadd');
     Route::get('pengeluaranadd', [PengeluaranController::class, 'create'])->name('pengeluaranadd');
     Route::post('pengeluaranadd/store', [PengeluaranController::class, 'store'])->name('pengeluaranadd.store');
+    Route::get('pengeluaran/show/{pengeluaran:docnum}', [PengeluaranController::class, 'show'])->name('pengeluaran.show');
+
 
 
     // Selisih for stock opnam
