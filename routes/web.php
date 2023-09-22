@@ -8,22 +8,8 @@ use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\BarangMasukController;
 use \App\Http\Controllers\PermintaanController;
 use \App\Http\Controllers\PengeluaranController;
+use \App\Http\Controllers\PlantController;
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-// Route::get('/', function ()
-//     return view('welcome');
-// });
 
 // using auth standart route
 Auth::routes();
@@ -42,8 +28,6 @@ Route::middleware('auth')->group(function () {
     Route::get('items/search', [ItemController::class, 'search'])->name('item.search');
     Route::get('itemadd', [ItemController::class, 'create'])->name('itemadd');
     Route::post('itemadd', [ItemController::class, 'store'])->name('itemadd');
-    // Route::get('item/edit/{item:id}', [ItemController::class, 'edit'])->name('item.edit');
-    // Route::put('item/edit/{item:id}', [ItemController::class, 'update'])->name('item.edit');
     Route::get('item/edit/{item}', [ItemController::class, 'edit'])->name('item.edit');
     Route::put('item/update/{item}', [ItemController::class, 'update'])->name('item.update');
     Route::get('itemgroups', [ItemGroupController::class, 'index'])->name('itemgroups.index');
@@ -84,7 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::view('feedbacks', 'it_admin.feedbacks', ['title' => 'feedbacks'])->name('feedbacks');
 
     // Plant Management
-    Route::view('plants', 'it_admin.plants', ['title' => 'plants'])->name('plants');
+    Route::get('plants', [PlantController::class, 'index'])->name('plants');
     
     // user CRUD
     Route::get('users', [UserController::class, 'index'])->name('users.index');

@@ -20,7 +20,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $faker = \Faker\Factory::create();
-        $branches = ['BLB', 'BLI', 'HO', 'JKT', 'KRN', 'MKTSL', 'MWR', 'PGS', 'PROD', 'SMR', 'SPJ', 'TLA', 'WNS'];
+        // $branches = ['BLB', 'BLI', 'HO', 'JKT', 'KRN', 'MKTSL', 'MWR', 'PGS', 'PROD', 'SMR', 'SPJ', 'TLA', 'WNS'];
         $departments = ['DEL', 'DIST', 'FAT', 'HRGA', 'MGM', 'MKT', 'PPI', 'PRO', 'PUR', 'RETAIL', 'WHS', 'WHSALE'];
         $licenses = ['administrator', 'staff', 'hradmin', 'manager'];
 
@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'password' => Hash::make('Samtri123'), // password
             // 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'branch' => $faker->randomElement($branches),
+            'plant_id' => random_int(1, 5),
             'department' => $faker->randomElement($departments),
             'license' => $faker->randomElement($licenses), 
         ];

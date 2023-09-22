@@ -29,12 +29,19 @@ class BarangMasukController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create a new Permintaan (Request) for a Barang (Item).
+     *
+     * This method retrieves all items with an "Active" status from the database
+     * and passes them to the 'it_admin.barang-masuk-add' view for creating a new Permintaan.
+     *
+     * @return \Illuminate\View\View
      */
     public function create()
     {
-        //Route::view('barangmasukadd', 'it_admin.barang-masuk-add', ['title' => 'barangmasukadd'])->name('barangmasukadd');
-        $items = Item::all();
+        // Retrieve all items with an "Active" status
+        $items = Item::where('status', 'active')->get();
+
+        // Load the 'it_admin.barang-masuk-add' view with the filtered items
         return view('it_admin.barang-masuk-add', [
             'title' => 'barangmasukadd',
             "items" => $items,

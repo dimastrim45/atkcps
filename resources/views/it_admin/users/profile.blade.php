@@ -88,43 +88,23 @@
                                 </div>
 
                                 <div class="input-group mb-3">
-                                    <select type="text" name="branch"
-                                        class="form-control @error('branch') is-invalid @enderror"
+                                    <select type="text" name="plant_id"
+                                        class="form-control @error('plant_id') is-invalid @enderror"
                                         placeholder="{{ __('Branch') }}"
-                                        value="{{ old('branch', auth()->user()->branch) }}" required>
-                                        <option value="BLB" {{ auth()->user()->branch == 'BLB' ? 'selected' : '' }}>
-                                            Balong Bendo</option>
-                                        <option value="BLI" {{ auth()->user()->branch == 'BLI' ? 'selected' : '' }}>Bali
-                                        </option>
-                                        <option value="HO" {{ auth()->user()->branch == 'HO' ? 'selected' : '' }}>Head
-                                            Office</option>
-                                        <option value="JKT" {{ auth()->user()->branch == 'JKT' ? 'selected' : '' }}>
-                                            Jakarta</option>
-                                        <option value="KRN" {{ auth()->user()->branch == 'KRN' ? 'selected' : '' }}>By
-                                            Pass Krian</option>
-                                        <option value="MKTSL" {{ auth()->user()->branch == 'MKTSL' ? 'selected' : '' }}>
-                                            Marketing & Sales</option>
-                                        <option value="MWR" {{ auth()->user()->branch == 'MWR' ? 'selected' : '' }}>
-                                            Mawar</option>
-                                        <option value="PGS" {{ auth()->user()->branch == 'PGS' ? 'selected' : '' }}>PGS
-                                        </option>
-                                        <option value="PROD" {{ auth()->user()->branch == 'PROD' ? 'selected' : '' }}>
-                                            Production</option>
-                                        <option value="SMR" {{ auth()->user()->branch == 'SMR' ? 'selected' : '' }}>
-                                            Semarang</option>
-                                        <option value="SPJ" {{ auth()->user()->branch == 'SPJ' ? 'selected' : '' }}>
-                                            Sepanjang</option>
-                                        <option value="TLA" {{ auth()->user()->branch == 'TLA' ? 'selected' : '' }}>
-                                            Tulungagung</option>
-                                        <option value="WNS" {{ auth()->user()->branch == 'WNS' ? 'selected' : '' }}>
-                                            Wonosari</option>
+                                        value="{{ old('plant_id', auth()->user()->plant_id) }}" required>
+                                        @foreach ($plants as $plant)
+                                            <option value="{{ $plant->id }}"
+                                                {{ $plant->id == old('plant_id', auth()->user()->plant_id) ? 'selected' : '' }}>
+                                                {{ $plant->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-solid fa-building"></span>
                                         </div>
                                     </div>
-                                    @error('branch')
+                                    @error('plant_id')
                                         <span class="error invalid-feedback">
                                             {{ $message }}
                                         </span>
@@ -181,13 +161,16 @@
                                         placeholder="{{ __('License') }}"
                                         value="{{ old('license', auth()->user()->license) }}" required>
                                         <option value="administrator"
-                                            {{ auth()->user()->license == 'administrator' ? 'selected' : '' }}>Administrator
+                                            {{ auth()->user()->license == 'administrator' ? 'selected' : '' }}>
+                                            Administrator
                                         </option>
                                         <option value="staff" {{ auth()->user()->license == 'staff' ? 'selected' : '' }}>
                                             Staff</option>
-                                        <option value="hradmin" {{ auth()->user()->license == 'hradmin' ? 'selected' : '' }}>
+                                        <option value="hradmin"
+                                            {{ auth()->user()->license == 'hradmin' ? 'selected' : '' }}>
                                             HR Admin</option>
-                                        <option value="manager" {{ auth()->user()->license == 'manager' ? 'selected' : '' }}>
+                                        <option value="manager"
+                                            {{ auth()->user()->license == 'manager' ? 'selected' : '' }}>
                                             Manager</option>
                                     </select>
                                     <div class="input-group-append">

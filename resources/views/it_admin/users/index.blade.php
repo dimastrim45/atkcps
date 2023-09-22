@@ -57,7 +57,7 @@
                                         <tr class="text-center">
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $user->branch }}</td>
+                                            <td>{{ $user->plant->name }}</td>
                                             <td>{{ $user->department }}</td>
                                             <td>{{ $user->license }}</td>
                                             <td class="d-flex justify-content-center">

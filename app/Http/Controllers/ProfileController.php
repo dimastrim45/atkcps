@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Plant;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\ProfileUpdateRequest;
 
@@ -16,8 +16,11 @@ class ProfileController extends Controller
     {
         // auth()->user()->department = 'MGM';
 
+        $plants = Plant::all();
+
         return view('it_admin.users.profile',[
-            'title' => 'profile'
+            'title' => 'profile',
+            'plants' => $plants,
         ]);
     }
 
@@ -31,7 +34,7 @@ class ProfileController extends Controller
         auth()->user()->update([
             'name' => $request->name,
             'email' => $request->email,
-            'branch' => $request->branch,
+            'plant_id' => $request->plant_id,
             'department' => $request->department,
             'license' => $request->license,
         ]);

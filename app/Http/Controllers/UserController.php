@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Plant;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Validation\Rule;
@@ -24,9 +25,12 @@ class UserController extends Controller
     public function edit(User $user)
     {
         // dd($user);
+        $plants = Plant::all();
+
         return view('it_admin.users.edit',[
             'title' => 'edit-user',
-            'user' => $user
+            'user' => $user,
+            'plants' => $plants,
         ]);
         
         //
@@ -41,7 +45,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'string', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => ['nullable', 'string', 'confirmed', 'min:8'],
-            'branch' => ['required'],
+            'plant_id' => ['required'],
             'department' => ['required'],
             'license' => ['required'],
         ]);

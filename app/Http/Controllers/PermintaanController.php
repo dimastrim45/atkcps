@@ -33,7 +33,7 @@ class PermintaanController extends Controller
      */
     public function create()
     {
-        $items = Item::all();
+        $items = Item::where('status', 'active')->get();
         return view('it_admin.permintaan-add', [
             'title' => 'addpermintaan',
             "items" => $items,

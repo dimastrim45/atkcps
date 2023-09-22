@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'branch',
+        'plant_id',
         'department',
         'license'
     ];
@@ -48,5 +48,9 @@ class User extends Authenticatable
 
     public function permintaan(){
         return $this->hasMany(Permintaan::class);
+    }
+
+    public function plant(){
+        return $this->belongsTo(Plant::class, 'plant_id');
     }
 }

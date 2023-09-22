@@ -86,43 +86,23 @@
                                 </div>
 
                                 <div class="input-group mb-3">
-                                    <select type="text" name="branch"
-                                        class="form-control @error('branch') is-invalid @enderror"
-                                        placeholder="{{ __('Branch') }}" value="{{ old('branch', $user->branch) }}"
+                                    <select type="text" name="plant_id"
+                                        class="form-control @error('plant_id') is-invalid @enderror"
+                                        placeholder="{{ __('Branch') }}" value="{{ old('plant_id', $user->branch) }}"
                                         required>
-                                        <option value="BLB" {{ $user->branch == 'BLB' ? 'selected' : '' }}>
-                                            Balong Bendo</option>
-                                        <option value="BLI" {{ $user->branch == 'BLI' ? 'selected' : '' }}>Bali
-                                        </option>
-                                        <option value="HO" {{ $user->branch == 'HO' ? 'selected' : '' }}>Head
-                                            Office</option>
-                                        <option value="JKT" {{ $user->branch == 'JKT' ? 'selected' : '' }}>
-                                            Jakarta</option>
-                                        <option value="KRN" {{ $user->branch == 'KRN' ? 'selected' : '' }}>By
-                                            Pass Krian</option>
-                                        <option value="MKTSL" {{ $user->branch == 'MKTSL' ? 'selected' : '' }}>
-                                            Marketing & Sales</option>
-                                        <option value="MWR" {{ $user->branch == 'MWR' ? 'selected' : '' }}>
-                                            Mawar</option>
-                                        <option value="PGS" {{ $user->branch == 'PGS' ? 'selected' : '' }}>PGS
-                                        </option>
-                                        <option value="PROD" {{ $user->branch == 'PROD' ? 'selected' : '' }}>
-                                            Production</option>
-                                        <option value="SMR" {{ $user->branch == 'SMR' ? 'selected' : '' }}>
-                                            Semarang</option>
-                                        <option value="SPJ" {{ $user->branch == 'SPJ' ? 'selected' : '' }}>
-                                            Sepanjang</option>
-                                        <option value="TLA" {{ $user->branch == 'TLA' ? 'selected' : '' }}>
-                                            Tulungagung</option>
-                                        <option value="WNS" {{ $user->branch == 'WNS' ? 'selected' : '' }}>
-                                            Wonosari</option>
+                                        @foreach ($plants as $plant)
+                                            <option value="{{ $plant->id }}"
+                                                {{ $plant->id == old('plant_id', $user->plant_id) ? 'selected' : '' }}>
+                                                {{ $plant->name }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-solid fa-building"></span>
                                         </div>
                                     </div>
-                                    @error('branch')
+                                    @error('plant_id')
                                         <span class="error invalid-feedback">
                                             {{ $message }}
                                         </span>
