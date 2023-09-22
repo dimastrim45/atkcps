@@ -69,6 +69,14 @@ class ItemController extends Controller
     public function edit(Item $item)
     {
         //
+        // dd($item);
+        $itemgroups = ItemGroup::all();
+
+        return view('it_admin.item-edit',[
+            "title" => 'itemedit',
+            'item' => $item,
+            "itemgroups" => $itemgroups,
+        ]);
     }
 
     /**
@@ -77,6 +85,11 @@ class ItemController extends Controller
     public function update(UpdateItemRequest $request, Item $item)
     {
         //
+        // dd($item);
+
+        // Update the ItemGroup using the code as the identifier
+        $item->update($request->validated());
+        return redirect()->back()->with('success', 'Item updated');
     }
 
     /**

@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
     Route::get('items/search', [ItemController::class, 'search'])->name('item.search');
     Route::get('itemadd', [ItemController::class, 'create'])->name('itemadd');
     Route::post('itemadd', [ItemController::class, 'store'])->name('itemadd');
+    // Route::get('item/edit/{item:id}', [ItemController::class, 'edit'])->name('item.edit');
+    // Route::put('item/edit/{item:id}', [ItemController::class, 'update'])->name('item.edit');
+    Route::get('item/edit/{item}', [ItemController::class, 'edit'])->name('item.edit');
+    Route::put('item/update/{item}', [ItemController::class, 'update'])->name('item.update');
     Route::get('itemgroups', [ItemGroupController::class, 'index'])->name('itemgroups.index');
     Route::get('itemgroups/create', [ItemGroupController::class, 'create'])->name('itemgroups.create');
     Route::post('itemgroups/store', [ItemGroupController::class, 'store'])->name('itemgroups.store');

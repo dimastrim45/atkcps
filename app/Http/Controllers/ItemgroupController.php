@@ -73,13 +73,6 @@ class ItemGroupController extends Controller
      */
     public function update(Request $request, ItemGroup $itemgroup)
     {
-        // Validate the request data based on UpdateItemGroupRequest rules
-        // $validatedData = $request->validated();
-        // dd($itemgroup->id);
-        // $itemGroupCode = $this->route('itemgroup');
-        // $itemGroupId = ItemGroup::where('code', $itemGroupCode)->value('id');
-        // $itemGroupId = $itemGroup->id;
-        // dd($itemGroupId);
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('item_groups', 'name')->ignore($itemgroup->id),],
             'code' => ['required', 'string', Rule::unique('item_groups', 'code')->ignore($itemgroup->id),],

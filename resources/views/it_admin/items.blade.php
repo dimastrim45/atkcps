@@ -89,7 +89,7 @@
                                                         </form>
                                                     @endunless
 
-                                                    <button type="button" class="btn btn-warning">Edit</button>
+                                                    <a href="{{ route('item.edit', ['item' => $item->id]) }}"><button type="button" class="btn btn-warning">Edit</button></a>
 
                                                     @unless ($item->status === 'active')
                                                         <form action="items/active/{{ $item->id }}" method="POST">
