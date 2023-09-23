@@ -43,7 +43,6 @@ Route::middleware('auth')->group(function () {
     Route::get('barangmasukadd', [BarangMasukController::class, 'create'])->name('barangmasukadd');
     Route::post('barangmasukadd/store', [BarangMasukController::class, 'store'])->name('barangmasukadd.store');
     Route::get('barangmasuk/show/{barangmasuk:docnum}', [BarangMasukController::class, 'show'])->name('barangmasuk.show');
-    // Route::get('barangmasuk/show/{barangmasuk}', [BarangMasukController::class, 'show'])->name('barangmasuk.show');
 
     // Permintaan CRUD
     Route::get('permintaans', [PermintaanController::class, 'index'])->name('permintaans');
@@ -62,7 +61,7 @@ Route::middleware('auth')->group(function () {
 
 
     // Selisih for stock opnam
-    Route::view('selisihs', 'it_admin.selisihs', ['title' => 'selisihs'])->name('selisihs');
+    Route::view('selisihs', 'it_admin.selisih-index', ['title' => 'selisihs'])->name('selisihs');
 
     // Feedback
     Route::view('feedbacks', 'it_admin.feedbacks', ['title' => 'feedbacks'])->name('feedbacks');

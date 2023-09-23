@@ -72,7 +72,7 @@
                                             <td>{{ $permintaan->requester }}</td>
                                             <td>{{ $permintaan->docdate }}</td>
                                             <td>{{ $permintaan->duedate }}</td>
-                                            <td>{{ $permintaan->user->branch }}</td>
+                                            <td>{{ $permintaan->user->plant->name }}</td>
                                             <td>{{ $permintaan->status }}</td>
                                             <td class="d-flex justify-content-center">
                                                 <div class="btn-group" role="group"
