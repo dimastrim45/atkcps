@@ -29,11 +29,13 @@
                         </div>
                         <div class="col float-right w-50 text-right">
                             <div class=" pr-3">
-                                <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
-                                    autocomplete="off">
-                                    <i class="bi bi-plus-lg pr-1"></i>
-                                    Tambah Plant
-                                </button>
+                                <a href="{{ route('plant.create') }}">
+                                    <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                                        autocomplete="off">
+                                        <i class="bi bi-plus-lg pr-1"></i>
+                                        Tambah Plant
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -43,6 +45,7 @@
                             <table class="table">
                                 <thead>
                                     <tr class="text-center">
+                                        <th>Code Plant</th>
                                         <th>Nama Plant</th>
                                         <th>Kota</th>
                                         <th>Provinsi</th>
@@ -52,13 +55,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($users as $user) --}}
+                                    @foreach ($plants as $plant)
                                     <tr class="text-center">
-                                        <td>{{ 'Wonosari' }}</td>
-                                        <td>{{ 'Surabaya' }}</td>
-                                        <td>{{ 'Jawa Timur' }}</td>
-                                        <td>{{ 'Jl Wonosari Kidul No.137' }}</td>
-                                        <td>{{ 'Active' }}</td>
+                                        <td>{{ $plant->code }}</td>
+                                        <td>{{ $plant->name }}</td>
+                                        <td>{{ $plant->city }}</td>
+                                        <td>{{ $plant->province }}</td>
+                                        <td>{{ $plant->address }}</td>
+                                        <td>{{ $plant->status }}</td>
                                         <td class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                 <button type="button" class="btn btn-danger">Inactive</button>
@@ -67,7 +71,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    {{-- @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

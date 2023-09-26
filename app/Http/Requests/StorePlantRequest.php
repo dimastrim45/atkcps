@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
-
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePlantRequest extends FormRequest
@@ -11,7 +11,7 @@ class StorePlantRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StorePlantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255', Rule::unique('plants', 'name')],
+            'code' => ['required', 'alpha_num', 'no_spaces'],
+            'city' => ['required'],
+            'province' => ['required'],
+            'address' => ['required'],
+            // 'status' => ['required'],
         ];
     }
 }

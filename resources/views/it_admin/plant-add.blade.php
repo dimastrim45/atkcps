@@ -16,14 +16,19 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            @if ($errors->has('code'))
+                <div class="alert alert-danger">
+                    {{ $errors->first('code') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <form action="{{ route('itemadd') }}" method="POST">
+                        <form action="{{ route('plant.store') }}" method="POST">
                             @csrf
 
                             <div class="card-body">
-                                <label for="">Item Name</label>
+                                <label for="">Plant Name</label>
                                 <div class="input-group mb-4">
                                     <input type="text" name="name"
                                         class="form-control @error('name') is-invalid @enderror"
@@ -40,84 +45,75 @@
                                     @enderror
                                 </div>
 
-                                <label for="">Unit of Measurement</label>
+                                <label for="">Plant Code</label>
                                 <div class="input-group mb-4">
-                                    <select type="text" name="uom"
-                                        class="form-control @error('uom') is-invalid @enderror"
-                                        placeholder="{{ __('UoM') }}" required>
-                                        <option value="PCS">PCS</option>
-                                        <option value="KG">Kilogram</option>
-                                        <option value="G">Gram</option>
-                                        <option value="DZ">Dozen</option>
-                                    </select>
+                                    <input type="text" name="code"
+                                        class="form-control @error('code') is-invalid @enderror"
+                                        placeholder="{{ __('Code') }}" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
+                                            <span class="fas fa-user"></span>
                                         </div>
                                     </div>
-                                    @error('uom')
+                                    @error('code')
                                         <span class="error invalid-feedback">
                                             {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
 
-                                <label for="">Price</label>
+                                <label for="">City</label>
                                 <div class="input-group mb-4">
-                                    <input type="text" name="price"
-                                        class="form-control @error('price') is-invalid @enderror"
-                                        placeholder="{{ __('Price') }}" required>
+                                    <input type="text" name="city"
+                                        class="form-control @error('city') is-invalid @enderror"
+                                        placeholder="{{ __('City') }}" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-envelope"></span>
                                         </div>
                                     </div>
-                                    @error('price')
+                                    @error('city')
                                         <span class="error invalid-feedback">
                                             {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
 
-                                <label for="">Expired Date</label>
+                                <label for="">Province</label>
                                 <div class="input-group mb-4">
-                                    <input type="date" name="expdate"
-                                        class="form-control @error('expdate') is-invalid @enderror"
-                                        placeholder="{{ __('Expdate') }}">
+                                    <input type="text" name="province"
+                                        class="form-control @error('province') is-invalid @enderror"
+                                        placeholder="{{ __('Province') }}" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-envelope"></span>
                                         </div>
                                     </div>
-                                    @error('expdate')
+                                    @error('province')
                                         <span class="error invalid-feedback">
                                             {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
 
-                                <label for="">Item Group</label>
+                                <label for="">Address</label>
                                 <div class="input-group mb-4">
-                                    <select type="text" name="itemgroup_id"
-                                        class="form-control @error('itemgroup_id') is-invalid @enderror"
-                                        placeholder="{{ __('Itemgroup') }}" required>
-                                        @foreach ($itemgroups as $itemgroup)
-                                            <option value="{{ $itemgroup->id }}">{{ $itemgroup->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="address"
+                                        class="form-control @error('address') is-invalid @enderror"
+                                        placeholder="{{ __('Address') }}" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-envelope"></span>
                                         </div>
                                     </div>
-                                    @error('itemgroup_id')
+                                    @error('address')
                                         <span class="error invalid-feedback">
                                             {{ $message }}
                                         </span>
                                     @enderror
                                 </div>
 
-                                <label for="">Status</label>
+                                {{-- <label for="">Status</label>
                                 <div class="input-group mb-4">
                                     <select type="text" name="status"
                                         class="form-control @error('status') is-invalid @enderror"
@@ -135,9 +131,7 @@
                                             {{ $message }}
                                         </span>
                                     @enderror
-                                </div>
-
-
+                                </div> --}}
                             </div>
 
                             <div class="card-footer">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Plant;
 use App\Http\Requests\StorePlantRequest;
 use App\Http\Requests\UpdatePlantRequest;
+use Illuminate\Support\Str;
+
 
 class PlantController extends Controller
 {
@@ -13,9 +15,11 @@ class PlantController extends Controller
      */
     public function index()
     {
+        $plants = Plant::paginate(10);
+
         return view('it_admin.plant-index', [
             'title' => 'plants',
-            // 'plants' => $pengeluarans,
+            'plants' => $plants,
         ]);
     }
 
@@ -24,7 +28,9 @@ class PlantController extends Controller
      */
     public function create()
     {
-        //
+        return view('it_admin.plant-add',[
+            "title" => 'plantadd',
+        ]);
     }
 
     /**
@@ -32,7 +38,14 @@ class PlantController extends Controller
      */
     public function store(StorePlantRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+
+        // Convert 'code' to uppercase
+        $validatedData['code'] = Str::upper($validatedData['code']);
+
+        Plant::create($validatedData);
+
+        return redirect(route("plants"))->with('success', 'Plant Created.');
     }
 
     /**

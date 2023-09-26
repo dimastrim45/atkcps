@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('province');
             $table->string('address');
-            $table->string('status');
+            $table->string('status')->default('Active');
             $table->timestamps();
         });
     }
