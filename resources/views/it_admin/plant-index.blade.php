@@ -46,11 +46,11 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>Code Plant</th>
-                                        <th>Nama Plant</th>
-                                        <th>Kota</th>
-                                        <th>Provinsi</th>
-                                        <th>Alamat</th>
-                                        <th>Status</th>
+                                        <th>Plant Name</th>
+                                        <th>City</th>
+                                        <th>Province</th>
+                                        <th>Address</th>
+                                        {{-- <th>Status</th> --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -62,12 +62,13 @@
                                         <td>{{ $plant->city }}</td>
                                         <td>{{ $plant->province }}</td>
                                         <td>{{ $plant->address }}</td>
-                                        <td>{{ $plant->status }}</td>
+                                        {{-- <td>{{ $plant->status }}</td> --}}
                                         <td class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <button type="button" class="btn btn-danger">Inactive</button>
+                                                {{-- <button type="button" class="btn btn-danger">Inactive</button> --}}
                                                 <button type="button" class="btn btn-warning">Edit</button>
-                                                <button type="button" class="btn btn-success">Active</button>
+                                                <button type="button" class="btn btn-danger">Remove</button>
+                                                {{-- <button type="button" class="btn btn-success">Active</button> --}}
                                             </div>
                                         </td>
                                     </tr>

@@ -136,7 +136,7 @@
 
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-success">{{ __('Submit') }}</button>
-                                <a href="{{ route('items') }}"><button type="button"
+                                <a href="{{ url()->previous() }}"><button type="button"
                                         class="btn btn-danger">{{ __('Cancel') }}</button></a>
                             </div>
                         </form>

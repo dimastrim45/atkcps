@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card-body login-card-body">
-        <p class="login-box-msg">{{ __('Login') }}</p>
+        <p class="login-box-msg text-lg">{{ __('Login') }}</p>
 
         <form action="{{ route('login') }}" method="post">
             @csrf
@@ -55,12 +55,14 @@
         </form>
 
         @if (Route::has('password.request'))
+            <br>
+            <br>
             <p class="mb-1">
                 <a href="{{ route('password.request') }}">{{ __('Forgot Your Password?') }}</a>
             </p>
         @endif
         <p class="mb-1">
-            <a href="/register">Don't have user? Register here.</a>
+            <b> Don't have user? <a href="/register">Register here.</a></b>
         </p>
     </div>
     <!-- /.login-card-body -->
