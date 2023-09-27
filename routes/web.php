@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::get('plants', [PlantController::class, 'index'])->name('plants');
     Route::get('plant/create', [PlantController::class, 'create'])->name('plant.create');
     Route::post('plant/store', [PlantController::class, 'store'])->name('plant.store');
+    Route::get('plant/edit/{plant}', [PlantController::class, 'edit'])->name('plant.edit');
     
     // user CRUD
     Route::get('users', [UserController::class, 'index'])->name('users.index');

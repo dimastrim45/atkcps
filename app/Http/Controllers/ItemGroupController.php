@@ -45,7 +45,7 @@ class ItemGroupController extends Controller
         // Create a new Item Group record using the validated data
         ItemGroup::create($validatedData);
 
-        return redirect()->back()->with('success', 'Item Group Created');
+        return redirect(route("itemgroups.index"))->with('success', 'Item Group Created');
     }
 
     /**

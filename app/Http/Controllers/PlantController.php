@@ -62,6 +62,10 @@ class PlantController extends Controller
     public function edit(Plant $plant)
     {
         //
+        return view('it_admin.plant-edit',[
+            "title" => 'plantedit',
+            'plant' => $plant,
+        ]);
     }
 
     /**

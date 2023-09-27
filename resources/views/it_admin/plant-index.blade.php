@@ -66,7 +66,7 @@
                                         <td class="d-flex justify-content-center">
                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                 {{-- <button type="button" class="btn btn-danger">Inactive</button> --}}
-                                                <button type="button" class="btn btn-warning">Edit</button>
+                                                <a href="{{ route('plant.edit', ['plant' => $plant->id]) }}"><button type="button" class="btn btn-warning">Edit</button></a>
                                                 <button type="button" class="btn btn-danger">Remove</button>
                                                 {{-- <button type="button" class="btn btn-success">Active</button> --}}
                                             </div>

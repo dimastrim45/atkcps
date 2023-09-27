@@ -50,9 +50,14 @@ class UserController extends Controller
             'license' => ['required'],
         ]);
 
-        // dd($validatedData);
-        $validatedData['password'] = Hash::make($validatedData['password']);
-        // User::create($validatedData);
+        // Check if the 'password' field in the request is not empty
+        if (!empty($validatedData['password'])) {
+            $validatedData['password'] = Hash::make($validatedData['password']);
+        } else {
+            // If 'password' is empty, remove it from the validated data array
+            unset($validatedData['password']);
+        }
+        
         User::where('id', $user->id)->update($validatedData);
         return redirect()->back()->with('success', 'Profile updated.');
     }

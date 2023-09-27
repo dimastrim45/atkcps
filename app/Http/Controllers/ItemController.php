@@ -52,7 +52,7 @@ class ItemController extends Controller
         // Create a new Item record using the validated data
         Item::create($validatedData);
 
-        return redirect()->back()->with('success', 'Item Created');
+        return redirect(route("items"))->with('success', 'Item Created');
     }
 
     /**
