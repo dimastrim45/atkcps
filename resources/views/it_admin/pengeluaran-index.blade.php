@@ -16,6 +16,11 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row mb-2">
@@ -85,7 +90,9 @@
                                 <tbody>
                                     @foreach ($pengeluarans as $pengeluaran)
                                         <tr class="text-center">
-                                            <td><a href="{{ route('pengeluaran.show', ['pengeluaran' => $pengeluaran->docnum]) }}">{{ $pengeluaran->docnum }}</a></td>
+                                            <td><a
+                                                    href="{{ route('pengeluaran.show', ['pengeluaran' => $pengeluaran->docnum]) }}">{{ $pengeluaran->docnum }}</a>
+                                            </td>
                                             <td>{{ $pengeluaran->admin }}</td>
                                             <td>{{ $pengeluaran->requester }}</td>
                                             <td>{{ $pengeluaran->docdate }}</td>

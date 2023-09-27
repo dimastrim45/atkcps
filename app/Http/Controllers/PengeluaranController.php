@@ -48,6 +48,11 @@ class PengeluaranController extends Controller
             return redirect()->back()->with('error', 'No Permintaan records found for the given docnum.');
         }
 
+        // Check if any Permintaan has the 'Rejected' status
+        if ($permintaans->contains('status', 'Rejected')) {
+            return redirect()->back()->with('error', 'Permintaan is rejected.');
+        }
+
         return view('it_admin.pengeluaran-add', [
             'title' => 'pengeluaranadd',
             'permintaans' => $permintaans, // Pass the Permintaan collection to the view

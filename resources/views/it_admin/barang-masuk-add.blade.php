@@ -48,8 +48,8 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input class="" type="text" name="uom[]" id="uomInput"
-                                                    value="" readonly>
+                                                <input class="form-control form-control-sm text-center" type="text"
+                                                    name="uom[]" id="uomInput" value="" readonly>
                                             </td>
                                             <td><input type="number" name="price[]"></td>
                                             <td><input type="date" name="expdate[]"></td>
@@ -110,14 +110,6 @@
                 var row = button.closest('tr');
                 row.parentNode.removeChild(row);
             }
-
-            // Update UoM based on the selected item in the row
-            function updateUOM(selectElement) {
-                var selectedItem = selectElement.value;
-                var row = selectElement.closest('tr');
-                var uomInput = row.querySelector('input[name="uom[]"]');
-                uomInput.value = uomValues[selectedItem] || '';
-            }
         </script>
 
         <script>
@@ -127,10 +119,17 @@
                 @endforeach
             };
 
-            // Initialize UoM values for the existing rows
-            document.querySelectorAll('select[name="item_name[]"]').forEach(function(selectElement) {
+            // Initialize UoM values for the existing rows and also for the initial load
+            document.querySelectorAll('select[name="item_id[]"]').forEach(function(selectElement) {
                 updateUOM(selectElement);
             });
+
+            function updateUOM(selectElement) {
+                var selectedItem = selectElement.value;
+                var row = selectElement.closest('tr');
+                var uomInput = row.querySelector('input[name="uom[]"]');
+                uomInput.value = uomValues[selectedItem] || '';
+            }
         </script>
     </div>
     <!-- /.content -->
