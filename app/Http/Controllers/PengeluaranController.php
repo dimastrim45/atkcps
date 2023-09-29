@@ -38,24 +38,28 @@ class PengeluaranController extends Controller
         $permintaanDocnum = $request->input('permintaan_docnum');
 
         // Retrieve all Permintaan records where docnum matches $permintaanDocnum
-        $permintaans = Permintaan::where('docnum', $permintaanDocnum)->get();
+        $pengeluarans = Permintaan::where('docnum', $permintaanDocnum)->get();
 
-        // dd($permintaans);
+        // dd($pengeluarans);
 
-        if ($permintaans->isEmpty()) {
+        if ($pengeluarans->isEmpty()) {
             // Handle the case where no matching Permintaan records were found.
             // You might want to display an error message or perform other actions.
             return redirect()->back()->with('error', 'No Permintaan records found for the given docnum.');
         }
 
         // Check if any Permintaan has the 'Rejected' status
-        if ($permintaans->contains('status', 'Rejected')) {
+        if ($pengeluarans->contains('status', 'Rejected')) {
             return redirect()->back()->with('error', 'Permintaan is rejected.');
+        }
+
+        elseif ($pengeluarans->contains('status', 'Closed')) {
+            return redirect()->back()->with('error', 'Permintaan is closed.');
         }
 
         return view('it_admin.pengeluaran-add', [
             'title' => 'pengeluaranadd',
-            'permintaans' => $permintaans, // Pass the Permintaan collection to the view
+            'pengeluarans' => $pengeluarans, // Pass the Permintaan collection to the view
         ]);
     }
 
@@ -208,5 +212,52 @@ class PengeluaranController extends Controller
     public function destroy(Pengeluaran $pengeluaran)
     {
         //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function cancel(Request $request, Pengeluaran $pengeluaran)
+    {
+        // Find all Pengeluaran instances with the given docnum
+        $pengeluaranInstances = Pengeluaran::where('docnum', $pengeluaran->docnum)->get();
+
+        if ($pengeluaranInstances->isEmpty()) {
+            return redirect(route("pengeluarans"))->with('error', 'No Pengeluaran found with the specified docnum.');
+        }
+
+        // Loop through each Pengeluaran instance
+        foreach ($pengeluaranInstances as $pengeluaranInstance) {
+            // Find the Permintaan instance based on docnum and item_id
+            $permintaan = Permintaan::where('docnum', $pengeluaranInstance->docnum)
+                ->where('item_id', $pengeluaranInstance->item_id)
+                ->first();
+
+            if ($permintaan) {
+                // Update the Permintaan's openqty
+                $permintaan->openqty += $pengeluaranInstance->qty;
+                $permintaan->status = 'Open';
+                $permintaan->save();
+            } else {
+                // Handle the case where no matching Permintaan is found
+                // You can add error handling logic here if needed.
+            }
+
+            // Update the Pengeluaran status to 'Canceled'
+            $pengeluaranInstance->update(['status' => 'Canceled']);
+        }
+
+        return redirect(route("pengeluarans"))->with('success', 'Pengeluaran updated.');
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function picked(Request $request, Pengeluaran $pengeluaran)
+    {
+        //
+        Pengeluaran::where('docnum', $pengeluaran->docnum)->update(['status' => 'Picked']);
+        return redirect(route("pengeluarans"))->with('success', 'Pengeluaran updated.');
     }
 }

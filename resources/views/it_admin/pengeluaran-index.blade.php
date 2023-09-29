@@ -101,9 +101,21 @@
                                             <td class="d-flex justify-content-center">
                                                 <div class="btn-group" role="group"
                                                     aria-label="Basic mixed styles example">
-                                                    <button type="button" class="btn btn-danger">Cancel</button>
-                                                    <button type="button" class="btn btn-warning">Open</button>
-                                                    <button type="button" class="btn btn-success">Picked</button>
+                                                    @if ($pengeluaran->status == 'Open')
+                                                        <form action="/pengeluaran/cancel/{{ $pengeluaran->docnum }}"
+                                                            method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-danger">Cancel</button>
+                                                        </form>
+                                                        {{-- <button type="button" class="btn btn-warning">Open</button> --}}
+                                                        <form action="/pengeluaran/picked/{{ $pengeluaran->docnum }}"
+                                                            method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success">Picked</button>
+                                                        </form>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

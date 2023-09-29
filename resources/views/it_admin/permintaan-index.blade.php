@@ -78,14 +78,14 @@
                                                 <div class="btn-group" role="group"
                                                     aria-label="Basic mixed styles example">
                                                     @if ($permintaan->status == 'Open')
-                                                        <form action="/permintaan/reject/{{ $permintaan->id }}"
+                                                        <form action="/permintaan/reject/{{ $permintaan->docnum }}"
                                                             method="POST">
                                                             @method('PUT')
                                                             @csrf
                                                             <button type="submit"
                                                                 class="btn btn-danger mr-2">Reject</button>
                                                         </form>
-                                                        <form action="/permintaan/close/{{ $permintaan->id }}"
+                                                        <form action="/permintaan/close/{{ $permintaan->docnum }}"
                                                             method="POST">
                                                             @method('PUT')
                                                             @csrf

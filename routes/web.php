@@ -49,14 +49,16 @@ Route::middleware('auth')->group(function () {
     Route::get('permintaanadd', [PermintaanController::class, 'create'])->name('permintaanadd');
     Route::post('permintaanadd/store', [PermintaanController::class, 'store'])->name('permintaanadd.store');
     Route::get('permintaan/show/{permintaan:docnum}', [PermintaanController::class, 'show'])->name('permintaan.show');
-    Route::put('permintaan/close/{permintaan:id}', [PermintaanController::class, 'close'])->name('permintaan.close');
-    Route::put('permintaan/reject/{permintaan:id}', [PermintaanController::class, 'reject'])->name('permintaan.reject');
+    Route::put('permintaan/close/{permintaan:docnum}', [PermintaanController::class, 'close'])->name('permintaan.close');
+    Route::put('permintaan/reject/{permintaan:docnum}', [PermintaanController::class, 'reject'])->name('permintaan.reject');
 
     // Pengeluaran
     Route::get('pengeluarans', [PengeluaranController::class, 'index'])->name('pengeluarans');
     Route::get('pengeluaranadd', [PengeluaranController::class, 'create'])->name('pengeluaranadd');
     Route::post('pengeluaranadd/store', [PengeluaranController::class, 'store'])->name('pengeluaranadd.store');
     Route::get('pengeluaran/show/{pengeluaran:docnum}', [PengeluaranController::class, 'show'])->name('pengeluaran.show');
+    Route::put('pengeluaran/cancel/{pengeluaran:docnum}', [PengeluaranController::class, 'cancel'])->name('pengeluaran.cancel');
+    Route::put('pengeluaran/picked/{pengeluaran:docnum}', [PengeluaranController::class, 'picked'])->name('pengeluaran.picked');
 
 
 
