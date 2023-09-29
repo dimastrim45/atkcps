@@ -38,28 +38,28 @@ class PengeluaranController extends Controller
         $permintaanDocnum = $request->input('permintaan_docnum');
 
         // Retrieve all Permintaan records where docnum matches $permintaanDocnum
-        $pengeluarans = Permintaan::where('docnum', $permintaanDocnum)->get();
+        $permintaans = Permintaan::where('docnum', $permintaanDocnum)->get();
 
         // dd($pengeluarans);
 
-        if ($pengeluarans->isEmpty()) {
+        if ($permintaans->isEmpty()) {
             // Handle the case where no matching Permintaan records were found.
             // You might want to display an error message or perform other actions.
             return redirect()->back()->with('error', 'No Permintaan records found for the given docnum.');
         }
 
         // Check if any Permintaan has the 'Rejected' status
-        if ($pengeluarans->contains('status', 'Rejected')) {
+        if ($permintaans->contains('status', 'Rejected')) {
             return redirect()->back()->with('error', 'Permintaan is rejected.');
         }
 
-        elseif ($pengeluarans->contains('status', 'Closed')) {
+        elseif ($permintaans->contains('status', 'Closed')) {
             return redirect()->back()->with('error', 'Permintaan is closed.');
         }
 
         return view('it_admin.pengeluaran-add', [
             'title' => 'pengeluaranadd',
-            'pengeluarans' => $pengeluarans, // Pass the Permintaan collection to the view
+            'permintaans' => $permintaans, // Pass the Permintaan collection to the view
         ]);
     }
 
@@ -68,6 +68,7 @@ class PengeluaranController extends Controller
      */
     public function store(StorePengeluaranRequest $request)
     {
+        // dd($request);
         // Get the current year and month
         $currentYear = date('Y');
         $currentMonth = date('m');
@@ -80,16 +81,14 @@ class PengeluaranController extends Controller
         // Format the next ID as a three-digit string (e.g., 001)
         $formattedID = str_pad($nextID, 3, '0', STR_PAD_LEFT);
     
-        // Fetch the Permintaan record once outside the loop
-        $permintaan = Permintaan::find($request->input('permintaan_id'));
+        // // Fetch the Permintaan record once outside the loop
+        // $permintaan = Permintaan::find($request->input('permintaan_id'));
+        // // dd($permintaan);
     
-        // Check if the Permintaan record exists
-        if (!$permintaan) {
-            return redirect()->back()->withErrors(['error' => 'Permintaan record not found.']);
-        }
-    
-        // Define an array to store the data for updating openqty
-        $openQtyUpdates = [];
+        // // Check if the Permintaan record exists
+        // if (!$permintaan) {
+        //     return redirect()->back()->withErrors(['error' => 'Permintaan record not found.']);
+        // }
     
         // Loop through the items and validate them
         $itemIds = $request->input('item_id');
@@ -99,30 +98,23 @@ class PengeluaranController extends Controller
     
         // Define a flag to track if all items are valid
         $allItemsValid = true;
-    
+        // Define an array to store the data for updating openqty
+        $openQtyUpdates = [];
+        //to check the openqty comparison
         foreach ($itemIds as $key => $itemId) {
-            // Retrieve the item based on the current $itemId
-            $item = Item::find($itemId);
-    
-            if ($item) {
-                // Calculate the available openqty for this permintaan item
-                $openQty = $permintaan->openqty;
-    
-                if ($openQty - $qtys[$key] >= 0) {
-                    // Continue validating other items
-                } else {
-                    // Set the flag to false if any item is not valid
-                    $allItemsValid = false;
-                    break; // Exit the loop immediately
-                }
-    
-                // Prepare data for updating openqty after saving the pengeluaran
-                $openQtyUpdates[$itemId] = $qtys[$key];
+            // Calculate the available openqty for this permintaan item
+            $openQty = Permintaan::where('docnum', $request->input('permintaan_docnum'))->first()->openqty;
+
+            if ($openQty - $qtys[$key] >= 0) {
+                // Continue validating other items
             } else {
-                // Handle the case where the item is not found
+                // Set the flag to false if any item is not valid
                 $allItemsValid = false;
                 break; // Exit the loop immediately
             }
+
+            // Prepare data for updating openqty after saving the pengeluaran
+            $openQtyUpdates[$itemId] = $qtys[$key];
         }
     
         // Check if all items are valid before saving any data
@@ -166,6 +158,20 @@ class PengeluaranController extends Controller
                     $associatedPermintaan->update(['openqty' => $associatedPermintaan->openqty - $qtys[$key]]);
                 }
             }
+
+            $upOpenQty = Permintaan::where('docnum', $request->input('permintaan_docnum'))
+                ->pluck('openqty');
+
+            // Check if all values in $upOpenQty are 0
+            if ($upOpenQty->count() > 0 && $upOpenQty->every(function ($value) {
+                return $value == 0;
+            })) {
+                // Update the status to 'Closed'
+                Permintaan::where('docnum', $request->input('permintaan_docnum'))
+                    ->update(['status' => 'Closed']);
+            }
+
+            // dd($permintaanStat);
         
             // Redirect back or to a success page after all items are saved
             return redirect()->route('pengeluarans');
