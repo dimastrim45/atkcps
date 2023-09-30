@@ -29,11 +29,13 @@
                         </div>
                         <div class="col float-right w-50 text-right">
                             <div class=" pr-3">
-                                <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                                <a href="{{ route('selisih.add') }}">
+                                    <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
                                     autocomplete="off">
                                     <i class="bi bi-plus-lg pr-1"></i>
                                     Tambah Document
                                 </button>
+                                </a>
                             </div>
                         </div>
                     </div>

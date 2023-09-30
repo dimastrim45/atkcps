@@ -9,6 +9,7 @@ use \App\Http\Controllers\BarangMasukController;
 use \App\Http\Controllers\PermintaanController;
 use \App\Http\Controllers\PengeluaranController;
 use \App\Http\Controllers\PlantController;
+use \App\Http\Controllers\SelisihController;
 
 
 // using auth standart route
@@ -63,7 +64,9 @@ Route::middleware('auth')->group(function () {
 
 
     // Selisih for stock opnam
-    Route::view('selisihs', 'it_admin.selisih-index', ['title' => 'selisihs'])->name('selisihs');
+    Route::get('selisihs', [SelisihController::class, 'index'])->name('selisihs');
+    Route::get('selisihadd', [SelisihController::class, 'create'])->name('selisih.add');
+    Route::post('selisihadd/store', [SelisihController::class, 'store'])->name('selisih.store');
 
     // Feedback
     Route::view('feedbacks', 'it_admin.feedbacks', ['title' => 'feedbacks'])->name('feedbacks');

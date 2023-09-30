@@ -34,4 +34,8 @@ class Item extends Model
     public function pengeluaran(){
         return $this->belongsTo(Pengeluaran::class);
     }
+
+    public function selisih(){
+        return $this->hasMany(Selisih::class);
+    }
 }

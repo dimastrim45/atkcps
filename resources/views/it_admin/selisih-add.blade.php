@@ -20,19 +20,17 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body p-0">
-                            <form action="{{ route('barangmasukadd.store') }}" method="POST">
+                            <form action="{{ route('selisih.store') }}" method="POST">
                                 @csrf
-                                <div class="row pl-2 m-2">
+                                {{-- <div class="row pl-2 m-2">
                                     {{ 'Nomor PO' }}
                                     <input type="text" class="ml-2" name="nomorpo">
-                                </div>
+                                </div> --}}
                                 <table class="table" id="thetable">
                                     <thead>
                                         <tr class="text-center">
                                             <th>Item Name</th>
                                             <th>UoM</th>
-                                            <th>Price</th>
-                                            <th>Expired Date</th>
                                             <th>Qty</th>
                                             <th>Action</th>
                                         </tr>
@@ -51,8 +49,6 @@
                                                 <input class="" type="text" name="uom[]" id="uomInput"
                                                     value="" readonly>
                                             </td>
-                                            <td><input type="number" name="price[]"></td>
-                                            <td><input type="date" name="expdate[]"></td>
                                             <td><input type="number" name="qty[]"></td>
                                             <td class="d-flex justify-content-center" id="removeBtn">
                                                 <div class="btn-group" role="group"
@@ -110,14 +106,6 @@
                 var row = button.closest('tr');
                 row.parentNode.removeChild(row);
             }
-
-            // Update UoM based on the selected item in the row
-            function updateUOM(selectElement) {
-                var selectedItem = selectElement.value;
-                var row = selectElement.closest('tr');
-                var uomInput = row.querySelector('input[name="uom[]"]');
-                uomInput.value = uomValues[selectedItem] || '';
-            }
         </script>
 
         <script>
@@ -127,10 +115,17 @@
                 @endforeach
             };
 
-            // Initialize UoM values for the existing rows
-            document.querySelectorAll('select[name="item_name[]"]').forEach(function(selectElement) {
+            // Initialize UoM values for the existing rows and also for the initial load
+            document.querySelectorAll('select[name="item_id[]"]').forEach(function(selectElement) {
                 updateUOM(selectElement);
             });
+
+            function updateUOM(selectElement) {
+                var selectedItem = selectElement.value;
+                var row = selectElement.closest('tr');
+                var uomInput = row.querySelector('input[name="uom[]"]');
+                uomInput.value = uomValues[selectedItem] || '';
+            }
         </script>
     </div>
     <!-- /.content -->
