@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Http\Requests\StoreSelisihRequest;
 use App\Http\Requests\UpdateSelisihRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class SelisihController extends Controller
 {
@@ -15,16 +16,15 @@ class SelisihController extends Controller
      */
     public function index()
     {
-        //Route::view('selisihs', 'it_admin.selisih-index', ['title' => 'selisihs'])->name('selisihs');
-        // $selisihs = $selisihs = Selisih::whereIn('id', function($query) {
-        //     $query->selectRaw('MIN(id)')
-        //         ->from('selisihs')
-        //         ->groupBy('docnum');
-        // })->paginate(20);
+        $selisihs = $selisihs = Selisih::whereIn('id', function($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('selisihs')
+                ->groupBy('docnum');
+        })->paginate(20);
         
         return view('it_admin.selisih-index', [
             'title' => 'selisihs',
-            // 'selisihs' => $selisihs,
+            'selisihs' => $selisihs,
         ]);
     }
 
@@ -76,6 +76,7 @@ class SelisihController extends Controller
             $selisih->docdate = $currentDate;
             $selisih->remarks = $request->input('remarks');
             $selisih->admin = auth()->user()->name; // Assuming you're storing the admin's name
+            $selisih->status = 'Open';
 
             // Set the item-specific data
             $selisih->item_id = $itemId;
@@ -83,18 +84,6 @@ class SelisihController extends Controller
 
             // Save the current item to the database
             $selisih->save();
-
-            // Update the corresponding item in the "Item" table:
-            // - Increment the quantity ("qty") by the quantity of the new "selisih."
-            // - Update the expiration date ("expdate") with the new value.
-            // - Calculate and set the average price by averaging the existing price and the new price.
-            // - Save the changes to the "Item" model in the database.
-            $item = Item::find($itemId);
-            if ($item) {
-                // Add the added quantity to the current "qty"
-                $item->qty = $qtys[$key];
-                $item->save();
-            }
         }
 
         // Redirect back or to a success page
@@ -107,6 +96,8 @@ class SelisihController extends Controller
     public function show(Selisih $selisih)
     {
         //
+        // dd($selisih);
+        
     }
 
     /**
@@ -115,6 +106,14 @@ class SelisihController extends Controller
     public function edit(Selisih $selisih)
     {
         //
+        $selisihdoc = Selisih::where('docnum', $selisih->docnum)->get();
+        $items = Item::where('status', 'active')->get();
+
+        return view('it_admin.selisih-edit', [
+                    'title' => 'selisih-edit',
+                    'selisihs' => $selisihdoc,
+                    'items' => $items,
+        ]);
     }
 
     /**
@@ -122,7 +121,20 @@ class SelisihController extends Controller
      */
     public function update(UpdateSelisihRequest $request, Selisih $selisih)
     {
-        //
+        // Assuming the form fields are named item_id[], uom[], and qty[]
+        $itemIds = $request->input('item_id');
+        $qtys = $request->input('qty');
+
+        foreach ($itemIds as $index => $itemId) {
+            $selisih = Selisih::findOrFail($itemId); // Assuming $itemId corresponds to Selisih's id
+
+            // Update the Selisih model with the new data
+            $selisih->update([
+                'qty' => $qtys[$index],
+            ]);
+        }
+        
+        return redirect(route('selisihs'))->with('success', 'Selisih stock updated');
     }
 
     /**
@@ -132,4 +144,42 @@ class SelisihController extends Controller
     {
         //
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function reject(Request $request, Selisih $selisih)
+    {
+        //
+        Selisih::where('docnum', $selisih->docnum)->update(['status' => 'Rejected']);
+        return redirect(route("selisihs"))->with('success', 'Selisih updated.');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function approve(Request $request, Selisih $selisih)
+    {
+        // Get the item_ids and corresponding qtys from Selisih table where docnum matches
+        $itemsToUpdate = Selisih::where('docnum', $selisih->docnum)
+        ->select('item_id', 'qty')
+        ->get();
+
+        foreach ($itemsToUpdate as $itemToUpdate) {
+            $itemId = $itemToUpdate->item_id;
+            $qty = $itemToUpdate->qty;
+
+            // Update the corresponding item in the "Item" table:
+            $item = Item::find($itemId);
+            if ($item) {
+                // Set the item's qty to the qty from Selisih
+                $item->qty = $qty;
+                $item->save();
+            }
+        }
+        Selisih::where('docnum', $selisih->docnum)->update(['status' => 'Approved']);
+        return redirect(route("selisihs"))->with('success', 'Selisih updated.');
+    }
+
+
 }

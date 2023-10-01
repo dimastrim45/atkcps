@@ -31,10 +31,10 @@
                             <div class=" pr-3">
                                 <a href="{{ route('selisih.add') }}">
                                     <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
-                                    autocomplete="off">
-                                    <i class="bi bi-plus-lg pr-1"></i>
-                                    Tambah Document
-                                </button>
+                                        autocomplete="off">
+                                        <i class="bi bi-plus-lg pr-1"></i>
+                                        Tambah Document
+                                    </button>
                                 </a>
                             </div>
                         </div>
@@ -54,22 +54,39 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($users as $user) --}}
-                                    <tr class="text-center">
-                                        <td>{{ '202308010001' }}</td>
-                                        <td>{{ '10-08-2023' }}</td>
-                                        <td>{{ 'Rois' }}</td>
-                                        <td>{{ 'Stockan Agustus' }}</td>
-                                        <td>{{ 'Approved' }}</td>
-                                        <td class="d-flex justify-content-center">
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <button type="button" class="btn btn-danger">Reject</button>
-                                                <button type="button" class="btn btn-warning">Edit</button>
-                                                <button type="button" class="btn btn-success">Approve</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {{-- @endforeach --}}
+                                    @foreach ($selisihs as $selisih)
+                                        <tr class="text-center">
+                                            <td><a
+                                                    href="{{ route('selisih.edit', ['selisih' => $selisih->docnum]) }}">{{ $selisih->docnum }}</a>
+                                            </td>
+                                            <td>{{ $selisih->docdate }}</td>
+                                            <td>{{ $selisih->admin }}</td>
+                                            <td>{{ $selisih->remarks }}</td>
+                                            <td>{{ $selisih->status }}</td>
+                                            <td class="d-flex justify-content-center">
+                                                <div class="btn-group" role="group"
+                                                    aria-label="Basic mixed styles example">
+                                                    {{-- @if ($selisih->status == 'Open') --}}
+                                                    <form action="/selisih/reject/{{ $selisih->docnum }}" method="POST">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                    {{-- <form action="/selisih/show/{{ $selisih->docnum }}" method="POST">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-warning">Edit</button>
+                                                    </form> --}}
+                                                    <form action="/selisih/approve/{{ $selisih->docnum }}" method="POST">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-success">Approve</button>
+                                                    </form>
+                                                    {{-- @endif --}}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

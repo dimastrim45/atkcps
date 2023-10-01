@@ -11,7 +11,7 @@ class UpdateSelisihRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateSelisihRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'item_id.*' => 'required|exists:items,id', // Validate each item_id in the array to exist in the "items" table
+            'uom.*' => 'required|string|max:255',
+            'qty.*' => 'required|integer|min:1',
+            'remarks' => 'required|string|max:255',
         ];
     }
 }

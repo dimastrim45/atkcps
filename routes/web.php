@@ -67,6 +67,10 @@ Route::middleware('auth')->group(function () {
     Route::get('selisihs', [SelisihController::class, 'index'])->name('selisihs');
     Route::get('selisihadd', [SelisihController::class, 'create'])->name('selisih.add');
     Route::post('selisihadd/store', [SelisihController::class, 'store'])->name('selisih.store');
+    Route::put('selisih/reject/{selisih:docnum}', [SelisihController::class, 'reject'])->name('selisih.reject');
+    Route::put('selisih/approve/{selisih:docnum}', [SelisihController::class, 'approve'])->name('selisih.approve');
+    Route::get('selisih/edit/{selisih:docnum}', [SelisihController::class, 'edit'])->name('selisih.edit');
+    Route::put('selisih/update/{selisih:docnum}', [SelisihController::class, 'update'])->name('selisih.update');
 
     // Feedback
     Route::view('feedbacks', 'it_admin.feedbacks', ['title' => 'feedbacks'])->name('feedbacks');
