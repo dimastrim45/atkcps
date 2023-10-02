@@ -57,10 +57,24 @@ class BarangMasukController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
 
-        // Determine the next available ID for the current month
-        $nextID = BarangMasuk::whereYear('created_at', '=', $currentYear)
-            ->whereMonth('created_at', '=', $currentMonth)
-            ->max('id') + 1;
+        $latestBarangMasuk = BarangMasuk::orderBy('created_at', 'desc')->first();
+
+        if ($latestBarangMasuk) {
+            // Extract the current month and year from the created_at timestamp
+            $storedMonth = date('m', strtotime($latestBarangMasuk->created_at));
+            $storedYear = date('Y', strtotime($latestBarangMasuk->created_at));
+
+            if ($currentYear != $storedYear || $currentMonth != $storedMonth) {
+                // If the current month and year are different, reset DocId to 1
+                $nextID = 1;
+            } else {
+                // Increment the maximum DocId within the current month and year by 1
+                $nextID = $latestBarangMasuk->DocId + 1;
+            }
+        } else {
+            // If there are no existing records, start with DocId 1
+            $nextID = 1;
+        }
 
         // Format the next ID as a three-digit string (e.g., 001)
         $formattedID = str_pad($nextID, 3, '0', STR_PAD_LEFT);
@@ -75,6 +89,7 @@ class BarangMasukController extends Controller
             // Create a new instance of the BarangMasuk model for each item
             $barangMasuk = new BarangMasuk();
             $barangMasuk->docnum = $currentYear . $currentMonth . $formattedID;
+            $barangMasuk->DocId = $nextID;
             // Convert the docdate to the desired format (dd-mm-yyyy)
             $currentDate = Carbon::now()->format('Y-m-d');
             $barangMasuk->docdate = $currentDate;
@@ -118,9 +133,13 @@ class BarangMasukController extends Controller
     {
         $barangmasukdoc = BarangMasuk::where('docnum', $barangmasuk->docnum)->get();
 
+        // Format the date as dd-mm-yyyy using Carbon
+        $docDate = Carbon::parse($barangmasukdoc->first()->docdate)->format('d-m-Y');
+
         return view('it_admin.barang-masuk-show', [
                     'title' => 'barangmasuk-show',
                     'barangmasuks' => $barangmasukdoc,
+                    'docDate' => $docDate, // Pass the formatted date to the view
         ]);
     }
 

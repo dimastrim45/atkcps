@@ -73,23 +73,28 @@ class PengeluaranController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
     
-        // Determine the next available ID for the current month
-        $nextID = Pengeluaran::whereYear('created_at', '=', $currentYear)
-            ->whereMonth('created_at', '=', $currentMonth)
-            ->max('id') + 1;
+        $latestPengeluaran = Pengeluaran::orderBy('created_at', 'desc')->first();
+
+        if ($latestPengeluaran) {
+            // Extract the current month and year from the created_at timestamp
+            $storedMonth = date('m', strtotime($latestPengeluaran->created_at));
+            $storedYear = date('Y', strtotime($latestPengeluaran->created_at));
+
+            if ($currentYear != $storedYear || $currentMonth != $storedMonth) {
+                // If the current month and year are different, reset DocId to 1
+                $nextID = 1;
+            } else {
+                // Increment the maximum DocId within the current month and year by 1
+                $nextID = $latestPengeluaran->DocId + 1;
+            }
+        } else {
+            // If there are no existing records, start with DocId 1
+            $nextID = 1;
+        }
     
         // Format the next ID as a three-digit string (e.g., 001)
         $formattedID = str_pad($nextID, 3, '0', STR_PAD_LEFT);
-    
-        // // Fetch the Permintaan record once outside the loop
-        // $permintaan = Permintaan::find($request->input('permintaan_id'));
-        // // dd($permintaan);
-    
-        // // Check if the Permintaan record exists
-        // if (!$permintaan) {
-        //     return redirect()->back()->withErrors(['error' => 'Permintaan record not found.']);
-        // }
-    
+        
         // Loop through the items and validate them
         $itemIds = $request->input('item_id');
         $prices = $request->input('price');
@@ -102,19 +107,24 @@ class PengeluaranController extends Controller
         $openQtyUpdates = [];
         //to check the openqty comparison
         foreach ($itemIds as $key => $itemId) {
+            // Get the docnum and quantity for the current item
+            $docnum = $request->input('permintaan_docnum');
+            $qty = $qtys[$key];
+        
             // Calculate the available openqty for this permintaan item
-            $openQty = Permintaan::where('docnum', $request->input('permintaan_docnum'))->first()->openqty;
-
-            if ($openQty - $qtys[$key] >= 0) {
+            $openQty = Permintaan::where('docnum', $docnum)
+                ->where('item_id', $itemId)
+                ->first();
+        
+            if ($openQty && $openQty->openqty - $qty >= 0) {
                 // Continue validating other items
+                // Prepare data for updating openqty after saving the pengeluaran
+                $openQtyUpdates[$itemId] = $qty;
             } else {
                 // Set the flag to false if any item is not valid
                 $allItemsValid = false;
                 break; // Exit the loop immediately
             }
-
-            // Prepare data for updating openqty after saving the pengeluaran
-            $openQtyUpdates[$itemId] = $qtys[$key];
         }
     
         // Check if all items are valid before saving any data
@@ -129,6 +139,7 @@ class PengeluaranController extends Controller
                 // Convert the docdate to the desired format (dd-mm-yyyy)
                 $currentDate = Carbon::now()->format('Y-m-d');
                 $pengeluaran->docdate = $currentDate;
+                $pengeluaran->DocId = $nextID;
                 // $pengeluaran->duedate = $request->input('duedate');
                 $pengeluaran->permintaan_id = $request->input('permintaan_id');
                 $pengeluaran->user_id = auth()->id();
@@ -190,9 +201,13 @@ class PengeluaranController extends Controller
         //
         $pengeluarandoc = Pengeluaran::where('docnum', $pengeluaran->docnum)->get();
 
+        // Format the date as dd-mm-yyyy using Carbon
+        $docDate = Carbon::parse($pengeluarandoc->first()->docdate)->format('d-m-Y');
+
         return view('it_admin.pengeluaran-show', [
                     'title' => 'pengeluaran-show',
                     'pengeluarans' => $pengeluarandoc,
+                    'docDate' => $docDate,
         ]);
     }
 

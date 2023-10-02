@@ -4,11 +4,14 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-sm-6">
                     <h1 class="m-0">{{ __('Pengeluaran - ') . $pengeluarans->first()->docnum }}</h1>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
+                </div>
+                <div class="col-sm-6 text-right">
+                    <h1>{{ __('Status - ') . $pengeluarans->first()->status }}</h1>
+                </div>
+            </div>
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
@@ -24,10 +27,10 @@
                                 {{-- add admin and status --}}
                                 <form>
                                     <div class="form-group row">
-                                        <label for="" class="col-sm-6 col-form-label">Status</label>
+                                        <label for="" class="col-sm-6 col-form-label">Doc Date</label>
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control"
-                                                value="{{ $pengeluarans->first()->status }}" disabled>
+                                                value="{{ $docDate }}" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row">

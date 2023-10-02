@@ -55,10 +55,25 @@ class SelisihController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
 
-        // Determine the next available ID for the current month
-        $nextID = Selisih::whereYear('created_at', '=', $currentYear)
-            ->whereMonth('created_at', '=', $currentMonth)
-            ->max('id') + 1;
+        $latestSelisih = Selisih::orderBy('created_at', 'desc')->first();
+
+        if ($latestSelisih) {
+            // Extract the current month and year from the created_at timestamp
+            $storedMonth = date('m', strtotime($latestSelisih->created_at));
+            $storedYear = date('Y', strtotime($latestSelisih->created_at));
+
+            if ($currentYear != $storedYear || $currentMonth != $storedMonth) {
+                // If the current month and year are different, reset DocId to 1
+                $nextID = 1;
+            } else {
+                // Increment the maximum DocId within the current month and year by 1
+                $nextID = $latestSelisih->DocId + 1;
+            }
+        } else {
+            // If there are no existing records, start with DocId 1
+            $nextID = 1;
+        }
+
 
         // Format the next ID as a three-digit string (e.g., 001)
         $formattedID = str_pad($nextID, 3, '0', STR_PAD_LEFT);
@@ -71,6 +86,7 @@ class SelisihController extends Controller
             // Create a new instance of the selisih model for each item
             $selisih = new Selisih();
             $selisih->docnum = $currentYear . $currentMonth . $formattedID;
+            $selisih->DocId = $nextID;
             // Convert the docdate to the desired format (dd-mm-yyyy)
             $currentDate = Carbon::now()->format('Y-m-d');
             $selisih->docdate = $currentDate;

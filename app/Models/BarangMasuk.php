@@ -11,6 +11,7 @@ class BarangMasuk extends Model
 
     protected $fillable = [
         'item_id',
+        'DocId',
         'docnum',
         'docdate',
         'qty',

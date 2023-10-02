@@ -10,6 +10,7 @@ class Selisih extends Model
     use HasFactory;
     protected $fillable = [
         'item_id',
+        'DocId',
         'docnum',
         'docdate',
         'qty',

@@ -66,23 +66,25 @@
                                             <td class="d-flex justify-content-center">
                                                 <div class="btn-group" role="group"
                                                     aria-label="Basic mixed styles example">
-                                                    {{-- @if ($selisih->status == 'Open') --}}
-                                                    <form action="/selisih/reject/{{ $selisih->docnum }}" method="POST">
-                                                        @method('PUT')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger">Reject</button>
-                                                    </form>
-                                                    {{-- <form action="/selisih/show/{{ $selisih->docnum }}" method="POST">
+                                                    @if ($selisih->status == 'Open')
+                                                        <form action="/selisih/reject/{{ $selisih->docnum }}"
+                                                            method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-danger">Reject</button>
+                                                        </form>
+                                                        {{-- <form action="/selisih/show/{{ $selisih->docnum }}" method="POST">
                                                         @method('PUT')
                                                         @csrf
                                                         <button type="submit" class="btn btn-warning">Edit</button>
                                                     </form> --}}
-                                                    <form action="/selisih/approve/{{ $selisih->docnum }}" method="POST">
-                                                        @method('PUT')
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-success">Approve</button>
-                                                    </form>
-                                                    {{-- @endif --}}
+                                                        <form action="/selisih/approve/{{ $selisih->docnum }}"
+                                                            method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success">Approve</button>
+                                                        </form>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>

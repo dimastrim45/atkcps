@@ -49,10 +49,24 @@ class PermintaanController extends Controller
         $currentYear = date('Y');
         $currentMonth = date('m');
 
-        // Determine the next available ID for the current month
-        $nextID = Permintaan::whereYear('created_at', '=', $currentYear)
-            ->whereMonth('created_at', '=', $currentMonth)
-            ->max('id') + 1;
+        $latestPermintaan = Permintaan::orderBy('created_at', 'desc')->first();
+
+        if ($latestPermintaan) {
+            // Extract the current month and year from the created_at timestamp
+            $storedMonth = date('m', strtotime($latestPermintaan->created_at));
+            $storedYear = date('Y', strtotime($latestPermintaan->created_at));
+
+            if ($currentYear != $storedYear || $currentMonth != $storedMonth) {
+                // If the current month and year are different, reset DocId to 1
+                $nextID = 1;
+            } else {
+                // Increment the maximum DocId within the current month and year by 1
+                $nextID = $latestPermintaan->DocId + 1;
+            }
+        } else {
+            // If there are no existing records, start with DocId 1
+            $nextID = 1;
+        }
 
         // Format the next ID as a three-digit string (e.g., 001)
         $formattedID = str_pad($nextID, 3, '0', STR_PAD_LEFT);
@@ -88,6 +102,7 @@ class PermintaanController extends Controller
                 // Create a new instance of the Permintaan model for each item
                 $permintaan = new Permintaan();
                 $permintaan->docnum = $currentYear . $currentMonth . $formattedID;
+                $permintaan->DocId = $nextID;
                 // Convert the docdate to the desired format (dd-mm-yyyy)
                 $currentDate = Carbon::now()->format('Y-m-d');
                 $permintaan->docdate = $currentDate;
@@ -131,9 +146,13 @@ class PermintaanController extends Controller
         // dd($permintaan->docnum);
         $permintaandoc = Permintaan::where('docnum', $permintaan->docnum)->get();
 
+        // Format the date as dd-mm-yyyy using Carbon
+        $docDate = Carbon::parse($permintaandoc->first()->docdate)->format('d-m-Y');
+
         return view('it_admin.permintaan-show', [
                     'title' => 'permintaan-show',
                     'permintaans' => $permintaandoc,
+                    'docDate' => $docDate,
         ]);
     }
 

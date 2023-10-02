@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('permintaans', function (Blueprint $table) {
             $table->id();
+            $table->integer('DocId');
             $table->foreignId('user_id');
             $table->string('requester');
             $table->foreignId('item_id');

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('barang_masuks', function (Blueprint $table) {
             $table->id();
+            $table->integer('DocId');
             $table->foreignId('item_id');
             $table->string('docnum');
             $table->date('docdate');

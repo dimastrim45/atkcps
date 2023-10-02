@@ -20,10 +20,26 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body p-0">
-                            <div class="row pl-2 m-2">
-                                {{ 'Nomor PO' }}
-                                <input type="text" class="ml-2" name="nomorpo" value="{{ $barangmasuks->first()->po_docnum }}"
-                                    disabled>
+                            <div class="row pl-2 m-2 d-flex justify-content-between">
+                                {{-- add admin and status --}}
+                                <form>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-6 col-form-label">Nomor PO</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control"
+                                                value="{{ $barangmasuks->first()->po_docnum }}" disabled>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-6 col-form-label">Doc Date</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control"
+                                                value="{{ $docDate }}" disabled>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                             <table class="table" id="thetable">
                                 <thead>

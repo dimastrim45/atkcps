@@ -11,6 +11,7 @@ class Permintaan extends Model
 
     protected $fillable = [
         'user_id',
+        'DocId',
         'requester',
         'item_id',
         'qty',

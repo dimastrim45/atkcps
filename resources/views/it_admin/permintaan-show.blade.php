@@ -21,16 +21,31 @@
                     <div class="card">
                         <div class="card-body p-0">
                             <div class="row pl-2 m-2 d-flex justify-content-between">
-                                <div>
-                                    {{ 'Due Date' }}
-                                    <input type="date" class="ml-2" name="duedate"
-                                        value="{{ $permintaans->first()->duedate }}" disabled>
-                                </div>
-                                <div>
-                                    {{ 'Requester' }}
-                                    <input type="text" class="ml-2 " name="requester"
-                                        value="{{ $permintaans->first()->requester }}" disabled>
-                                </div>
+                                <form>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-6 col-form-label">Due Date</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control"
+                                                value="{{ $permintaans->first()->duedate }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-6 col-form-label">Doc Date</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control"
+                                                value="{{ $docDate }}" disabled>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form>
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-6 col-form-label">requester</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control"
+                                                value="{{ $permintaans->first()->requester }}" disabled>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                             <table class="table" id="thetable">
                                 <thead>

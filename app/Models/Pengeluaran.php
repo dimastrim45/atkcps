@@ -11,6 +11,7 @@ class Pengeluaran extends Model
 
     protected $fillable = [
         'permintaan_id',
+        'DocId',
         'user_id',
         'requester',
         'admin',

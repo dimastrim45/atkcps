@@ -31,10 +31,10 @@
                         <div class="card-body p-0">
                             <form action="{{ route('pengeluaranadd.store') }}" method="POST">
                                 @csrf
-                                <div class="row pl-2 m-2">
+                                {{-- <div class="row pl-2 m-2">
                                     {{ 'Due Date' }}
                                     <input type="date" class="ml-2" name="duedate">
-                                </div>
+                                </div> --}}
                                 <table class="table" id="thetable">
                                     <thead>
                                         <tr class="text-center">
