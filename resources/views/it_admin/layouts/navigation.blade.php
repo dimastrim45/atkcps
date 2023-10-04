@@ -91,6 +91,15 @@
                 </a>
             </li>
 
+            <li class="nav-item {{ $title === 'reports' ? 'bg-primary rounded' : '' }}">
+                <a href="{{ route('reports') }}" class="nav-link">
+                    <i class="nav-icon far fa-building"></i>
+                    <p>
+                        {{ __('Reports') }}
+                    </p>
+                </a>
+            </li>
+
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

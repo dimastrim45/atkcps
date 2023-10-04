@@ -10,6 +10,7 @@ use \App\Http\Controllers\PermintaanController;
 use \App\Http\Controllers\PengeluaranController;
 use \App\Http\Controllers\PlantController;
 use \App\Http\Controllers\SelisihController;
+use \App\Http\Controllers\ReportController;
 
 
 // using auth standart route
@@ -92,4 +93,8 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'showITAdmin'])->name('profile.showITAdmin');
+
+    // Reports
+    Route::get('reports', [ReportController::class, 'index'])->name('reports');
+    Route::get('itemlist-report', [ReportController::class, 'itemList'])->name('itemlist-report');
 });

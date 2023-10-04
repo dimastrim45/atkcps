@@ -25,7 +25,7 @@ class PengeluaranController extends Controller
         })->paginate(20);
 
         return view('it_admin.pengeluaran-index', [
-            'title' => 'pengeluarans',
+            'title' => 'pengeluarans', 
             'pengeluarans' => $pengeluarans,
         ]);
     }
