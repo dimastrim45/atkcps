@@ -97,4 +97,5 @@ Route::middleware('auth')->group(function () {
     // Reports
     Route::get('reports', [ReportController::class, 'index'])->name('reports');
     Route::get('itemlist-report', [ReportController::class, 'itemList'])->name('itemlist-report');
+    Route::get('itemlist-report/print-pdf', [ReportController::class, 'print_pdf'])->name('itemlist-report.print-pdf');
 });
