@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <form action="{{ route('itemadd') }}" method="POST">
+                        <form action="{{ route('itemadd.store') }}" method="POST">
                             @csrf
 
                             <div class="card-body">

@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('items', [ItemController::class, 'index'])->name('items');
     Route::get('items/search', [ItemController::class, 'search'])->name('item.search');
     Route::get('itemadd', [ItemController::class, 'create'])->name('itemadd');
-    Route::post('itemadd', [ItemController::class, 'store'])->name('itemadd');
+    Route::post('itemadd/store', [ItemController::class, 'store'])->name('itemadd.store');
     Route::get('item/edit/{item}', [ItemController::class, 'edit'])->name('item.edit');
     Route::put('item/update/{item}', [ItemController::class, 'update'])->name('item.update');
     Route::get('itemgroups', [ItemGroupController::class, 'index'])->name('itemgroups.index');
@@ -97,5 +97,9 @@ Route::middleware('auth')->group(function () {
     // Reports
     Route::get('reports', [ReportController::class, 'index'])->name('reports');
     Route::get('itemlist-report', [ReportController::class, 'itemList'])->name('itemlist-report');
-    Route::get('itemlist-report/print-pdf', [ReportController::class, 'print_pdf'])->name('itemlist-report.print-pdf');
+    Route::get('itemlist-report/print-pdf', [ReportController::class, 'itemList_print_pdf'])->name('itemlist-report.print-pdf');
+    Route::get('userlist-report', [ReportController::class, 'userList'])->name('userlist-report');
+    Route::get('userlist-report/print-pdf', [ReportController::class, 'userList_print_pdf'])->name('userlist-report.print-pdf');
+    Route::get('bm-bydate-report', [ReportController::class, 'BMByDate'])->name('bm-bydate-report');
+    Route::get('bm-bydate-report/print-pdf', [ReportController::class, 'BMByDate_print_pdf'])->name('bm-bydate-report.print-pdf');
 });
