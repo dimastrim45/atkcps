@@ -64,7 +64,8 @@
                                     <p class="card-text">Show all list of item</p>
                                 </div>
                             </div>
-                            <div class="card btn btn-light btn-block">
+                            <div class="card btn btn-light btn-block" aria-pressed="false" autocomplete="off"
+                            data-toggle="modal" data-target="#PermintaanByReqModal">
                                 <div class="card-body text-left">
                                     <h5 class="card-title">Permintaan By Requester</h5>
                                     <p class="card-text">Show all list of item</p>
@@ -146,6 +147,39 @@
                     </div>
                 </div>
             </div>
+                        {{-- permintaan by Req modal --}}
+                        <div class="modal fade" id="PermintaanByReqModal" tabindex="-1" role="dialog"
+                        aria-labelledby="PermintaanByReqModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="PermintaanByReqModalLabel">Input Date Range
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="{{ route('permintaan-byreq-report') }}" method="GET">
+                                    @csrf
+                                    <div class="modal-body" class="">
+                                        <div class="form-group">
+                                            <label for="requester">From Date</label>
+                                            <select name="requester_id" id="requester_id" class="form-control">
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+        
             {{-- pengeluaran by date modal --}}
             <div class="modal fade" id="PengeluaranByDateModal" tabindex="-1" role="dialog"
                 aria-labelledby="PengeluaranByDateModalLabel" aria-hidden="true">

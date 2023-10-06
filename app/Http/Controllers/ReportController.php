@@ -15,8 +15,10 @@ class ReportController extends Controller
     // show reports pagw
     public function index()
     {
+        $users = User::all();
         return view('it_admin.report-index', [
             'title' => 'reports',
+            'users' => $users,
         ]);
     }
 
@@ -29,7 +31,6 @@ class ReportController extends Controller
             'items' => $items,
         ]);
     }
-
     public function itemList_print_pdf()
     {
         $items = Item::all();
@@ -50,7 +51,6 @@ class ReportController extends Controller
             'users' => $users,
         ]);
     }
-
     public function userList_print_pdf()
     {
         $users = User::all();
@@ -79,7 +79,6 @@ class ReportController extends Controller
             'toDate' => $toDate,
         ]);
     }
-
     public function BMByDate_print_pdf(Request $request)
     {
         // Get the "from-date" and "to-date" values from the request
@@ -113,8 +112,37 @@ class ReportController extends Controller
             'toDate' => $toDate,
         ]);
     }
-
     public function PermintaanByDate_print_pdf(Request $request)
+    {
+        // Get the "from-date" and "to-date" values from the request
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+
+        // Query the Permintaan model to retrieve data within the date range
+        $permintaans = Permintaan::whereBetween('docdate', [$fromDate, $toDate])->get();
+    
+        $pdf = PDF::loadview('it_admin.report-permintaan-bydate-pdf',[
+            'title' => 'Permintaan List By Date Report',
+            'permintaans' => $permintaans,
+        ])->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->stream();
+    }
+
+    public function PermintaanByReq(Request $request){
+        // Get the requester values from the request
+        $requester_id = $request->input('requester_id');
+        $requester = User::where('id', $requester_id)->first();
+
+        /// Query the Permintaan model to retrieve data where user_id matches requester
+        $permintaans = Permintaan::where('user_id', $requester_id)->get();
+
+        return view('it_admin.report-permintaan-byreq-index', [
+            'title' => 'Permintaan List By Date Report',
+            'permintaans' => $permintaans,
+            'requester' => $requester,
+        ]);
+    }
+    public function PermintaanByReq_print_pdf(Request $request)
     {
         // Get the "from-date" and "to-date" values from the request
         $fromDate = $request->input('fromDate');
@@ -147,7 +175,6 @@ class ReportController extends Controller
             'toDate' => $toDate,
         ]);
     }
-
     public function PengeluaranByDate_print_pdf(Request $request)
     {
         // Get the "from-date" and "to-date" values from the request
@@ -164,7 +191,7 @@ class ReportController extends Controller
         return $pdf->stream();
     }
 
-    
+
     // Selisih Report
     public function SelisihByDate(Request $request){
         // Get the "from-date" and "to-date" values from the request
@@ -181,7 +208,6 @@ class ReportController extends Controller
             'toDate' => $toDate,
         ]);
     }
-
     public function SelisihByDate_print_pdf(Request $request)
     {
         // Get the "from-date" and "to-date" values from the request
