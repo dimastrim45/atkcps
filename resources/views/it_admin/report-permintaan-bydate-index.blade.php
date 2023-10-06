@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-sm-6 float-right text-right">
                     <div class=" pr-3 ">
-                        <form method="GET" action="{{ route('bm-bydate-report.print-pdf') }}" target="_blank">
+                        <form method="GET" action="{{ route('permintaan-bydate-report.print-pdf') }}" target="_blank">
                             <input type="hidden" name="fromDate" value="{{ $fromDate }}">
                             <input type="hidden" name="toDate" value="{{ $toDate }}">
                             <button type="submit" class="btn btn-primary">
@@ -35,32 +35,34 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>Nomor Barang Masuk</th>
+                                        <th>Request Number</th>
+                                        <th>Requester</th>
                                         <th>Doc. Date</th>
+                                        <th>Due Date</th>
                                         <th>Item</th>
                                         <th>Qty</th>
+                                        <th>Open Qty</th>
                                         <th>Exp Date</th>
                                         <th>Price</th>
-                                        <th>Admin</th>
-                                        <th>Nomor PO</th>
                                         <th>Remarks</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php $i=1 @endphp
-                                    @foreach ($barangmasuks as $barangmasuk)
+                                    @foreach ($permintaans as $permintaan)
                                         <tr class="text-center">
                                             <td>{{ $i++ }}</td>
-                                            <td>{{ $barangmasuk->docnum }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($barangmasuk->docdate)) }}</td>
-                                            <td>{{ $barangmasuk->item->name }}</td>
-                                            <td>{{ $barangmasuk->qty }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($barangmasuk->expdate)) }}</td>
-                                            <td>{{ $barangmasuk->price }}</td>
-                                            <td>{{ $barangmasuk->admin }}</td>
-                                            <td>{{ $barangmasuk->po_docnum }}</td>
+                                            <td>{{ $permintaan->docnum }}</td>
+                                            <td>{{ $permintaan->user->name }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($permintaan->docdate)) }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($permintaan->duedate)) }}</td>
+                                            <td>{{ $permintaan->item->name }}</td>
+                                            <td>{{ $permintaan->qty }}</td>
+                                            <td>{{ $permintaan->openqty }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($permintaan->expdate)) }}</td>
+                                            <td>{{ $permintaan->price }}</td>
                                             <td class="word-wrap: break-word w-25">
-                                                {{ $barangmasuk->remarks }}
+                                                {{ $permintaan->remarks }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -79,23 +81,4 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-    <script>
-        $(document).ready(function() {
-            $('#search').on('keyup', function() {
-                let query = $(this).val();
-
-                $.ajax({
-                    url: '{{ route('item.search') }}', // Replace with your search route
-                    method: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function(data) {
-                        // Update the search results div with the received data
-                        $('#search-results').html(data);
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

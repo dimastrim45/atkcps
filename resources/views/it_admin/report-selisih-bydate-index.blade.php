@@ -6,11 +6,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('List Barang Masuk') }}</h1>
+                    <h1 class="m-0">{{ __('List selisih Barang') }}</h1>
                 </div>
                 <div class="col-sm-6 float-right text-right">
                     <div class=" pr-3 ">
-                        <form method="GET" action="{{ route('bm-bydate-report.print-pdf') }}" target="_blank">
+                        <form method="GET" action="{{ route('selisih-bydate-report.print-pdf') }}" target="_blank">
                             <input type="hidden" name="fromDate" value="{{ $fromDate }}">
                             <input type="hidden" name="toDate" value="{{ $toDate }}">
                             <button type="submit" class="btn btn-primary">
@@ -35,32 +35,28 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>Nomor Barang Masuk</th>
+                                        <th>Doc. Number</th>
+                                        <th>Status</th>
+                                        <th>Admin</th>
                                         <th>Doc. Date</th>
                                         <th>Item</th>
                                         <th>Qty</th>
-                                        <th>Exp Date</th>
-                                        <th>Price</th>
-                                        <th>Admin</th>
-                                        <th>Nomor PO</th>
                                         <th>Remarks</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php $i=1 @endphp
-                                    @foreach ($barangmasuks as $barangmasuk)
+                                    @foreach ($selisihs as $selisih)
                                         <tr class="text-center">
                                             <td>{{ $i++ }}</td>
-                                            <td>{{ $barangmasuk->docnum }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($barangmasuk->docdate)) }}</td>
-                                            <td>{{ $barangmasuk->item->name }}</td>
-                                            <td>{{ $barangmasuk->qty }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($barangmasuk->expdate)) }}</td>
-                                            <td>{{ $barangmasuk->price }}</td>
-                                            <td>{{ $barangmasuk->admin }}</td>
-                                            <td>{{ $barangmasuk->po_docnum }}</td>
+                                            <td>{{ $selisih->docnum }}</td>
+                                            <td>{{ $selisih->status }}</td>
+                                            <td>{{ $selisih->admin }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($selisih->docdate)) }}</td>
+                                            <td>{{ $selisih->item->name }}</td>
+                                            <td>{{ $selisih->qty }}</td>
                                             <td class="word-wrap: break-word w-25">
-                                                {{ $barangmasuk->remarks }}
+                                                {{ $selisih->remarks }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -79,23 +75,4 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-    <script>
-        $(document).ready(function() {
-            $('#search').on('keyup', function() {
-                let query = $(this).val();
-
-                $.ajax({
-                    url: '{{ route('item.search') }}', // Replace with your search route
-                    method: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function(data) {
-                        // Update the search results div with the received data
-                        $('#search-results').html(data);
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

@@ -35,7 +35,8 @@
                                     <p class="card-text">Show all list of user</p>
                                 </div>
                             </div>
-                            <div class="card btn btn-light btn-block">
+                            <div class="card btn btn-light btn-block" aria-pressed="false" autocomplete="off"
+                                data-toggle="modal" data-target="#PengeluaranByDateModal">
                                 <div class="card-body text-left">
                                     <h5 class="card-title">Pengeluaran By Date</h5>
                                     <p class="card-text">Show all list of user</p>
@@ -56,7 +57,8 @@
                                     <p class="card-text">Show all list of item</p>
                                 </div>
                             </div>
-                            <div class="card btn btn-light btn-block">
+                            <div class="card btn btn-light btn-block" aria-pressed="false" autocomplete="off"
+                                data-toggle="modal" data-target="#PermintaanByDateModal">
                                 <div class="card-body text-left">
                                     <h5 class="card-title">Permintaan By Date</h5>
                                     <p class="card-text">Show all list of item</p>
@@ -68,7 +70,8 @@
                                     <p class="card-text">Show all list of item</p>
                                 </div>
                             </div>
-                            <div class="card btn btn-light btn-block">
+                            <div class="card btn btn-light btn-block" aria-pressed="false" autocomplete="off"
+                            data-toggle="modal" data-target="#SelisihByDateModal">
                                 <div class="card-body text-left">
                                     <h5 class="card-title">Selisih Stock By Date</h5>
                                     <p class="card-text">Show all list of item</p>
@@ -96,13 +99,107 @@
                             <div class="modal-body" class="">
                                 <div class="form-group">
                                     <label for="fromDate">From Date</label>
-                                    <input type="date" class="form-control" id="fromDate"
-                                        name="fromDate">
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate">
                                 </div>
                                 <div class="form-group">
                                     <label for="toDate">To Date</label>
-                                    <input type="date" class="form-control" id="toDate"
-                                        name="toDate">
+                                    <input type="date" class="form-control" id="toDate" name="toDate">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- permintaan by date modal --}}
+            <div class="modal fade" id="PermintaanByDateModal" tabindex="-1" role="dialog"
+                aria-labelledby="PermintaanByDateModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PermintaanByDateModalLabel">Input Date Range
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('permintaan-bydate-report') }}" method="GET">
+                            @csrf
+                            <div class="modal-body" class="">
+                                <div class="form-group">
+                                    <label for="fromDate">From Date</label>
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="toDate">To Date</label>
+                                    <input type="date" class="form-control" id="toDate" name="toDate">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- pengeluaran by date modal --}}
+            <div class="modal fade" id="PengeluaranByDateModal" tabindex="-1" role="dialog"
+                aria-labelledby="PengeluaranByDateModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PengeluaranByDateModalLabel">Input Date Range
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('pengeluaran-bydate-report') }}" method="GET">
+                            @csrf
+                            <div class="modal-body" class="">
+                                <div class="form-group">
+                                    <label for="fromDate">From Date</label>
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="toDate">To Date</label>
+                                    <input type="date" class="form-control" id="toDate" name="toDate">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {{-- Selisih by date modal --}}
+            <div class="modal fade" id="SelisihByDateModal" tabindex="-1" role="dialog"
+                aria-labelledby="SelisihByDateModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="SelisihByDateModalLabel">Input Date Range
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('selisih-bydate-report') }}" method="GET">
+                            @csrf
+                            <div class="modal-body" class="">
+                                <div class="form-group">
+                                    <label for="fromDate">From Date</label>
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="toDate">To Date</label>
+                                    <input type="date" class="form-control" id="toDate" name="toDate">
                                 </div>
                             </div>
                             <div class="modal-footer">

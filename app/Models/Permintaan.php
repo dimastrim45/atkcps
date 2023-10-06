@@ -25,6 +25,8 @@ class Permintaan extends Model
         'remarks',
     ];
 
+    protected $dates = ['docdate', 'expdate', 'duedate'];
+
     public function item(){
         return $this->belongsTo(Item::class, 'item_id');
     }

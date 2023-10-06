@@ -81,7 +81,7 @@
                                     <textarea class="form-control" id="remarks" rows="3" name="remarks"></textarea>
                                 </div>
                                 <br>
-                                <input type="submit" value="Submit" class="ml-4 btn btn-success">
+                                <input type="submit" value="Submit" class="ml-4 btn btn-success" id="submitBtn">
                             </form>
                         </div>
                         <!-- /.card-body -->
@@ -140,6 +140,24 @@
                 uomInput.value = uomValues[selectedItem] || '';
             }
         </script>
+        <script>
+            $(document).ready(function() {
+                var formSubmitted = false;
+
+                $("#submitBtn").click(function(event) {
+                    if (formSubmitted) {
+                        event.preventDefault(); // Prevent form submission if already submitted
+                    } else {
+                        // Disable the submit button on the first click
+                        $(this).prop("disabled", true);
+
+                        // Set a flag to indicate that the form has been submitted
+                        formSubmitted = true;
+                    }
+                });
+            });
+        </script>
+
     </div>
     <!-- /.content -->
 @endsection
