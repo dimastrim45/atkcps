@@ -1,6 +1,20 @@
 @extends('it_admin.layouts.app')
 
 @section('content')
+    {{-- <script>
+        $(document).ready(function() {
+            @if (session('error'))
+                $('#errorModal').modal('show');
+            @endif
+        });
+    </script> --}}
+    {{-- @if (session('error'))
+        <script>
+            $(document).ready(function() {
+                $('#errorModal').modal('show');
+            });
+        </script>
+    @endif --}}
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -16,13 +30,9 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
-            @if ($errors->any())
+            @if (session('error'))
                 <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                    {{ session('error') }}
                 </div>
             @endif
             <div class="row">
@@ -314,13 +324,4 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-
-
-    <script>
-        @if (session('error'))
-            $(document).ready(function() {
-                $('#errorModal').modal('show');
-            });
-        @endif
-    </script>
 @endsection

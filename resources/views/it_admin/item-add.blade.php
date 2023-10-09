@@ -69,7 +69,7 @@
                                         placeholder="{{ __('Price') }}" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
+                                            <span class="fas bi bi-currency-dollar"></span>
                                         </div>
                                     </div>
                                     @error('price')
@@ -107,7 +107,7 @@
                                     </select>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
+                                            <span class="fas bi bi-boxes"></span>
                                         </div>
                                     </div>
                                     @error('itemgroup_id')
@@ -127,7 +127,7 @@
                                     </select>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
+                                            <span class="fas bi bi-clipboard-check"></span>
                                         </div>
                                     </div>
                                     @error('status')

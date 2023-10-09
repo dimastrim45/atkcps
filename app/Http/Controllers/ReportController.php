@@ -136,6 +136,12 @@ class ReportController extends Controller
         /// Query the Permintaan model to retrieve data where user_id matches requester
         $permintaans = Permintaan::where('user_id', $requester_id)->get();
 
+        if ($permintaans->isEmpty()) {
+            // Redirect to 'reports' route with an error message
+            return redirect()->back()->with('error', 'Data Not Found');
+            
+        }
+
         return view('it_admin.report-permintaan-byreq-index', [
             'title' => 'Permintaan List By Requester Report',
             'permintaans' => $permintaans,
@@ -201,7 +207,8 @@ class ReportController extends Controller
 
         if ($pengeluarans->isEmpty()) {
             // Redirect to 'reports' route with an error message
-            return redirect()->route('reports')->with('error', 'Data Not Found');
+            return redirect()->back()->with('error', 'Data Not Found');
+            
         }
     
         return view('it_admin.report-pengeluaran-byreq-index', [
