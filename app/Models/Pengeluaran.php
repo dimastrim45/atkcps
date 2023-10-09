@@ -13,7 +13,8 @@ class Pengeluaran extends Model
         'permintaan_id',
         'DocId',
         'user_id',
-        'requester',
+        'requester_id',
+        'requester_name',
         'admin',
         'item_id',
         'qty',
@@ -35,6 +36,11 @@ class Pengeluaran extends Model
 
     public function permintaan(){
         return $this->belongsTo(Permintaan::class, 'permintaan_id');
+    }
+
+    public function requester()
+    {
+        return $this->belongsTo(User::class, 'requester_id');
     }
 }
 

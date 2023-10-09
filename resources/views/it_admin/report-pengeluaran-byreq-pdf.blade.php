@@ -43,7 +43,7 @@
     </style>
     <!-- Content Header (Page header) -->
     <center>
-        <h3 class=" p-2"><b>{{ __('List Permintaan By Reequester ') . $requester->name }}</b></h3>
+        <h3 class=" p-2"><b>{{ __('List Pengeluaran By Reequester ') . $requester->name }}</b></h3>
     </center> <!-- /.content-header -->
 
     <!-- Main content -->
@@ -66,20 +66,20 @@
             </thead>
             <tbody>
                 @php $i=1 @endphp
-                @foreach ($permintaans as $permintaan)
+                @foreach ($pengeluarans as $pengeluaran)
                     <tr class="text-center">
                         <td>{{ $i++ }}</td>
-                        <td>{{ $permintaan->docnum }}</td>
-                        <td>{{ $permintaan->user->name }}</td>
-                        <td>{{ date('d-m-Y', strtotime($permintaan->docdate)) }}</td>
-                        <td>{{ date('d-m-Y', strtotime($permintaan->duedate)) }}</td>
-                        <td>{{ $permintaan->item->name }}</td>
-                        <td>{{ $permintaan->qty }}</td>
-                        <td>{{ $permintaan->openqty }}</td>
-                        <td>{{ date('d-m-Y', strtotime($permintaan->expdate)) }}</td>
-                        <td>{{ $permintaan->price }}</td>
+                        <td>{{ $pengeluaran->docnum }}</td>
+                        <td>{{ $pengeluaran->user->name }}</td>
+                        <td>{{ date('d-m-Y', strtotime($pengeluaran->docdate)) }}</td>
+                        <td>{{ date('d-m-Y', strtotime($pengeluaran->duedate)) }}</td>
+                        <td>{{ $pengeluaran->item->name }}</td>
+                        <td>{{ $pengeluaran->qty }}</td>
+                        <td>{{ $pengeluaran->openqty }}</td>
+                        <td>{{ date('d-m-Y', strtotime($pengeluaran->expdate)) }}</td>
+                        <td>{{ $pengeluaran->price }}</td>
                         <td class="word-wrap: break-word w-25">
-                            {{ $permintaan->remarks }}
+                            {{ $pengeluaran->remarks }}
                         </td>
                     </tr>
                 @endforeach

@@ -137,23 +137,24 @@ class ReportController extends Controller
         $permintaans = Permintaan::where('user_id', $requester_id)->get();
 
         return view('it_admin.report-permintaan-byreq-index', [
-            'title' => 'Permintaan List By Date Report',
+            'title' => 'Permintaan List By Requester Report',
             'permintaans' => $permintaans,
             'requester' => $requester,
         ]);
     }
     public function PermintaanByReq_print_pdf(Request $request)
     {
-        // Get the "from-date" and "to-date" values from the request
-        $fromDate = $request->input('fromDate');
-        $toDate = $request->input('toDate');
+        // Get the requester values from the request
+        $requester_id = $request->input('requester_id');
+        $requester = User::where('id', $requester_id)->first();
 
-        // Query the Permintaan model to retrieve data within the date range
-        $permintaans = Permintaan::whereBetween('docdate', [$fromDate, $toDate])->get();
+        /// Query the Permintaan model to retrieve data where user_id matches requester
+        $permintaans = Permintaan::where('user_id', $requester_id)->get();
     
-        $pdf = PDF::loadview('it_admin.report-permintaan-bydate-pdf',[
-            'title' => 'Permintaan List By Date Report',
+        $pdf = PDF::loadview('it_admin.report-permintaan-byreq-pdf',[
+            'title' => 'Permintaan List By Requester Report',
             'permintaans' => $permintaans,
+            'requester' => $requester,
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
     }
@@ -190,6 +191,40 @@ class ReportController extends Controller
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
     }
+    public function PengeluaranByReq(Request $request){
+        // Get the requester values from the request
+        $requester_id = $request->input('requester_id');
+        // $requester = User::where('id', $requester_id)->first();
+
+        /// Query the Pengeluaran model to retrieve data where user_id matches requester
+        $pengeluarans = Pengeluaran::where('requester_id', $requester_id)->get();
+
+        if ($pengeluarans->isEmpty()) {
+            // Redirect to 'reports' route with an error message
+            return redirect()->route('reports')->with('error', 'Data Not Found');
+        }
+    
+        return view('it_admin.report-pengeluaran-byreq-index', [
+            'title' => 'Pengeluaran List By Date Report',
+            'pengeluarans' => $pengeluarans,
+        ]);
+    }
+    public function PengeluaranByReq_print_pdf(Request $request)
+    {
+        // Get the "from-date" and "to-date" values from the request
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+
+        // Query the Pengeluaran model to retrieve data within the date range
+        $pengeluarans = Pengeluaran::whereBetween('docdate', [$fromDate, $toDate])->get();
+    
+        $pdf = PDF::loadview('it_admin.report-pengeluaran-bydate-pdf',[
+            'title' => 'Pengeluaran List By Date Report',
+            'pengeluarans' => $pengeluarans,
+        ])->setOptions(['defaultFont' => 'sans-serif']);
+        return $pdf->stream();
+    }
+
 
 
     // Selisih Report

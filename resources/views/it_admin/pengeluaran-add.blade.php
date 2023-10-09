@@ -52,7 +52,9 @@
                                         @foreach ($permintaans as $permintaan)
                                         <input type="hidden" name="permintaan_id" value="{{ $permintaan->id }}">
                                         <input type="hidden" name="permintaan_docnum" value="{{ $permintaan->docnum }}">
-                                        <input type="hidden" name="requester" value="{{ $permintaan->requester }}">
+                                        <input type="hidden" name="requester_name" value="{{ $permintaan->requester }}">
+                                        <input type="hidden" name="requester_id" value="{{ $permintaan->user_id }}">
+                                        <input type="hidden" name="branch" value="{{ $permintaan->user->plant->name }}">
                                             <tr class="text-center">
                                                 <td class=" w-25">
                                                     <input type="hidden" name="item_id[]"

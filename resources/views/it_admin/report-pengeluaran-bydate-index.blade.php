@@ -56,8 +56,8 @@
                                             <td>{{ $pengeluaran->docnum }}</td>
                                             <td>{{ $pengeluaran->status }}</td>
                                             <td>{{ $pengeluaran->admin }}</td>
-                                            <td>{{ $pengeluaran->requester }}</td>
-                                            <td>{{ $pengeluaran->user->plant->name }}</td>
+                                            <td>{{ $pengeluaran->requester_name }}</td>
+                                            <td>{{ $pengeluaran->requester->plant->name }}</td>
                                             <td>{{ date('d-m-Y', strtotime($pengeluaran->docdate)) }}</td>
                                             <td>{{ $pengeluaran->item->name }}</td>
                                             <td>{{ $pengeluaran->qty }}</td>

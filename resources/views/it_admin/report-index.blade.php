@@ -16,6 +16,15 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12">
                     {{-- the body --}}
@@ -42,7 +51,8 @@
                                     <p class="card-text">Show all list of user</p>
                                 </div>
                             </div>
-                            <div class="card btn btn-light btn-block">
+                            <div class="card btn btn-light btn-block" aria-pressed="false" autocomplete="off"
+                                data-toggle="modal" data-target="#PengeluaranByReqModal">
                                 <div class="card-body text-left">
                                     <h5 class="card-title">Pengeluaran By Requester</h5>
                                     <p class="card-text">Show all list of user</p>
@@ -65,14 +75,14 @@
                                 </div>
                             </div>
                             <div class="card btn btn-light btn-block" aria-pressed="false" autocomplete="off"
-                            data-toggle="modal" data-target="#PermintaanByReqModal">
+                                data-toggle="modal" data-target="#PermintaanByReqModal">
                                 <div class="card-body text-left">
                                     <h5 class="card-title">Permintaan By Requester</h5>
                                     <p class="card-text">Show all list of item</p>
                                 </div>
                             </div>
                             <div class="card btn btn-light btn-block" aria-pressed="false" autocomplete="off"
-                            data-toggle="modal" data-target="#SelisihByDateModal">
+                                data-toggle="modal" data-target="#SelisihByDateModal">
                                 <div class="card-body text-left">
                                     <h5 class="card-title">Selisih Stock By Date</h5>
                                     <p class="card-text">Show all list of item</p>
@@ -83,6 +93,7 @@
                 </div>
             </div>
             <!-- /.row -->
+
             <!-- Modal -->
             <div class="modal fade" id="BMByDateModal" tabindex="-1" role="dialog" aria-labelledby="BMByDateModalLabel"
                 aria-hidden="true">
@@ -115,6 +126,7 @@
                     </div>
                 </div>
             </div>
+
             {{-- permintaan by date modal --}}
             <div class="modal fade" id="PermintaanByDateModal" tabindex="-1" role="dialog"
                 aria-labelledby="PermintaanByDateModalLabel" aria-hidden="true">
@@ -147,39 +159,39 @@
                     </div>
                 </div>
             </div>
-                        {{-- permintaan by Req modal --}}
-                        <div class="modal fade" id="PermintaanByReqModal" tabindex="-1" role="dialog"
-                        aria-labelledby="PermintaanByReqModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="PermintaanByReqModalLabel">Input Date Range
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form action="{{ route('permintaan-byreq-report') }}" method="GET">
-                                    @csrf
-                                    <div class="modal-body" class="">
-                                        <div class="form-group">
-                                            <label for="requester">From Date</label>
-                                            <select name="requester_id" id="requester_id" class="form-control">
-                                                @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
+            {{-- permintaan by Req modal --}}
+            <div class="modal fade" id="PermintaanByReqModal" tabindex="-1" role="dialog"
+                aria-labelledby="PermintaanByReqModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PermintaanByReqModalLabel">Input Date Range
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
+                        <form action="{{ route('permintaan-byreq-report') }}" method="GET">
+                            @csrf
+                            <div class="modal-body" class="">
+                                <div class="form-group">
+                                    <label for="requester">From Date</label>
+                                    <select name="requester_id" id="requester_id" class="form-control">
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
-        
+                </div>
+            </div>
+
             {{-- pengeluaran by date modal --}}
             <div class="modal fade" id="PengeluaranByDateModal" tabindex="-1" role="dialog"
                 aria-labelledby="PengeluaranByDateModalLabel" aria-hidden="true">
@@ -212,6 +224,39 @@
                     </div>
                 </div>
             </div>
+            {{-- pengeluaran by Req modal --}}
+            <div class="modal fade" id="PengeluaranByReqModal" tabindex="-1" role="dialog"
+                aria-labelledby="PengeluaranByReqModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PengeluaranByReqModalLabel">Input Date Range
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('pengeluaran-byreq-report') }}" method="GET">
+                            @csrf
+                            <div class="modal-body" class="">
+                                <div class="form-group">
+                                    <label for="requester">From Date</label>
+                                    <select name="requester_id" id="requester_id" class="form-control">
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             {{-- Selisih by date modal --}}
             <div class="modal fade" id="SelisihByDateModal" tabindex="-1" role="dialog"
                 aria-labelledby="SelisihByDateModalLabel" aria-hidden="true">
@@ -244,8 +289,38 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /.container-fluid -->
 
+            {{-- error modal --}}
+            <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="errorModalLabel">Error Message</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Display your error message here -->
+                            {{ session('error') }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+
+
+    <script>
+        @if (session('error'))
+            $(document).ready(function() {
+                $('#errorModal').modal('show');
+            });
+        @endif
+    </script>
 @endsection

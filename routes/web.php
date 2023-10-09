@@ -108,6 +108,8 @@ Route::middleware('auth')->group(function () {
     Route::get('permintaan-byreq-report/print-pdf', [ReportController::class, 'PermintaanByReq_print_pdf'])->name('permintaan-byreq-report.print-pdf');
     Route::get('pengeluaran-bydate-report', [ReportController::class, 'PengeluaranByDate'])->name('pengeluaran-bydate-report');
     Route::get('pengeluaran-bydate-report/print-pdf', [ReportController::class, 'PengeluaranByDate_print_pdf'])->name('pengeluaran-bydate-report.print-pdf');
+    Route::get('pengeluaran-byreq-report', [ReportController::class, 'PengeluaranByReq'])->name('pengeluaran-byreq-report');
+    Route::get('pengeluaran-byreq-report/print-pdf', [ReportController::class, 'PengeluaranByReq_print_pdf'])->name('pengeluaran-byreq-report.print-pdf');
     Route::get('selisih-bydate-report', [ReportController::class, 'SelisihByDate'])->name('selisih-bydate-report');
     Route::get('selisih-bydate-report/print-pdf', [ReportController::class, 'SelisihByDate_print_pdf'])->name('selisih-bydate-report.print-pdf');
 });

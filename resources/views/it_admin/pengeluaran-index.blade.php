@@ -94,9 +94,9 @@
                                                     href="{{ route('pengeluaran.show', ['pengeluaran' => $pengeluaran->docnum]) }}">{{ $pengeluaran->docnum }}</a>
                                             </td>
                                             <td>{{ $pengeluaran->admin }}</td>
-                                            <td>{{ $pengeluaran->requester }}</td>
+                                            <td>{{ $pengeluaran->requester_name }}</td>
                                             <td>{{ $pengeluaran->docdate }}</td>
-                                            <td>{{ $pengeluaran->user->plant->name }}</td>
+                                            <td>{{ $pengeluaran->requester->plant->name }}</td>
                                             <td>{{ $pengeluaran->status }}</td>
                                             <td class="d-flex justify-content-center">
                                                 <div class="btn-group" role="group"

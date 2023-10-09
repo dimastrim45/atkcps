@@ -146,7 +146,8 @@ class PengeluaranController extends Controller
                 $pengeluaran->admin = auth()->user()->name;
                 $pengeluaran->status = "Open";
                 $pengeluaran->remarks = $request->input('remarks');
-                $pengeluaran->requester = $request->input('requester'); // Assuming you're storing the requester's name
+                $pengeluaran->requester_id = $request->input('requester_id');
+                $pengeluaran->requester_name = $request->input('requester_name'); // Assuming you're storing the requester's name
     
                 // Set the item-specific data
                 $pengeluaran->item_id = $itemId;

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('DocId');
             $table->foreignId('permintaan_id');
             $table->foreignId('user_id');
-            $table->string('requester');
+            $table->foreignId('requester_id');
+            $table->string('requester_name');
             $table->string('admin');
             $table->foreignId('item_id');
             $table->integer('qty')->default(0);

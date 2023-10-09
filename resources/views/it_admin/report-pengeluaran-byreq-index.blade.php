@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('List Permintaan By Reequester ') . $requester->name }}</h1>
+                    <h1 class="m-0">{{ __('List Pengeluaran By Reequester ') . $pengeluarans->first()->requester_name }}</h1>
                 </div>
                 <div class="col-sm-6 float-right text-right">
                     <div class=" pr-3 ">
-                        <form method="GET" action="{{ route('permintaan-byreq-report.print-pdf') }}" target="_blank">
-                            <input type="hidden" name="requester_id" value="{{ $requester->id }}">
+                        <form method="GET" action="{{ route('pengeluaran-byreq-report.print-pdf') }}" target="_blank">
+                            <input type="hidden" name="requester_id" value="{{ $pengeluarans->first()->requester_id }}">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-printer pr-1"></i> Print
                             </button>
@@ -34,10 +34,12 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>Request Number</th>
+                                        <th>Doc. Number</th>
                                         <th>Requester</th>
+                                        <th>Branch</th>
                                         <th>Doc. Date</th>
                                         <th>Due Date</th>
+                                        <th>Admin</th>
                                         <th>Item</th>
                                         <th>Qty</th>
                                         <th>Open Qty</th>
@@ -48,20 +50,22 @@
                                 </thead>
                                 <tbody>
                                     @php $i=1 @endphp
-                                    @foreach ($permintaans as $permintaan)
+                                    @foreach ($pengeluarans as $pengeluaran)
                                         <tr class="text-center">
                                             <td>{{ $i++ }}</td>
-                                            <td>{{ $permintaan->docnum }}</td>
-                                            <td>{{ $permintaan->user->name }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($permintaan->docdate)) }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($permintaan->duedate)) }}</td>
-                                            <td>{{ $permintaan->item->name }}</td>
-                                            <td>{{ $permintaan->qty }}</td>
-                                            <td>{{ $permintaan->openqty }}</td>
-                                            <td>{{ date('d-m-Y', strtotime($permintaan->expdate)) }}</td>
-                                            <td>{{ $permintaan->price }}</td>
+                                            <td>{{ $pengeluaran->docnum }}</td>
+                                            <td>{{ $pengeluaran->requester_name }}</td>
+                                            <td>{{ $pengeluaran->requester->plant->name }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($pengeluaran->docdate)) }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($pengeluaran->duedate)) }}</td>
+                                            <td>{{ $pengeluaran->admin }}</td>
+                                            <td>{{ $pengeluaran->item->name }}</td>
+                                            <td>{{ $pengeluaran->qty }}</td>
+                                            <td>{{ $pengeluaran->openqty }}</td>
+                                            <td>{{ date('d-m-Y', strtotime($pengeluaran->expdate)) }}</td>
+                                            <td>{{ $pengeluaran->price }}</td>
                                             <td class="word-wrap: break-word w-25">
-                                                {{ $permintaan->remarks }}
+                                                {{ $pengeluaran->remarks }}
                                             </td>
                                         </tr>
                                     @endforeach
