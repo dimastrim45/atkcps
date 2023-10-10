@@ -95,6 +95,9 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer clearfix">
+                            <div class="d-flex justify-content-center">
+                                {{ $selisihs->links() }}
+                            </div>
                         </div>
                     </div>
 

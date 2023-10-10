@@ -89,7 +89,8 @@
                                                         </form>
                                                     @endunless
 
-                                                    <a href="{{ route('item.edit', ['item' => $item->id]) }}"><button type="button" class="btn btn-warning">Edit</button></a>
+                                                    <a href="{{ route('item.edit', ['item' => $item->id]) }}"><button
+                                                            type="button" class="btn btn-warning">Edit</button></a>
 
                                                     @unless ($item->status === 'active')
                                                         <form action="items/active/{{ $item->id }}" method="POST">
@@ -108,6 +109,9 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer clearfix">
+                            <div class="d-flex justify-content-center">
+                                {{ $items->links() }}
+                            </div>
                         </div>
                     </div>
 

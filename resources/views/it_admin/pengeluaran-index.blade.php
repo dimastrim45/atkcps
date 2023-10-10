@@ -125,6 +125,9 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer clearfix">
+                            <div class="d-flex justify-content-center">
+                                {{ $pengeluarans->links() }}
+                            </div>
                         </div>
                     </div>
 

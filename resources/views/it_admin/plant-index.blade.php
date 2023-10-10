@@ -79,6 +79,9 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer clearfix">
+                            <div class="d-flex justify-content-center">
+                                {{ $plants->links() }}
+                            </div>
                         </div>
                     </div>
 
