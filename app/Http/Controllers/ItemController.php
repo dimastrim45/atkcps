@@ -7,6 +7,7 @@ use App\Models\ItemGroup;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use Illuminate\Support\Facades\DB;
 // use Carbon\Carbon;
 // use Illuminate\Pagination\Paginator;
 
@@ -120,16 +121,24 @@ class ItemController extends Controller
 
     public function search(Request $request)
     {
-        $itemgroups = ItemGroup::all();
-        $query = $request->input('query');
+        if ($request->ajax()) {
+            $output = '';
+            $query = $request->get('query');
 
-        // Perform the search query using Eloquent or other database methods
-        $items = Item::where('name', 'like', '%' . $query . '%')->get();
+            if ($query != '') {
+                // Perform a search based on the query
+                $items = Item::where('name', 'like', '%' . $query . '%')->get();
+            } else {
+                // If the query is empty, retrieve all items and paginate them
+                $items = Item::paginate(20);
+            }
 
-        return view('it_admin.items', [
-            'items' => $items,
-            'title' => 'itemsSearch',
-            'itemgroups' => $itemgroups,
-        ]);
+            foreach ($items as $item) {
+                // Build the HTML for each row
+                $output .= view('it_admin.item-row')->with('item', $item)->render();
+            }
+
+            return $output;
+        }
     }
 }

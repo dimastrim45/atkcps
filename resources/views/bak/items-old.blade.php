@@ -20,7 +20,6 @@
                 <div class="col-lg-12">
                     <div class="row mb-2">
                         <form action="{{ route('item.search') }}" method="GET" class="w-50">
-                            @csrf <!-- Add CSRF token field -->
                             <div class="col input-group w-50">
                                 <input type="text" name="query" id="search" class="form-control"
                                     placeholder="Search for item ...">
@@ -69,18 +68,41 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="item-table-body">
-                                    <!-- Table rows will be dynamically added here -->
-                                    <!-- Check if the search query is empty -->
-                                    @if (request()->query('query') == '')
-                                        @foreach ($items as $item)
-                                            <!-- Render table rows for all items -->
-                                            @include('it_admin.item-row', ['item' => $item])
-                                        @endforeach
-                                    @else
-                                        <!-- Render search results using AJAX -->
-                                        <!-- Table rows will be dynamically added here -->
-                                    @endif
+                                <tbody>
+                                    @foreach ($items as $item)
+                                        <tr class="text-center">
+                                            <td>{{ $item->name }}</td>
+                                            <td>{{ $item->itemgroup->code }}</td>
+                                            <td>{{ $item->uom }}</td>
+                                            <td>{{ $item->price }}</td>
+                                            <td>{{ $item->expdate }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>{{ $item->status }}</td>
+                                            <td class="d-flex justify-content-center">
+                                                <div class="btn-group" role="group"
+                                                    aria-label="Basic mixed styles example">
+                                                    @unless ($item->status === 'inactive')
+                                                        <form action="/items/inactive/{{ $item->id }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-danger">Inactive</button>
+                                                        </form>
+                                                    @endunless
+
+                                                    <a href="{{ route('item.edit', ['item' => $item->id]) }}"><button
+                                                            type="button" class="btn btn-warning">Edit</button></a>
+
+                                                    @unless ($item->status === 'active')
+                                                        <form action="items/active/{{ $item->id }}" method="POST">
+                                                            @method('PUT')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success">Active</button>
+                                                        </form>
+                                                    @endunless
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -97,46 +119,30 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                // Reference to the search input field
-                var $searchInput = $('#search');
+    </div>
+    <!-- /.content -->
+    <script>
+        $(document).ready(function() {
+            $('#search').on('input', function() {
+                var query = $(this).val();
 
-                // Reference to the item table body
-                var $itemTableBody = $('#item-table-body');
-
-                // Function to perform the search and update the table
-                function performSearch(query) {
+                if (query.length >= 3) {
                     $.ajax({
-                        url: "{{ route('item.search') }}",
+                        url: "{{ route('items.search') }}",
                         method: 'GET',
                         data: {
                             query: query
                         },
+                        dataType: 'json',
                         success: function(data) {
-                            // Replace the table body with the updated data
-                            $itemTableBody.html(data);
+                            $('#item-table tbody').html(data.table_data);
                         }
                     });
+                } else {
+                    // Clear the table if the search input is empty or less than 3 characters
+                    $('#item-table tbody').empty();
                 }
-
-                // Event handler for keyup
-                $searchInput.on('keyup', function() {
-                    var query = $(this).val();
-
-                    if (query.length >= 3) {
-                        performSearch(query);
-                    } else if (query.length === 0) {
-                        // If the search input is empty, show all items
-                        performSearch('');
-                    } else {
-                        // Clear the table if the search input is less than 3 characters
-                        $itemTableBody.empty();
-                    }
-                });
             });
-        </script>
-    </div>
-    <!-- /.content -->
+        });
+    </script>
 @endsection
