@@ -19,14 +19,19 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row mb-2">
-                        <div class="col input-group w-50">
-                            <input type="text" class="form-control" placeholder="Search for item ...">
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                        <form action="{{ route('barangmasuk.search') }}" method="GET" class="w-50">
+                            @csrf <!-- Add CSRF token field -->
+                            <div class="col input-group w-50">
+                                <input type="text" name="query" id="search" class="form-control"
+                                    placeholder="Search for item ...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
+                        <button id="searchButton">Search "gil"</button>
                         <div class="col float-right w-50 text-right">
                             <div class=" pr-3">
                                 <a href="{{ route('barangmasukadd') }}">
@@ -52,20 +57,20 @@
                                         <th>Remarks</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($barangmasuks as $barangmasuk)
-                                        <tr class="text-center">
-                                            <td><a
-                                                    href="{{ route('barangmasuk.show', ['barangmasuk' => $barangmasuk->docnum]) }}">{{ $barangmasuk->docnum }}</a>
-                                            </td>
-                                            <td>{{ $barangmasuk->admin }}</td>
-                                            <td>{{ $barangmasuk->po_docnum }}</td>
-                                            <td>{{ $barangmasuk->docdate }}</td>
-                                            <td class="word-wrap: break-word w-25">
-                                                {{ $barangmasuk->remarks }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                <tbody id="barangmasuk-table-body">
+                                    <!-- Table rows will be dynamically added here -->
+                                    <!-- Check if the search query is empty -->
+                                    @if (request()->query('query') == '')
+                                        @foreach ($barangmasuks as $barangmasuk)
+                                            <!-- Render table rows for all barangmasuks -->
+                                            @include('it_admin.barang-masuk-row', [
+                                                'barangmasuk' => $barangmasuk,
+                                            ])
+                                        @endforeach
+                                    @else
+                                        <!-- Render search results using AJAX -->
+                                        <!-- Table rows will be dynamically added here -->
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -82,6 +87,70 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Reference to the search input field
+                var $searchInput = $('#search');
+
+                // Reference to the barangmasuk table body
+                var $barangmasukTableBody = $('#barangmasuk-table-body');
+
+                // Function to perform the search and update the table
+                function performSearch(query) {
+                    $.ajax({
+                        url: "{{ route('barangmasuk.search') }}",
+                        method: 'GET',
+                        data: {
+                            query: query
+                        },
+                        success: function(data) {
+                            // Replace the table body with the updated data
+                            $barangmasukTableBody.html(data);
+                        }
+                    });
+                }
+
+                // Event handler for keyup
+                $searchInput.on('keyup', function() {
+                    var query = $(this).val();
+
+                    if (query.length >= 3) {
+                        performSearch(query);
+                    } else if (query.length === 0) {
+                        // If the search input is empty, show all barangmasuks
+                        performSearch('');
+                    } else {
+                        // Clear the table if the search input is less than 3 characters
+                        $barangmasukTableBody.empty();
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            document.getElementById("searchButton").addEventListener("click", function(
+            event) { // Include 'event' as a parameter
+                var query = "gil"; // Set the query value to "gil"
+
+                // Send the query to your Laravel controller using AJAX
+                $.ajax({
+                    type: 'GET', // You can change this to 'POST' if needed
+                    url: "{{ route('barangmasuk.search') }}", // Replace with your actual search route
+                    data: {
+                        query: query
+                    }, // Send the query as a parameter
+                    success: function(data) {
+                        // Handle the response here (e.g., update your page with the results)
+                    },
+                    error: function() {
+                        // Handle errors if necessary
+                    }
+                });
+            });
+        </script>
+
     </div>
     <!-- /.content -->
 @endsection

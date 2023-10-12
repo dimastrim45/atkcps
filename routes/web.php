@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('barangmasukadd', [BarangMasukController::class, 'create'])->name('barangmasukadd');
     Route::post('barangmasukadd/store', [BarangMasukController::class, 'store'])->name('barangmasukadd.store');
     Route::get('barangmasuk/show/{barangmasuk:docnum}', [BarangMasukController::class, 'show'])->name('barangmasuk.show');
+    Route::get('barangmasuk/search', [BarangMasukController::class, 'search'])->name('barangmasuk.search');
 
     // Permintaan CRUD
     Route::get('permintaans', [PermintaanController::class, 'index'])->name('permintaans');

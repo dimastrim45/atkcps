@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangMasuk;
 use App\Models\Item;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreBarangMasukRequest;
 use App\Http\Requests\UpdateBarangMasukRequest;
 use Illuminate\Support\Facades\Log;
@@ -165,5 +166,39 @@ class BarangMasukController extends Controller
     public function destroy(BarangMasuk $barangMasuk)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = '';
+            $query = $request->get('query');
+
+            if ($query != '') {
+                // Perform a search based on multiple columns
+                $barangmasuks = BarangMasuk::where('docnum', 'like', '%' . $query . '%')
+                    ->orWhere('admin', 'like', '%' . $query . '%')
+                    ->orWhere('remarks', 'like', '%' . $query . '%')
+                    ->orWhere('po_docnum', 'like', '%' . $query . '%')
+                    ->get();
+                // dd($barangmasuks);
+
+                // $barangmasuks = $foundBarangmasuks->groupBy('docnum');
+            } else {
+                // If the query is empty, retrieve all BarangMasuk and paginate them
+                $barangmasuks = BarangMasuk::whereIn('id', function($query) {
+                    $query->selectRaw('MIN(id)')
+                        ->from('barang_masuks')
+                        ->groupBy('docnum');
+                })->paginate(20);
+            }
+
+            foreach ($barangmasuks as $barangmasuk) {
+                // Build the HTML for each row
+                $output .= view('it_admin.barang-masuk-row')->with('barangmasuk', $barangmasuk)->render();
+            }
+
+            return $output;
+        }
     }
 }
