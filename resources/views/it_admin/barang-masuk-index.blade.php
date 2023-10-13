@@ -23,7 +23,7 @@
                             @csrf <!-- Add CSRF token field -->
                             <div class="col input-group w-50">
                                 <input type="text" name="query" id="search" class="form-control"
-                                    placeholder="Search for item ...">
+                                    placeholder="Search for barang masuk ...">
                                 <div class="input-group-append">
                                     <button class="btn btn-secondary" type="submit">
                                         <i class="fa fa-search"></i>
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                         </form>
-                        <button id="searchButton">Search "gil"</button>
+                        {{-- <button id="searchButton">Search "gil"</button> --}}
                         <div class="col float-right w-50 text-right">
                             <div class=" pr-3">
                                 <a href="{{ route('barangmasukadd') }}">
@@ -129,7 +129,7 @@
             });
         </script>
 
-        <script>
+        {{-- <script>
             document.getElementById("searchButton").addEventListener("click", function(
             event) { // Include 'event' as a parameter
                 var query = "gil"; // Set the query value to "gil"
@@ -149,7 +149,7 @@
                     }
                 });
             });
-        </script>
+        </script> --}}
 
     </div>
     <!-- /.content -->

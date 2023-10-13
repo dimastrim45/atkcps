@@ -241,4 +241,35 @@ class PermintaanController extends Controller
         // Permintaan::where('docnum', $permintaan->docnum)->update(['status' => 'Rejected']);
         return redirect(route("permintaans"))->with('success', 'Permintaan updated.');
     }
+
+    public function search(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = '';
+            $query = $request->get('query');
+
+            if ($query != '') {
+                // Perform a search based on multiple columns
+                $permintaans = Permintaan::where('docnum', 'like', '%' . $query . '%')
+                    ->orWhere('requester', 'like', '%' . $query . '%')
+                    ->orWhere('remarks', 'like', '%' . $query . '%')
+                    ->get();
+            } else {
+                // If the query is empty, retrieve all Pwemintaan and paginate them
+                $permintaans = Permintaan::whereIn('id', function($query) {
+                    $query->selectRaw('MIN(id)')
+                        ->from('permintaans')
+                        ->groupBy('docnum');
+                })->paginate(20);
+            }
+
+            foreach ($permintaans as $permintaan) {
+                // Build the HTML for each row
+                $output .= view('it_admin.permintaan-row')->with('permintaan', $permintaan)->render();
+            }
+
+            return $output;
+        }
+    }
+
 }

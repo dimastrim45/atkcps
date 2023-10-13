@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Pengeluaran;
 use App\Models\Permintaan;
 use App\Models\Item;
+use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Requests\StorePengeluaranRequest;
 use App\Http\Requests\UpdatePengeluaranRequest;
-use Illuminate\Http\Request;
+
 
 class PengeluaranController extends Controller
 {
@@ -281,5 +282,36 @@ class PengeluaranController extends Controller
         //
         Pengeluaran::where('docnum', $pengeluaran->docnum)->update(['status' => 'Picked']);
         return redirect(route("pengeluarans"))->with('success', 'Pengeluaran updated.');
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->ajax()) {
+            $output = '';
+            $query = $request->get('query');
+
+            if ($query != '') {
+                // Perform a search based on multiple columns
+                $pengeluarans = Pengeluaran::where('docnum', 'like', '%' . $query . '%')
+                    ->orWhere('admin', 'like', '%' . $query . '%')
+                    ->orWhere('requester_name', 'like', '%' . $query . '%')
+                    ->orWhere('remarks', 'like', '%' . $query . '%')
+                    ->get();
+            } else {
+                // If the query is empty, retrieve all Pwemintaan and paginate them
+                $pengeluarans = Pengeluaran::whereIn('id', function($query) {
+                    $query->selectRaw('MIN(id)')
+                        ->from('pengeluarans')
+                        ->groupBy('docnum');
+                })->paginate(20);
+            }
+
+            foreach ($pengeluarans as $pengeluaran) {
+                // Build the HTML for each row
+                $output .= view('it_admin.pengeluaran-row')->with('pengeluaran', $pengeluaran)->render();
+            }
+
+            return $output;
+        }
     }
 }

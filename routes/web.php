@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('permintaan/show/{permintaan:docnum}', [PermintaanController::class, 'show'])->name('permintaan.show');
     Route::put('permintaan/close/{permintaan:docnum}', [PermintaanController::class, 'close'])->name('permintaan.close');
     Route::put('permintaan/reject/{permintaan:docnum}', [PermintaanController::class, 'reject'])->name('permintaan.reject');
+    Route::get('permintaan/search', [PermintaanController::class, 'search'])->name('permintaan.search');
 
     // Pengeluaran
     Route::get('pengeluarans', [PengeluaranController::class, 'index'])->name('pengeluarans');
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('pengeluaran/show/{pengeluaran:docnum}', [PengeluaranController::class, 'show'])->name('pengeluaran.show');
     Route::put('pengeluaran/cancel/{pengeluaran:docnum}', [PengeluaranController::class, 'cancel'])->name('pengeluaran.cancel');
     Route::put('pengeluaran/picked/{pengeluaran:docnum}', [PengeluaranController::class, 'picked'])->name('pengeluaran.picked');
+    Route::get('pengeluaran/search', [PengeluaranController::class, 'search'])->name('pengeluaran.search');
 
 
 

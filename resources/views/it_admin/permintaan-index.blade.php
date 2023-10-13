@@ -28,14 +28,18 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row mb-2">
-                        <div class="col input-group w-50">
-                            <input type="text" class="form-control" placeholder="Search for item ...">
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                        <form action="{{ route('permintaan.search') }}" method="GET" class="w-50">
+                            @csrf <!-- Add CSRF token field -->
+                            <div class="col input-group w-50">
+                                <input type="text" name="query" id="search" class="form-control"
+                                    placeholder="Search for permintaan ...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="col float-right w-50 text-right">
                             <div class=" pr-3">
                                 <a href="{{ route('permintaanadd') }}">
@@ -63,39 +67,20 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($permintaans as $permintaan)
-                                        <tr class="text-center">
-                                            <td><a
-                                                    href="{{ route('permintaan.show', ['permintaan' => $permintaan->docnum]) }}">{{ $permintaan->docnum }}</a>
-                                            </td>
-                                            <td>{{ $permintaan->requester }}</td>
-                                            <td>{{ $permintaan->docdate }}</td>
-                                            <td>{{ $permintaan->duedate }}</td>
-                                            <td>{{ $permintaan->user->plant->name }}</td>
-                                            <td>{{ $permintaan->status }}</td>
-                                            <td class="d-flex justify-content-center">
-                                                <div class="btn-group" role="group"
-                                                    aria-label="Basic mixed styles example">
-                                                    @if ($permintaan->status == 'Open')
-                                                        <form action="/permintaan/reject/{{ $permintaan->docnum }}"
-                                                            method="POST">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <button type="submit"
-                                                                class="btn btn-danger mr-2">Reject</button>
-                                                        </form>
-                                                        <form action="/permintaan/close/{{ $permintaan->docnum }}"
-                                                            method="POST">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-success">Close</button>
-                                                        </form>
-                                                    @endif
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                <tbody id="permintaan-table-body">
+                                    <!-- Table rows will be dynamically added here -->
+                                    <!-- Check if the search query is empty -->
+                                    @if (request()->query('query') == '')
+                                        @foreach ($permintaans as $permintaan)
+                                            <!-- Render table rows for all permintaans -->
+                                            @include('it_admin.permintaan-row', [
+                                                'permintaan' => $permintaan,
+                                            ])
+                                        @endforeach
+                                    @else
+                                        <!-- Render search results using AJAX -->
+                                        <!-- Table rows will be dynamically added here -->
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -112,6 +97,48 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // Reference to the search input field
+                var $searchInput = $('#search');
+
+                // Reference to the permintaan table body
+                var $permintaanTableBody = $('#permintaan-table-body');
+
+                // Function to perform the search and update the table
+                function performSearch(query) {
+                    $.ajax({
+                        url: "{{ route('permintaan.search') }}",
+                        method: 'GET',
+                        data: {
+                            query: query
+                        },
+                        success: function(data) {
+                            // Replace the table body with the updated data
+                            $permintaanTableBody.html(data);
+                        }
+                    });
+                }
+
+                // Event handler for keyup
+                $searchInput.on('keyup', function() {
+                    var query = $(this).val();
+
+                    if (query.length >= 3) {
+                        performSearch(query);
+                    } else if (query.length === 0) {
+                        // If the search input is empty, show all permintaans
+                        performSearch('');
+                    } else {
+                        // Clear the table if the search input is less than 3 characters
+                        $permintaanTableBody.empty();
+                    }
+                });
+            });
+        </script>
+
     </div>
     <!-- /.content -->
 @endsection
