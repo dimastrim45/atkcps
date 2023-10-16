@@ -33,6 +33,13 @@ class HomeController extends Controller
         ]);
     }
 
+    public function no_license()
+    {
+        return view('it_admin.users.no-license',[
+            'title' => 'no-license'
+        ]);
+    }
+
     // admin
     public function indexadminit()
     {

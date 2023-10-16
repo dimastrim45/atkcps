@@ -16,14 +16,17 @@ use \App\Http\Controllers\ReportController;
 // using auth standart route
 Auth::routes();
 
-// first login
-Route::get('/', [App\Http\Controllers\HomeController::class, 'indexadminit'])->name('home');
+
 
 // all route below has to pass authorization
 Route::middleware('auth')->group(function () {
 
+    // first login
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'indexadminit'])->name('home');
+
     // for admin
     Route::get('homeadminit', [HomeController::class, 'indexadminit'])->name('homeadminit');
+    Route::get('no_license', [HomeController::class, 'no_license'])->name('no_license');
 
     // Item CRUD
     Route::get('items', [ItemController::class, 'index'])->name('items');

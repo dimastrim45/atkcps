@@ -33,7 +33,7 @@ class LoginController extends Controller
         } else  if (auth()->user()->license === 'manager'){
             return redirect(RouteServiceProvider::NEWITEMADMIN);
         } else {
-            return redirect()->intended('/');
+            return redirect('no_license');
         }
     }
 
@@ -56,7 +56,7 @@ class LoginController extends Controller
         } else  if (auth()->user()->license === 'manager'){
             return redirect(RouteServiceProvider::NEWITEMADMIN);
         } else {
-            return redirect()->intended('/');
+            return redirect('no_license');
         }
     }
 
