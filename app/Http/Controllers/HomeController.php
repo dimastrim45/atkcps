@@ -58,7 +58,7 @@ class HomeController extends Controller
 
         // Query to get open and overdue permintaan
         $overduePermintaan = Permintaan::select(\DB::raw('COUNT(DISTINCT docnum) as count'))
-            ->whereDate('created_at', '<', $threeDaysAgo)
+            ->whereDate('duedate', '<', $threeDaysAgo)
             ->where('status', 'Open')
             ->get();
         // Extract the count from the result

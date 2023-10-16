@@ -27,7 +27,7 @@ class StorePermintaanRequest extends FormRequest
             'price.*'     => 'required|numeric|min:0',
             'expdate.*'   => 'nullable|date',
             'remarks'     => 'nullable|string|max:255',
-            'duedate.*'   => 'required|date',
+            'duedate.*'   => 'required|date|future_or_today',
         ];
     }
 }

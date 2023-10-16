@@ -17,7 +17,7 @@ use \App\Http\Controllers\ReportController;
 Auth::routes();
 
 // first login
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'indexadminit'])->name('home');
 
 // all route below has to pass authorization
 Route::middleware('auth')->group(function () {

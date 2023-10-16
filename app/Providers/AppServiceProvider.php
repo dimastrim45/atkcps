@@ -31,5 +31,13 @@ class AppServiceProvider extends ServiceProvider
         Validator::extend('no_spaces', function ($attribute, $value, $parameters, $validator) {
             return (new NoSpaces)->passes($attribute, $value);
         });
+
+        Validator::extend('future_or_today', function ($attribute, $value, $parameters, $validator) {
+            // Convert the input value to a Carbon date
+            $date = \Carbon\Carbon::parse($value);
+    
+            // Check if the date is greater than or equal to today
+            return $date >= \Carbon\Carbon::today();
+        });
     }
 }

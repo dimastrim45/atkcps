@@ -29,8 +29,7 @@
                                     <div class="form-group row">
                                         <label for="" class="col-sm-6 col-form-label">Doc Date</label>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control"
-                                                value="{{ $docDate }}" disabled>
+                                            <input type="text" class="form-control" value="{{ $docDate }}" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -43,17 +42,17 @@
                                 </form>
                                 <form>
                                     <div class="form-group row">
-                                        <label for="" class="col-sm-6 col-form-label">Admin</label>
-                                        <div class="col-sm-6">
+                                        <label for="" class="col-sm-4 col-form-label">Admin</label>
+                                        <div class="col-sm-8">
                                             <input type="text" class="form-control"
                                                 value="{{ $pengeluarans->first()->admin }}" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="" class="col-sm-6 col-form-label">Requester</label>
-                                        <div class="col-sm-6">
+                                        <label for="" class="col-sm-4 col-form-label">Requester</label>
+                                        <div class="col-sm-8">
                                             <input type="text" class="form-control"
-                                                value="{{ $pengeluarans->first()->requester }}" disabled>
+                                                value="{{ $pengeluarans->first()->requester_name }}" disabled>
                                         </div>
                                     </div>
                                 </form>
