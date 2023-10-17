@@ -16,11 +16,20 @@ class PermintaanController extends Controller
      */
     public function index()
     {
-        $permintaans = $permintaans = Permintaan::whereIn('id', function($query) {
-            $query->selectRaw('MIN(id)')
-                ->from('permintaans')
-                ->groupBy('docnum');
-        })->paginate(20);
+        if (auth()->user()->license !== 'staff') {
+            $permintaans = Permintaan::whereIn('id', function($query) {
+                $query->selectRaw('MIN(id)')
+                    ->from('permintaans')
+                    ->groupBy('docnum');
+            })->paginate(20);
+        } else {
+            $permintaans = Permintaan::whereIn('id', function($query) {
+                $query->selectRaw('MIN(id)')
+                    ->from('permintaans')
+                    ->where('user_id', auth()->user()->id) // Use ->where to filter by user_id
+                    ->groupBy('docnum');
+            })->paginate(20);
+        }
 
         return view('it_admin.permintaan-index', [
             'title' => 'permintaans',
@@ -247,20 +256,21 @@ class PermintaanController extends Controller
         if ($request->ajax()) {
             $output = '';
             $query = $request->get('query');
+            $user = auth()->user();
 
-            if ($query != '') {
-                // Perform a search based on multiple columns
+            if ($user->license !== 'staff') {
+                // If the user is not a staff member, perform the search without user_id filter
                 $permintaans = Permintaan::where('docnum', 'like', '%' . $query . '%')
                     ->orWhere('requester', 'like', '%' . $query . '%')
                     ->orWhere('remarks', 'like', '%' . $query . '%')
                     ->get();
             } else {
-                // If the query is empty, retrieve all Pwemintaan and paginate them
-                $permintaans = Permintaan::whereIn('id', function($query) {
-                    $query->selectRaw('MIN(id)')
-                        ->from('permintaans')
-                        ->groupBy('docnum');
-                })->paginate(20);
+                // If the user is a staff member, perform the search with user_id filter
+                $permintaans = Permintaan::where('docnum', 'like', '%' . $query . '%')
+                    ->where('user_id', $user->id) // Add user_id filter
+                    ->orWhere('requester', 'like', '%' . $query . '%')
+                    ->orWhere('remarks', 'like', '%' . $query . '%')
+                    ->get();
             }
 
             foreach ($permintaans as $permintaan) {

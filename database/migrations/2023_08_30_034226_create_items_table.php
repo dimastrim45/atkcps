@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('price');   // 'price' field of type decimal with precision 
             $table->date('expdate')->nullable();   // 'expdate' field of type date, nullable
             $table->integer('qty')->nullable()->default(0);    // 'qty' field of type integer
+            $table->integer('min_qty')->nullable()->default(0);
             $table->string('status');  // 'status' field of type string
             $table->timestamps();
         });

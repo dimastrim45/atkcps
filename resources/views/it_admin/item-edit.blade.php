@@ -42,6 +42,23 @@
                                     @enderror
                                 </div>
 
+                                <label for="">Minimum Qty</label>
+                                <div class="input-group mb-4">
+                                    <input type="number" name="min_qty"
+                                        class="form-control @error('min_qty') is-invalid @enderror"
+                                        value="{{ old('min_qty', $item->min_qty) }}">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas bi bi-currency-dollar"></span>
+                                        </div>
+                                    </div>
+                                    @error('min_qty')
+                                        <span class="error invalid-feedback">
+                                            {{ $message }}
+                                        </span>
+                                    @enderror
+                                </div>
+
                                 <label for="">Unit of Measurement</label>
                                 <div class="input-group mb-4">
                                     <select type="text" name="uom"

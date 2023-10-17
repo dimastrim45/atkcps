@@ -64,7 +64,9 @@
                                         <th>Due Date</th>
                                         <th>Branch</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        @if (auth()->user()->license !== 'staff')
+                                            <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody id="permintaan-table-body">

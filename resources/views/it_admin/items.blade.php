@@ -36,22 +36,24 @@
                             <div>{{ $item->name }}</div>
                         @endforeach --}}
 
-                        <div class="col float-right w-50 text-right">
-                            <div class=" pr-3 ">
-                                <a href="{{ route('itemadd') }}"><button type="button" class="btn btn-primary"
-                                        data-toggle="button" aria-pressed="false" autocomplete="off">
-                                        <i class="bi bi-plus-lg pr-1"></i>
-                                        Tambah Item
-                                    </button></a>
-                                <a href="{{ route('itemgroups.index') }}">
-                                    <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
-                                        autocomplete="off">
-                                        <i class="bi bi-stack pr-1"></i>
-                                        Item Group Management
-                                    </button>
-                                </a>
+                        @if (in_array(auth()->user()->license, ['administrator', 'hradmin']))
+                            <div class="col float-right w-50 text-right">
+                                <div class=" pr-3 ">
+                                    <a href="{{ route('itemadd') }}"><button type="button" class="btn btn-primary"
+                                            data-toggle="button" aria-pressed="false" autocomplete="off">
+                                            <i class="bi bi-plus-lg pr-1"></i>
+                                            Tambah Item
+                                        </button></a>
+                                    <a href="{{ route('itemgroups.index') }}">
+                                        <button type="button" class="btn btn-primary" data-toggle="button"
+                                            aria-pressed="false" autocomplete="off">
+                                            <i class="bi bi-stack pr-1"></i>
+                                            Item Group Management
+                                        </button>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
 
                     <div class="card">
@@ -65,8 +67,11 @@
                                         <th onclick="sortTable(3)">Price</th>
                                         <th onclick="sortTable(4)">Expired Date</th>
                                         <th onclick="sortTable(5)">Qty</th>
-                                        <th onclick="sortTable(6)">Status</th>
-                                        <th>Action</th>
+                                        <th onclick="sortTable(6)">Min. Qty</th>
+                                        <th onclick="sortTable(7)">Status</th>
+                                        @if (in_array(auth()->user()->license, ['administrator', 'hradmin']))
+                                            <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody id="item-table-body">

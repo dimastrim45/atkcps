@@ -143,7 +143,7 @@
             </div>
 
             <!-- /.row -->
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- /.row -->
 
             <!-- solid sales graph -->
@@ -163,7 +163,7 @@
                 <div class="card-header border-0">
                     <h3 class="card-title">
                         <i class="fas fa-th mr-1"></i>
-                        Sales Graph
+                        Graph
                     </h3>
 
                     <div class="card-tools">

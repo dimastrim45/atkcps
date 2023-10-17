@@ -7,7 +7,8 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">{{ __('Barang Masuk - ') . $barangmasuks->first()->docnum }}</h1>
-                </div><!-- /.col -->
+                </div>
+                <!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -35,8 +36,7 @@
                                     <div class="form-group row">
                                         <label for="" class="col-sm-6 col-form-label">Doc Date</label>
                                         <div class="col-sm-6">
-                                            <input type="text" class="form-control"
-                                                value="{{ $docDate }}" disabled>
+                                            <input type="text" class="form-control" value="{{ $docDate }}" disabled>
                                         </div>
                                     </div>
                                 </form>

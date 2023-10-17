@@ -28,7 +28,7 @@
                             @csrf <!-- Add CSRF token field -->
                             <div class="col input-group w-50">
                                 <input type="text" name="query" id="search" class="form-control"
-                                    placeholder="Search for item ...">
+                                    placeholder="Search for pengeluaran ...">
                                 <div class="input-group-append">
                                     <button class="btn btn-secondary" type="submit">
                                         <i class="fa fa-search"></i>
@@ -36,15 +36,17 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="col float-right w-50 text-right">
-                            <div class=" pr-3">
-                                <button type="button" class="btn btn-primary" aria-pressed="false" autocomplete="off"
-                                    data-toggle="modal" data-target="#exampleModal">
-                                    <i class="bi bi-plus-lg pr-1"></i>
-                                    Tambah Pengeluaran Barang
-                                </button>
+                        @if (in_array(auth()->user()->license, ['administrator', 'hradmin']))
+                            <div class="col float-right w-50 text-right">
+                                <div class=" pr-3">
+                                    <button type="button" class="btn btn-primary" aria-pressed="false" autocomplete="off"
+                                        data-toggle="modal" data-target="#exampleModal">
+                                        <i class="bi bi-plus-lg pr-1"></i>
+                                        Tambah Pengeluaran Barang
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -88,7 +90,9 @@
                                         <th>Document Date</th>
                                         <th>Branch</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        @if (auth()->user()->license !== 'staff')
+                                            <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody id="pengeluaran-table-body">

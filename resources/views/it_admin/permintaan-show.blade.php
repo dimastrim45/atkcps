@@ -7,7 +7,11 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">{{ __('Permintaan - ') . $permintaans->first()->docnum }}</h1>
-                </div><!-- /.col -->
+                </div>
+                <div class="col-sm-6 text-right">
+                    <h1>{{ __('Status - ') . $permintaans->first()->status }}</h1>
+                </div>
+                <!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>

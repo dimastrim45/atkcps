@@ -17,6 +17,7 @@ class StoreItemRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', Rule::unique('items', 'name')],
+            'min_qty' => ['nullable', 'integer'],
             'uom' => ['required'],
             'price' => ['required', 'integer'],
             'expdate' => ['nullable'],

@@ -18,15 +18,24 @@ class PengeluaranController extends Controller
      */
     public function index()
     {
-        //
-        $pengeluarans = $pengeluarans = Pengeluaran::whereIn('id', function($query) {
-            $query->selectRaw('MIN(id)')
-                ->from('pengeluarans')
-                ->groupBy('docnum');
-        })->paginate(20);
+        $user = auth()->user();
+        if ($user->license !== 'staff') {
+            $pengeluarans = Pengeluaran::whereIn('id', function($query) {
+                $query->selectRaw('MIN(id)')
+                    ->from('pengeluarans')
+                    ->groupBy('docnum');
+            })->paginate(20);
+        } else {
+            $pengeluarans = Pengeluaran::whereIn('id', function($query) use ($user) {
+                $query->selectRaw('MIN(id)')
+                    ->from('pengeluarans')
+                    ->where('requester_id', $user->id)
+                    ->groupBy('docnum');
+            })->paginate(20);
+        }
 
         return view('it_admin.pengeluaran-index', [
-            'title' => 'pengeluarans', 
+            'title' => 'pengeluarans',
             'pengeluarans' => $pengeluarans,
         ]);
     }
@@ -289,28 +298,27 @@ class PengeluaranController extends Controller
         if ($request->ajax()) {
             $output = '';
             $query = $request->get('query');
-
-            if ($query != '') {
-                // Perform a search based on multiple columns
+            $user = auth()->user();
+    
+            if ($user->license !== 'staff') {
                 $pengeluarans = Pengeluaran::where('docnum', 'like', '%' . $query . '%')
                     ->orWhere('admin', 'like', '%' . $query . '%')
                     ->orWhere('requester_name', 'like', '%' . $query . '%')
                     ->orWhere('remarks', 'like', '%' . $query . '%')
                     ->get();
             } else {
-                // If the query is empty, retrieve all Pwemintaan and paginate them
-                $pengeluarans = Pengeluaran::whereIn('id', function($query) {
-                    $query->selectRaw('MIN(id)')
-                        ->from('pengeluarans')
-                        ->groupBy('docnum');
-                })->paginate(20);
+                $pengeluarans = Pengeluaran::where('docnum', 'like', '%' . $query . '%')
+                    ->where('requester_id', $user->id)
+                    ->orWhere('admin', 'like', '%' . $query . '%')
+                    ->orWhere('requester_name', 'like', '%' . $query . '%')
+                    ->orWhere('remarks', 'like', '%' . $query . '%')
+                    ->get();
             }
-
+    
             foreach ($pengeluarans as $pengeluaran) {
-                // Build the HTML for each row
                 $output .= view('it_admin.pengeluaran-row')->with('pengeluaran', $pengeluaran)->render();
             }
-
+    
             return $output;
         }
     }

@@ -19,14 +19,16 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ $title === 'users' ? 'bg-primary rounded' : '' }}">
-                <a href="{{ route('users.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-users"></i>
-                    <p>
-                        {{ __('Users') }}
-                    </p>
-                </a>
-            </li>
+            @if (auth()->user()->license == 'administrator')
+                <li class="nav-item {{ $title === 'users' ? 'bg-primary rounded' : '' }}">
+                    <a href="{{ route('users.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            {{ __('Users') }}
+                        </p>
+                    </a>
+                </li>
+            @endif
 
             <li class="nav-item {{ $title === 'items' ? 'bg-primary rounded' : '' }}">
                 <a href="{{ route('items') }}" class="nav-link">
@@ -37,14 +39,16 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ $title === 'barangmasuks' ? 'bg-primary rounded' : '' }}">
-                <a href="{{ route('barangmasuks') }}" class="nav-link">
-                    <i class="nav-icon bi bi-box-arrow-in-down fas"></i>
-                    <p>
-                        {{ __('Barang Masuk') }}
-                    </p>
-                </a>
-            </li>
+            @if (auth()->user()->license != 'staff')
+                <li class="nav-item {{ $title === 'barangmasuks' ? 'bg-primary rounded' : '' }}">
+                    <a href="{{ route('barangmasuks') }}" class="nav-link">
+                        <i class="nav-icon bi bi-box-arrow-in-down fas"></i>
+                        <p>
+                            {{ __('Barang Masuk') }}
+                        </p>
+                    </a>
+                </li>
+            @endif
 
             <li class="nav-item  {{ $title === 'permintaans' ? 'bg-primary rounded' : '' }}">
                 <a href="{{ route('permintaans') }}" class="nav-link">
@@ -64,14 +68,16 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ $title === 'selisihs' ? 'bg-primary rounded' : '' }}">
-                <a href="{{ route('selisihs') }}" class="nav-link">
-                    <i class="nav-icon far bi bi-plus-slash-minus"></i>
-                    <p>
-                        {{ __('Selisih Stock') }}
-                    </p>
-                </a>
-            </li>
+            @if (auth()->user()->license != 'staff')
+                <li class="nav-item {{ $title === 'selisihs' ? 'bg-primary rounded' : '' }}">
+                    <a href="{{ route('selisihs') }}" class="nav-link">
+                        <i class="nav-icon far bi bi-plus-slash-minus"></i>
+                        <p>
+                            {{ __('Selisih Stock') }}
+                        </p>
+                    </a>
+                </li>
+            @endif
 
             <li class="nav-item {{ $title === 'feedbacks' ? 'bg-primary rounded' : '' }}">
                 <a href="{{ route('feedbacks') }}" class="nav-link">
@@ -82,23 +88,27 @@
                 </a>
             </li>
 
-            <li class="nav-item {{ $title === 'plants' ? 'bg-primary rounded' : '' }}">
-                <a href="{{ route('plants') }}" class="nav-link">
-                    <i class="nav-icon far fa-building"></i>
-                    <p>
-                        {{ __('Plant Management') }}
-                    </p>
-                </a>
-            </li>
+            @if (auth()->user()->license != 'staff')
+                <li class="nav-item {{ $title === 'plants' ? 'bg-primary rounded' : '' }}">
+                    <a href="{{ route('plants') }}" class="nav-link">
+                        <i class="nav-icon far fa-building"></i>
+                        <p>
+                            {{ __('Plant Management') }}
+                        </p>
+                    </a>
+                </li>
+            @endif
 
-            <li class="nav-item {{ $title === 'reports' ? 'bg-primary rounded' : '' }}">
-                <a href="{{ route('reports') }}" class="nav-link">
-                    <i class="nav-icon far fa-building"></i>
-                    <p>
-                        {{ __('Reports') }}
-                    </p>
-                </a>
-            </li>
+            @if (auth()->user()->license != 'staff')
+                <li class="nav-item {{ $title === 'reports' ? 'bg-primary rounded' : '' }}">
+                    <a href="{{ route('reports') }}" class="nav-link">
+                        <i class="nav-icon far fa-building"></i>
+                        <p>
+                            {{ __('Reports') }}
+                        </p>
+                    </a>
+                </li>
+            @endif
 
         </ul>
     </nav>

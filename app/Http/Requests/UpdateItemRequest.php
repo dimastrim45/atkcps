@@ -26,6 +26,7 @@ class UpdateItemRequest extends FormRequest
         return [
             //
             'name' => ['required', 'string', 'max:255', Rule::unique('items', 'name')->ignore($itemId),],
+            'min_qty' => ['nullable', 'integer'],
             'uom' => ['required'],
             'price' => ['required', 'integer'],
             'expdate' => ['nullable'],

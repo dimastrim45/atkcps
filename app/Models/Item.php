@@ -16,6 +16,7 @@ class Item extends Model
         'price',
         'expdate',
         'qty',
+        'min_qty',
         'status',
     ];
 
