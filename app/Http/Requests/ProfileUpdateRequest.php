@@ -16,7 +16,7 @@ class ProfileUpdateRequest extends FormRequest
             'password' => ['nullable', 'string', 'confirmed', 'min:8'],
             'plant_id' => ['required'],
             'department' => ['required'],
-            'license' => ['required'],
+            'license' => ['nullable'],
         ];
     }
 

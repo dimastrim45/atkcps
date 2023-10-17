@@ -19,25 +19,27 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row mb-2">
-                        <div class="col input-group w-50">
+                        {{-- <div class="col input-group w-50">
                             <input type="text" class="form-control" placeholder="Search for item ...">
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="button">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
-                        </div>
-                        <div class="col float-right w-50 text-right">
-                            <div class=" pr-3">
-                                <a href="{{ route('plant.create') }}">
-                                    <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
-                                        autocomplete="off">
-                                        <i class="bi bi-plus-lg pr-1"></i>
-                                        Tambah Plant
-                                    </button>
-                                </a>
+                        </div> --}}
+                        @if (auth()->user()->license == 'administrator')
+                            <div class="col float-right w-50 text-right">
+                                <div class=" pr-3">
+                                    <a href="{{ route('plant.create') }}">
+                                        <button type="button" class="btn btn-primary" data-toggle="button"
+                                            aria-pressed="false" autocomplete="off">
+                                            <i class="bi bi-plus-lg pr-1"></i>
+                                            Tambah Plant
+                                        </button>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
 
                     <div class="card">
@@ -51,27 +53,33 @@
                                         <th>Province</th>
                                         <th>Address</th>
                                         {{-- <th>Status</th> --}}
-                                        <th>Action</th>
+                                        @if (auth()->user()->license == 'administrator')
+                                            <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($plants as $plant)
-                                    <tr class="text-center">
-                                        <td>{{ $plant->code }}</td>
-                                        <td>{{ $plant->name }}</td>
-                                        <td>{{ $plant->city }}</td>
-                                        <td>{{ $plant->province }}</td>
-                                        <td>{{ $plant->address }}</td>
-                                        {{-- <td>{{ $plant->status }}</td> --}}
-                                        <td class="d-flex justify-content-center">
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                {{-- <button type="button" class="btn btn-danger">Inactive</button> --}}
-                                                <a href="{{ route('plant.edit', ['plant' => $plant->id]) }}"><button type="button" class="btn btn-warning">Edit</button></a>
-                                                <button type="button" class="btn btn-danger">Remove</button>
-                                                {{-- <button type="button" class="btn btn-success">Active</button> --}}
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        <tr class="text-center">
+                                            <td>{{ $plant->code }}</td>
+                                            <td>{{ $plant->name }}</td>
+                                            <td>{{ $plant->city }}</td>
+                                            <td>{{ $plant->province }}</td>
+                                            <td>{{ $plant->address }}</td>
+                                            {{-- <td>{{ $plant->status }}</td> --}}
+                                            @if (auth()->user()->license == 'administrator')
+                                                <td class="d-flex justify-content-center">
+                                                    <div class="btn-group" role="group"
+                                                        aria-label="Basic mixed styles example">
+                                                        {{-- <button type="button" class="btn btn-danger">Inactive</button> --}}
+                                                        <a href="{{ route('plant.edit', ['plant' => $plant->id]) }}"><button
+                                                                type="button" class="btn btn-warning">Edit</button></a>
+                                                        <button type="button" class="btn btn-danger">Remove</button>
+                                                        {{-- <button type="button" class="btn btn-success">Active</button> --}}
+                                                    </div>
+                                                </td>
+                                            @endif
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>

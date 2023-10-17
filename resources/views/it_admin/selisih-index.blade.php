@@ -50,7 +50,9 @@
                                         <th>Admin</th>
                                         <th>Remarks</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        @if (in_array(auth()->user()->license, ['administrator', 'manager']))
+                                            <th>Action</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -63,30 +65,34 @@
                                             <td>{{ $selisih->admin }}</td>
                                             <td>{{ $selisih->remarks }}</td>
                                             <td>{{ $selisih->status }}</td>
-                                            <td class="d-flex justify-content-center">
-                                                <div class="btn-group" role="group"
-                                                    aria-label="Basic mixed styles example">
-                                                    @if ($selisih->status == 'Open')
-                                                        <form action="/selisih/reject/{{ $selisih->docnum }}"
-                                                            method="POST">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-danger">Reject</button>
-                                                        </form>
-                                                        {{-- <form action="/selisih/show/{{ $selisih->docnum }}" method="POST">
+                                            @if (in_array(auth()->user()->license, ['administrator', 'manager']))
+                                                <td class="d-flex justify-content-center">
+                                                    <div class="btn-group" role="group"
+                                                        aria-label="Basic mixed styles example">
+                                                        @if ($selisih->status == 'Open')
+                                                            <form action="/selisih/reject/{{ $selisih->docnum }}"
+                                                                method="POST">
+                                                                @method('PUT')
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Reject</button>
+                                                            </form>
+                                                            {{-- <form action="/selisih/show/{{ $selisih->docnum }}" method="POST">
                                                         @method('PUT')
                                                         @csrf
                                                         <button type="submit" class="btn btn-warning">Edit</button>
                                                     </form> --}}
-                                                        <form action="/selisih/approve/{{ $selisih->docnum }}"
-                                                            method="POST">
-                                                            @method('PUT')
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-success">Approve</button>
-                                                        </form>
-                                                    @endif
-                                                </div>
-                                            </td>
+                                                            <form action="/selisih/approve/{{ $selisih->docnum }}"
+                                                                method="POST">
+                                                                @method('PUT')
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="btn btn-success">Approve</button>
+                                                            </form>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

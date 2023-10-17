@@ -183,39 +183,41 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="license">License</label>
-                                    <div class="input-group mb-3">
-                                        <select type="text" name="license"
-                                            class="form-control @error('license') is-invalid @enderror"
-                                            placeholder="{{ __('License') }}"
-                                            value="{{ old('license', auth()->user()->license) }}" required>
-                                            <option value="administrator"
-                                                {{ auth()->user()->license == 'administrator' ? 'selected' : '' }}>
-                                                Administrator
-                                            </option>
-                                            <option value="staff"
-                                                {{ auth()->user()->license == 'staff' ? 'selected' : '' }}>
-                                                Staff</option>
-                                            <option value="hradmin"
-                                                {{ auth()->user()->license == 'hradmin' ? 'selected' : '' }}>
-                                                HR Admin</option>
-                                            <option value="manager"
-                                                {{ auth()->user()->license == 'manager' ? 'selected' : '' }}>
-                                                Manager</option>
-                                        </select>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text">
-                                                <span class="fas fa-solid fa-id-card"></span>
+                                @if (auth()->user()->license == 'administrator')
+                                    <div class="form-group">
+                                        <label for="license">License</label>
+                                        <div class="input-group mb-3">
+                                            <select type="text" name="license"
+                                                class="form-control @error('license') is-invalid @enderror"
+                                                placeholder="{{ __('License') }}"
+                                                value="{{ old('license', auth()->user()->license) }}" required>
+                                                <option value="administrator"
+                                                    {{ auth()->user()->license == 'administrator' ? 'selected' : '' }}>
+                                                    Administrator
+                                                </option>
+                                                <option value="staff"
+                                                    {{ auth()->user()->license == 'staff' ? 'selected' : '' }}>
+                                                    Staff</option>
+                                                <option value="hradmin"
+                                                    {{ auth()->user()->license == 'hradmin' ? 'selected' : '' }}>
+                                                    HR Admin</option>
+                                                <option value="manager"
+                                                    {{ auth()->user()->license == 'manager' ? 'selected' : '' }}>
+                                                    Manager</option>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-solid fa-id-card"></span>
+                                                </div>
                                             </div>
+                                            @error('license')
+                                                <span class="error invalid-feedback">
+                                                    {{ $message }}
+                                                </span>
+                                            @enderror
                                         </div>
-                                        @error('license')
-                                            <span class="error invalid-feedback">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
                                     </div>
-                                </div>
+                                @endif
 
                             </div>
 
