@@ -124,7 +124,7 @@ class BarangMasukController extends Controller
         }
 
         // Redirect back or to a success page
-        return redirect()->route('barangmasuks');
+        return redirect()->route('barangmasuks')->with('success', 'Barang Masuk Created.');
     }
 
     /**

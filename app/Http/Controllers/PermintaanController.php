@@ -137,7 +137,7 @@ class PermintaanController extends Controller
             }
 
             // Redirect back or to a success page after all items are saved
-            return redirect()->route('permintaans');
+            return redirect()->route('permintaans')->with('success', 'Permintaan created.');
         } else {
             // Handle the case where at least one item is not valid
             // You can add an error message or redirect with a message

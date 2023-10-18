@@ -103,7 +103,7 @@ class SelisihController extends Controller
         }
 
         // Redirect back or to a success page
-        return redirect()->route('selisihs');
+        return redirect()->route('selisihs')->with('success', 'Selisih Item Created');
     }
 
     /**

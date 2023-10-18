@@ -196,7 +196,7 @@ class PengeluaranController extends Controller
             // dd($permintaanStat);
         
             // Redirect back or to a success page after all items are saved
-            return redirect()->route('pengeluarans');
+            return redirect()->route('pengeluarans')->with('success', 'Pengeluaran Barang Created');
         } else {
             // Handle the case where at least one item is not valid
             // You can add an error message or redirect with a message

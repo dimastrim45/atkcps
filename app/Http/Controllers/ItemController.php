@@ -90,7 +90,7 @@ class ItemController extends Controller
 
         // Update the ItemGroup using the code as the identifier
         $item->update($request->validated());
-        return redirect()->back()->with('success', 'Item updated');
+        return redirect(route("items"))->with('success', 'Item updated.');
     }
 
     /**
