@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         </form>
-                        @if (in_array(auth()->user()->license, ['administrator', 'hradmin']))
+                        @if (in_array(auth()->user()->license, ['administrator', 'hradmin', 'manager']))
                             <div class="col float-right w-50 text-right">
                                 <div class=" pr-3">
                                     <button type="button" class="btn btn-primary" aria-pressed="false" autocomplete="off"
