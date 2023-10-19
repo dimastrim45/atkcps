@@ -94,6 +94,7 @@ class BarangMasukController extends Controller
             // Convert the docdate to the desired format (dd-mm-yyyy)
             $currentDate = Carbon::now()->format('Y-m-d');
             $barangMasuk->docdate = $currentDate;
+            $barangMasuk->status = "Open";
             $barangMasuk->remarks = $request->input('remarks');
             $barangMasuk->admin = auth()->user()->name; // Assuming you're storing the admin's name
             $barangMasuk->po_docnum = $request->input('nomorpo'); // You may need to adjust this field

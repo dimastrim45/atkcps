@@ -30,15 +30,18 @@
                         <div class="col input-group w-50">
 
                         </div>
-                        <div class="col float-right w-50 text-right">
-                            <div class=" pr-3 ">
-                                <a href="{{ route('itemgroups.create') }}"><button type="button" class="btn btn-primary"
-                                        data-toggle="button" aria-pressed="false" autocomplete="off">
-                                        <i class="bi bi-plus-lg pr-1"></i>
-                                        Tambah Item Group
-                                    </button></a>
+                        @if (in_array(auth()->user()->license, ['administrator', 'manager']))
+                            <div class="col float-right w-50 text-right">
+                                <div class=" pr-3 ">
+                                    <a href="{{ route('itemgroups.create') }}"><button type="button"
+                                            class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                                            autocomplete="off">
+                                            <i class="bi bi-plus-lg pr-1"></i>
+                                            Tambah Item Group
+                                        </button></a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
 
                     <div class="card">

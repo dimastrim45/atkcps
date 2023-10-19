@@ -44,7 +44,7 @@
                             <div>{{ $item->name }}</div>
                         @endforeach --}}
 
-                        @if (in_array(auth()->user()->license, ['administrator', 'hradmin']))
+                        @if (in_array(auth()->user()->license, ['administrator', 'hradmin', 'manager']))
                             <div class="col float-right w-50 text-right">
                                 <div class=" pr-3 ">
                                     <a href="{{ route('itemadd') }}"><button type="button" class="btn btn-primary"

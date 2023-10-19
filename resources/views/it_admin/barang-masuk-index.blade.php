@@ -62,7 +62,9 @@
                                         <th>Admin</th>
                                         <th>Nomor PO</th>
                                         <th>Date</th>
+                                        <th>Status</th>
                                         <th>Remarks</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="barangmasuk-table-body">

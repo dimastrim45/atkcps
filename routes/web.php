@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
     Route::post('barangmasukadd/store', [BarangMasukController::class, 'store'])->name('barangmasukadd.store');
     Route::get('barangmasuk/show/{barangmasuk:docnum}', [BarangMasukController::class, 'show'])->name('barangmasuk.show');
     Route::get('barangmasuk/search', [BarangMasukController::class, 'search'])->name('barangmasuk.search');
+    Route::put('barangmasuk/cancel/{barangmasuk:docnum}', [BarangMasukController::class, 'cancel'])->name('barangmasuk.cancel');
+    Route::put('barangmasuk/approve/{barangmasuk:docnum}', [BarangMasukController::class, 'approve'])->name('barangmasuk.approve');
 
     // Permintaan CRUD
     Route::get('permintaans', [PermintaanController::class, 'index'])->name('permintaans');

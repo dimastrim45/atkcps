@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('admin');
             $table->string('po_docnum');
             $table->string('remarks');
+            $table->string('status');  // 'status' field of type string
             $table->timestamps();
         });
     }

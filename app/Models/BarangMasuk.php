@@ -20,6 +20,7 @@ class BarangMasuk extends Model
         'po_docnum',
         'expdate',
         'remarks',
+        'status',
     ];
 
     public function item()
