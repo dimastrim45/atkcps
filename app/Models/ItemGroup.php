@@ -12,6 +12,20 @@ class ItemGroup extends Model
     protected $fillable = [
         'name',
         'code',
+        'isENG',
+        'isFAT',
+        'isGFG',
+        'isGRT',
+        'isGRM',
+        'isHRGA',
+        'isDGSL',
+        'isSLS',
+        'isMRKT',
+        'isDEL',
+        'isPROD',
+        'isPPIC',
+        'isRPR',
+        'isPRCH',
     ];
 
     public function item(){

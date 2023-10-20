@@ -117,6 +117,16 @@ class PengeluaranController extends Controller
         $openQtyUpdates = [];
         //to check the openqty comparison
         foreach ($itemIds as $key => $itemId) {
+            // validating if item qty in item master data - qty input in pengeluaran cannot exceed qty in item master data
+            $item = Item::find($itemId);
+            if ($item && $item->qty - $qtys[$key] >= 0) {
+                // Continue validating other items
+            } else {
+                // Set the flag to false if any item is not valid
+                $allItemsValid = false;
+                break; // Exit the loop immediately
+            }
+            
             // Get the docnum and quantity for the current item
             $docnum = $request->input('permintaan_docnum');
             $qty = $qtys[$key];
@@ -167,6 +177,10 @@ class PengeluaranController extends Controller
     
                 // Save the current item to the database
                 $pengeluaran->save();
+
+                // Update the item's quantity
+                $item->qty -= $qtys[$key];
+                $item->save();
             }
 
             // Update the Permintaan's open quantity for each item
@@ -286,10 +300,10 @@ class PengeluaranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function picked(Request $request, Pengeluaran $pengeluaran)
+    public function released(Request $request, Pengeluaran $pengeluaran)
     {
         //
-        Pengeluaran::where('docnum', $pengeluaran->docnum)->update(['status' => 'Picked']);
+        Pengeluaran::where('docnum', $pengeluaran->docnum)->update(['status' => 'Released']);
         return redirect(route("pengeluarans"))->with('success', 'Pengeluaran updated.');
     }
 

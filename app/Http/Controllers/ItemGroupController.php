@@ -40,7 +40,7 @@ class ItemGroupController extends Controller
     {
         //Validating Data
         $validatedData = $request->validated();
-        // dd($validatedData);
+        // dd($request);
 
         // Create a new Item Group record using the validated data
         ItemGroup::create($validatedData);
@@ -76,6 +76,20 @@ class ItemGroupController extends Controller
         $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('item_groups', 'name')->ignore($itemgroup->id),],
             'code' => ['required', 'string', Rule::unique('item_groups', 'code')->ignore($itemgroup->id),],
+            'isENG' => ['boolean'], // Add the boolean validation rule for isENG
+            'isFAT' => ['boolean'], // Add the boolean validation rule for isFAT
+            'isGFG' => ['boolean'], // Add the boolean validation rule for isGFG
+            'isGRT' => ['boolean'], // Add the boolean validation rule for isGRT
+            'isGRM' => ['boolean'], // Add the boolean validation rule for isGRM
+            'isHRGA' => ['boolean'], // Add the boolean validation rule for isHRGA
+            'isDGSL' => ['boolean'], // Add the boolean validation rule for isDGSL
+            'isSLS' => ['boolean'], // Add the boolean validation rule for isSLS
+            'isMRKT' => ['boolean'], // Add the boolean validation rule for isMRKT
+            'isDEL' => ['boolean'], // Add the boolean validation rule for isDEL
+            'isPROD' => ['boolean'], // Add the boolean validation rule for isPROD
+            'isPPIC' => ['boolean'], // Add the boolean validation rule for isPPIC
+            'isRPR' => ['boolean'], // Add the boolean validation rule for isRPR
+            'isPRCH' => ['boolean'], // Add the boolean validation rule for isPRCH
         ]);
         // dd($validatedData);
 

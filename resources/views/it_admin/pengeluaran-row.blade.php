@@ -16,10 +16,10 @@
                         <button type="submit" class="btn btn-danger">Cancel</button>
                     </form>
                     {{-- <button type="button" class="btn btn-warning">Open</button> --}}
-                    <form action="/pengeluaran/picked/{{ $pengeluaran->docnum }}" method="POST">
+                    <form action="/pengeluaran/released/{{ $pengeluaran->docnum }}" method="POST">
                         @method('PUT')
                         @csrf
-                        <button type="submit" class="btn btn-success">Picked</button>
+                        <button type="submit" class="btn btn-success">Release</button>
                     </form>
                 @endif
             </div>

@@ -86,24 +86,24 @@ class PermintaanController extends Controller
         $expDates = $request->input('expdate');
         $qtys = $request->input('qty');
 
-        // Define a flag to track if all items are valid
-        $allItemsValid = true;
+        // // Define a flag to track if all items are valid
+        // $allItemsValid = true;
 
-        foreach ($itemIds as $key => $itemId) {
-            // Retrieve the item based on the current $itemId
-            $item = Item::find($itemId);
+        // foreach ($itemIds as $key => $itemId) {
+        //     // Retrieve the item based on the current $itemId
+        //     $item = Item::find($itemId);
 
-            if ($item && $item->qty - $qtys[$key] >= 0) {
-                // Continue validating other items
-            } else {
-                // Set the flag to false if any item is not valid
-                $allItemsValid = false;
-                break; // Exit the loop immediately
-            }
-        }
+        //     if ($item && $item->qty - $qtys[$key] >= 0) {
+        //         // Continue validating other items
+        //     } else {
+        //         // Set the flag to false if any item is not valid
+        //         $allItemsValid = false;
+        //         break; // Exit the loop immediately
+        //     }
+        // }
 
-        // Check if all items are valid before saving any data
-        if ($allItemsValid) {
+        // // Check if all items are valid before saving any data
+        // if ($allItemsValid) {
             // Save all items to the database
             foreach ($itemIds as $key => $itemId) {
             // Retrieve the item based on the current $itemId
@@ -132,17 +132,17 @@ class PermintaanController extends Controller
                 $permintaan->save();
 
                 // Update the item's quantity
-                $item->qty -= $qtys[$key];
-                $item->save();
+                // $item->qty -= $qtys[$key];
+                // $item->save();
             }
 
             // Redirect back or to a success page after all items are saved
             return redirect()->route('permintaans')->with('success', 'Permintaan created.');
-        } else {
+        // } else {
             // Handle the case where at least one item is not valid
             // You can add an error message or redirect with a message
-            return redirect()->back()->withErrors(['error' => 'At least one item has insufficient quantity.']);
-        }
+            // return redirect()->back()->withErrors(['error' => 'At least one item has insufficient quantity.']);
+        // }
     }
 
 

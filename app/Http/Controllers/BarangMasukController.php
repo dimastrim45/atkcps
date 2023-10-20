@@ -113,15 +113,15 @@ class BarangMasukController extends Controller
             // - Update the expiration date ("expdate") with the new value.
             // - Calculate and set the average price by averaging the existing price and the new price.
             // - Save the changes to the "Item" model in the database.
-            $item = Item::find($itemId);
-            if ($item) {
-                // Add the added quantity to the current "qty"
-                $item->qty += $qtys[$key];
-                $item->expdate = $expDates[$key];
-                $averagePrice = ($item->price + $prices[$key]) / 2;
-                $item->price = $averagePrice;
-                $item->save();
-            }
+            // $item = Item::find($itemId);
+            // if ($item) {
+            //     // Add the added quantity to the current "qty"
+            //     $item->qty += $qtys[$key];
+            //     $item->expdate = $expDates[$key];
+            //     $averagePrice = ($item->price + $prices[$key]) / 2;
+            //     $item->price = $averagePrice;
+            //     $item->save();
+            // }
         }
 
         // Redirect back or to a success page
@@ -201,5 +201,54 @@ class BarangMasukController extends Controller
 
             return $output;
         }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function cancel(Request $request, BarangMasuk $barangmasuk)
+    {
+        // dd($barangmasuk);
+        // Find all BarangMasuk instances with the given docnum
+        $barangmasukInstances = BarangMasuk::where('docnum', $barangmasuk->docnum)->get();
+
+        if ($barangmasukInstances->isEmpty()) {
+            return redirect(route("barangmasuks"))->with('error', 'No BarangMasuk found with the specified docnum.');
+        }
+
+        // Loop through each BarangMasuk instance
+        foreach ($barangmasukInstances as $barangmasukInstance) {
+            $item = Item::find($barangmasukInstance->item_id);
+            $item->qty += $barangmasukInstance->openqty;
+            $item->save();
+
+            // Update the BarangMasuk status to 'Canceled'
+            $barangmasukInstance->update(['status' => 'Canceled']);
+        }
+
+        return redirect(route("barangmasuks"))->with('success', 'BarangMasuk updated.');
+    }
+
+    public function approve(Request $request, BarangMasuk $barangmasuk)
+    {
+        // dd($barangmasuk);
+        // Find all BarangMasuk instances with the given docnum
+        $barangmasukInstances = BarangMasuk::where('docnum', $barangmasuk->docnum)->get();
+
+        if ($barangmasukInstances->isEmpty()) {
+            return redirect(route("barangmasuks"))->with('error', 'No BarangMasuk found with the specified docnum.');
+        }
+
+        // Loop through each BarangMasuk instance
+        foreach ($barangmasukInstances as $barangmasukInstance) {
+            $item = Item::find($barangmasukInstance->item_id);
+            $item->qty += $barangmasukInstance->qty;
+            $item->save();
+
+            // Update the BarangMasuk status to 'Approved'
+            $barangmasukInstance->update(['status' => 'Approved']);
+        }
+
+        return redirect(route("barangmasuks"))->with('success', 'BarangMasuk updated.');
     }
 }

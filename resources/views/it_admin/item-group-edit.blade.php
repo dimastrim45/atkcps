@@ -60,6 +60,225 @@
                                     @enderror
                                 </div>
 
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Field</th>
+                                            <th>Value</th>
+                                            <th></th>
+                                            <th>Field</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Engineer</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isENG"
+                                                        id="isENGTrue" value="1" @if($itemgroup->isENG === 1) checked @endif>
+                                                    <label class="form-check-label" for="isENGTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isENG"
+                                                        id="isENGFalse" value="0" @if($itemgroup->isENG === 0) checked @endif>
+                                                    <label class="form-check-label" for="isENGFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>Finance Accounting Tax</td>
+                                            <td >
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isFAT"
+                                                        id="isFATTrue" value="1" @if($itemgroup->isFAT === 1) checked @endif>
+                                                    <label class="form-check-label" for="isFATTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isFAT"
+                                                        id="isFATFalse" value="0" @if($itemgroup->isFAT === 0) checked @endif>
+                                                    <label class="form-check-label" for="isFATFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Repeat the above block for each of your new boolean fields -->
+                                        <tr>
+                                            <td>Gudang FG</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isGFG"
+                                                        id="isGFGTrue" value="1" @if($itemgroup->isGFG === 1) checked @endif>
+                                                    <label class="form-check-label" for="isGFGTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isGFG"
+                                                        id="isGFGFalse" value="0" @if($itemgroup->isGFG === 0) checked @endif>
+                                                    <label class="form-check-label" for="isGFGFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>Gudang Retail</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isGRT"
+                                                        id="isGRTTrue" value="1" @if($itemgroup->isGRT === 1) checked @endif>
+                                                    <label class="form-check-label" for="isGRTTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isGRT"
+                                                        id="isGRTFalse" value="0" @if($itemgroup->isGRT === 0) checked @endif>
+                                                    <label class="form-check-label" for="isGRTFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gudang RM</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isGRM"
+                                                        id="isGRMTrue" value="1" @if($itemgroup->isGRM === 1) checked @endif>
+                                                    <label class="form-check-label" for="isGRMTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isGRM"
+                                                        id="isGRMFalse" value="0" @if($itemgroup->isGRM === 0) checked @endif>
+                                                    <label class="form-check-label" for="isGRMFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>HRGA</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isHRGA"
+                                                        id="isHRGATrue" value="1" @if($itemgroup->isHRGA === 1) checked @endif>
+                                                    <label class="form-check-label" for="isHRGATrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isHRGA"
+                                                        id="isHRGAFalse" value="0" @if($itemgroup->isHRGA === 0) checked @endif>
+                                                    <label class="form-check-label" for="isHRGAFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Digital Sales</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isDGSL"
+                                                        id="isDGSLTrue" value="1" @if($itemgroup->isDGSL === 1) checked @endif>
+                                                    <label class="form-check-label" for="isDGSLTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isDGSL"
+                                                        id="isDGSLFalse" value="0" @if($itemgroup->isDGSL === 0) checked @endif>
+                                                    <label class="form-check-label" for="isDGSLFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>Sales</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isSLS"
+                                                        id="isSLSTrue" value="1" @if($itemgroup->isSLS === 1) checked @endif>
+                                                    <label class="form-check-label" for="isSLSTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isSLS"
+                                                        id="isSLSFalse" value="0" @if($itemgroup->isSLS === 0) checked @endif>
+                                                    <label class="form-check-label" for="isSLSFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Marketing</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isMRKT"
+                                                        id="isMRKTTrue" value="1" @if($itemgroup->isMRKT === 1) checked @endif>
+                                                    <label class="form-check-label" for="isMRKTTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isMRKT"
+                                                        id="isMRKTFalse" value="0" @if($itemgroup->isMRKT === 0) checked @endif>
+                                                    <label class="form-check-label" for="isMRKTFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>Pengiriman</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isDEL"
+                                                        id="isDELTrue" value="1" @if($itemgroup->isDEL === 1) checked @endif>
+                                                    <label class="form-check-label" for="isDELTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isDEL"
+                                                        id="isDELFalse" value="0" @if($itemgroup->isDEL === 0) checked @endif>
+                                                    <label class="form-check-label" for="isDELFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Produksi</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isPROD"
+                                                        id="isPRODTrue" value="1" @if($itemgroup->isPROD === 1) checked @endif>
+                                                    <label class="form-check-label" for="isPRODTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isPROD"
+                                                        id="isPRODFalse" value="0" @if($itemgroup->isPROD === 0) checked @endif>
+                                                    <label class="form-check-label" for="isPRODFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>PPIC</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isPPIC"
+                                                        id="isPPICTrue" value="1" @if($itemgroup->isPPIC === 1) checked @endif>
+                                                    <label class="form-check-label" for="isPPICTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isPPIC"
+                                                        id="isPPICFalse" value="0" @if($itemgroup->isPPIC === 0) checked @endif>
+                                                    <label class="form-check-label" for="isPPICFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Repair</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isRPR"
+                                                        id="isRPRTrue" value="1" @if($itemgroup->isRPR === 1) checked @endif>
+                                                    <label class="form-check-label" for="isRPRTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isRPR"
+                                                        id="isRPRFalse" value="0" @if($itemgroup->isRPR === 0) checked @endif>
+                                                    <label class="form-check-label" for="isRPRFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>Purchasing</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isPRCH"
+                                                        id="isPRCHTrue" value="1" @if($itemgroup->isPRCH === 1) checked @endif>
+                                                    <label class="form-check-label" for="isPRCHTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isPRCH"
+                                                        id="isPRCHFalse" value="0" @if($itemgroup->isPRCH === 0) checked @endif>
+                                                    <label class="form-check-label" for="isPRCHFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- Repeat this pattern for all 14 boolean fields -->
+                                    </tbody>
+                                </table>
+
                             </div>
 
                             <div class="card-footer">

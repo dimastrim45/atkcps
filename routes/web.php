@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::post('pengeluaranadd/store', [PengeluaranController::class, 'store'])->name('pengeluaranadd.store');
     Route::get('pengeluaran/show/{pengeluaran:docnum}', [PengeluaranController::class, 'show'])->name('pengeluaran.show');
     Route::put('pengeluaran/cancel/{pengeluaran:docnum}', [PengeluaranController::class, 'cancel'])->name('pengeluaran.cancel');
-    Route::put('pengeluaran/picked/{pengeluaran:docnum}', [PengeluaranController::class, 'picked'])->name('pengeluaran.picked');
+    Route::put('pengeluaran/released/{pengeluaran:docnum}', [PengeluaranController::class, 'released'])->name('pengeluaran.released');
     Route::get('pengeluaran/search', [PengeluaranController::class, 'search'])->name('pengeluaran.search');
 
 
