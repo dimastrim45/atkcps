@@ -38,6 +38,7 @@
                                 <table class="table" id="thetable">
                                     <thead>
                                         <tr class="text-center">
+                                            <th>Item Group</th>
                                             <th>Item Name</th>
                                             <th>Available Qty</th>
                                             <th>UoM</th>
@@ -49,11 +50,23 @@
                                     </thead>
                                     <tbody>
                                         <tr class="text-center">
+                                            <td class="w-25">
+                                                <select name="item_group[]" class="form-select w-100"
+                                                    onchange="updateItemNameOptions(this.value)">
+                                                    <option value="">Select Item Group</option>
+                                                    @foreach ($itemGroups as $itemGroup)
+                                                        <option value="{{ $itemGroup->id }}">{{ $itemGroup->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
                                             <td class=" w-25">
-                                                <select name="item_id[]" class="form-select w-100"
+                                                <select name="item_id[]" class="form-select w-100" id="itemSelect"
                                                     onchange="updateFields(this)">
+                                                    <option value="" data-group="">Select Item</option>
                                                     @foreach ($items as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                        <option value="{{ $item->id }}"
+                                                            data-group="{{ $item->itemgroup->id }}">{{ $item->name }}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </td>
@@ -100,6 +113,49 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
         <script>
+            // Function to update item name options in a row based on the selected item group
+            function updateItemNameOptions(selectedGroup) {
+                // Find all item name select elements
+                var itemNameSelects = document.querySelectorAll('select[name="item_id[]"]');
+
+                itemNameSelects.forEach(function(itemNameSelect) {
+                    // Enable or disable item selection based on the selected group
+                    itemNameSelect.disabled = (selectedGroup === "");
+
+                    // Show items that belong to the selected group and hide others
+                    var options = itemNameSelect.options;
+                    for (var i = 0; i < options.length; i++) {
+                        var option = options[i];
+                        var dataGroup = option.getAttribute('data-group');
+                        if (selectedGroup === "" || dataGroup === selectedGroup) {
+                            option.style.display = 'block';
+                        } else {
+                            option.style.display = 'none';
+                        }
+                    }
+                });
+            }
+
+
+            // function filterItems(select) {
+            //     const selectedGroup = select.value;
+            //     const itemSelect = document.getElementById('itemSelect');
+
+            //     // Enable or disable item selection based on the selected group
+            //     itemSelect.disabled = !selectedGroup;
+
+            //     // Show items that belong to the selected group and hide others
+            //     const options = itemSelect.options;
+            //     for (let i = 0; i < options.length; i++) {
+            //         const option = options[i];
+            //         if (selectedGroup === "" || option.getAttribute('data-group') === selectedGroup) {
+            //             option.style.display = 'block';
+            //         } else {
+            //             option.style.display = 'none';
+            //         }
+            //     }
+            // }
+
             function addRow() {
                 var table = document.getElementById("thetable").getElementsByTagName('tbody')[0];
                 var newRow = table.insertRow(table.rows.length);
@@ -118,6 +174,9 @@
                 uomInput.id = 'uomInput' + table.rows.length;
 
                 table.appendChild(templateRow);
+
+                // After adding the row, update the item name options based on the selected item group
+                updateItemNameOptions(newRow);
             }
 
             function removeRow(button) {

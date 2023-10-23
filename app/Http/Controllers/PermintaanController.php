@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Permintaan;
 use App\Models\Item;
+use App\Models\ItemGroup;
 use App\Http\Requests\StorePermintaanRequest;
 use App\Http\Requests\UpdatePermintaanRequest;
 use Carbon\Carbon;
@@ -42,10 +43,13 @@ class PermintaanController extends Controller
      */
     public function create()
     {
+        $itemGroups = ItemGroup::all(); // Replace 'ItemGroup' with your actual model name
         $items = Item::where('status', 'active')->get();
+        
         return view('it_admin.permintaan-add', [
             'title' => 'addpermintaan',
-            "items" => $items,
+            'itemGroups' => $itemGroups,
+            'items' => $items,
         ]);
     }
 
