@@ -52,7 +52,7 @@
                                         <tr class="text-center">
                                             <td class="w-25">
                                                 <select name="item_group[]" class="form-select w-100"
-                                                    onchange="updateItemNameOptions(this.value)">
+                                                    onchange="updateItemNameOptions(this)">
                                                     <option value="">Select Item Group</option>
                                                     @foreach ($itemGroups as $itemGroup)
                                                         <option value="{{ $itemGroup->id }}">{{ $itemGroup->name }}</option>
@@ -113,27 +113,41 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
         <script>
+            // Function to initialize item name options when the page loads
+            function initializeItemNameOptions() {
+                // Find the item group selection in the first row
+                var firstRow = document.querySelector('table#thetable tbody tr:first-child');
+                var itemGroupSelect = firstRow.querySelector('select[name="item_group[]"]');
+
+                // Initially disable the item name selection in the first row
+                updateItemNameOptions(itemGroupSelect);
+            }
+
+            // Call the initialization function when the page loads
+            window.onload = initializeItemNameOptions;
+
             // Function to update item name options in a row based on the selected item group
-            function updateItemNameOptions(selectedGroup) {
-                // Find all item name select elements
-                var itemNameSelects = document.querySelectorAll('select[name="item_id[]"]');
+            function updateItemNameOptions(itemGroupSelect) {
+                var selectedGroup = itemGroupSelect.value;
+                var row = itemGroupSelect.closest('tr'); // Find the parent row of the select element
 
-                itemNameSelects.forEach(function(itemNameSelect) {
-                    // Enable or disable item selection based on the selected group
-                    itemNameSelect.disabled = (selectedGroup === "");
+                // Find the item name select element within the same row
+                var itemNameSelect = row.querySelector('select[name="item_id[]"]');
 
-                    // Show items that belong to the selected group and hide others
-                    var options = itemNameSelect.options;
-                    for (var i = 0; i < options.length; i++) {
-                        var option = options[i];
-                        var dataGroup = option.getAttribute('data-group');
-                        if (selectedGroup === "" || dataGroup === selectedGroup) {
-                            option.style.display = 'block';
-                        } else {
-                            option.style.display = 'none';
-                        }
+                // Enable or disable item selection based on the selected group
+                itemNameSelect.disabled = !selectedGroup;
+
+                // Show items that belong to the selected group and hide others
+                var options = itemNameSelect.options;
+                for (var i = 0; i < options.length; i++) {
+                    var option = options[i];
+                    var dataGroup = option.getAttribute('data-group');
+                    if (selectedGroup === "" || dataGroup === selectedGroup) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
                     }
-                });
+                }
             }
 
 
