@@ -184,13 +184,18 @@
                 });
 
                 // Assign unique IDs to the UoM input field in the new row
+                var rowNum = table.rows.length;
                 var uomInput = templateRow.querySelector('input[name="uom[]"]');
-                uomInput.id = 'uomInput' + table.rows.length;
+                uomInput.id = 'uomInput' + rowNum;
+
+                // Assign unique IDs to the item name select element
+                var itemNameSelect = templateRow.querySelector('select[name="item_id[]"]');
+                itemNameSelect.id = 'itemSelectRow' + rowNum;
+
+                // Initially disable the item name selection in the new row
+                itemNameSelect.disabled = true;
 
                 table.appendChild(templateRow);
-
-                // After adding the row, update the item name options based on the selected item group
-                updateItemNameOptions(newRow);
             }
 
             function removeRow(button) {
