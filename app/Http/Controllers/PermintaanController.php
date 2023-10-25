@@ -9,6 +9,7 @@ use App\Http\Requests\StorePermintaanRequest;
 use App\Http\Requests\UpdatePermintaanRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PermintaanController extends Controller
 {
@@ -43,13 +44,83 @@ class PermintaanController extends Controller
      */
     public function create()
     {
-        $itemGroups = ItemGroup::all(); // Replace 'ItemGroup' with your actual model name
+        // Get the currently authenticated user
+        $user = Auth::user();
+
+        // Define an array of possible columns to match
+        $departmentColumns = [];
+
+        // Check the user's department string and add matching columns to the array
+        if ($user->department === 'ENG') {
+            $departmentColumns[] = 'isENG';
+        }
+
+        if ($user->department === 'FAT') {
+            $departmentColumns[] = 'isFAT';
+        }
+
+        if ($user->department === 'GFG') {
+            $departmentColumns[] = 'isGFG';
+        }
+
+        if ($user->department === 'GRT') {
+            $departmentColumns[] = 'isGRT';
+        }
+
+        if ($user->department === 'GRM') {
+            $departmentColumns[] = 'isGRM';
+        }
+
+        if ($user->department === 'HRGA') {
+            $departmentColumns[] = 'isHRGA';
+        }
+
+        if ($user->department === 'DGSL') {
+            $departmentColumns[] = 'isDGSL';
+        }
+
+        if ($user->department === 'SLS') {
+            $departmentColumns[] = 'isSLS';
+        }
+
+        if ($user->department === 'MRKT') {
+            $departmentColumns[] = 'isMRKT';
+        }
+
+        if ($user->department === 'DEL') {
+            $departmentColumns[] = 'isDEL';
+        }
+
+        if ($user->department === 'PROD') {
+            $departmentColumns[] = 'isPROD';
+        }
+
+        if ($user->department === 'PPIC') {
+            $departmentColumns[] = 'isPPIC';
+        }
+
+        if ($user->department === 'RPR') {
+            $departmentColumns[] = 'isRPR';
+        }
+
+        if ($user->department === 'PRCH') {
+            $departmentColumns[] = 'isPRCH';
+        }
+
+        // Retrieve item groups based on the user's license
+        $itemGroups = ItemGroup::where(function($query) use ($departmentColumns) {
+            foreach ($departmentColumns as $column) {
+                $query->orWhere($column, true);
+            }
+        })->get();
+
+        // Retrieve active items
         $items = Item::where('status', 'active')->get();
-        
+    
         return view('it_admin.permintaan-add', [
-            'title' => 'addpermintaan',
-            'itemGroups' => $itemGroups,
-            'items' => $items,
+        'title' => 'addpermintaan',
+        'itemGroups' => $itemGroups,
+        'items' => $items,
         ]);
     }
 

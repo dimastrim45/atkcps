@@ -78,7 +78,7 @@ class PengeluaranController extends Controller
      */
     public function store(StorePengeluaranRequest $request)
     {
-        // dd($request);
+        dd($request);
         // Get the current year and month
         $currentYear = date('Y');
         $currentMonth = date('m');

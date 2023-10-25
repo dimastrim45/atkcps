@@ -38,31 +38,38 @@
                                 <table class="table" id="thetable">
                                     <thead>
                                         <tr class="text-center">
+                                            <th>Item ID</th>
                                             <th>Item Name</th>
                                             <th>UoM</th>
                                             <th>Price</th>
                                             <th>Expired Date</th>
                                             <th>Qty</th>
+                                            <th>Subtotal</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="text-center">
                                             <td>
-                                                <select name="item_id[]" class="form-select w-100"
-                                                    onchange="updateUOM(this)">
-                                                    @foreach ($items as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <input class="form-control form-control-sm text-center" type="text"
+                                                    name="item_id[]" id="itemIdInput" value="" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="item_name" class="form-control item-search"
+                                                    placeholder="Search for an item" autocomplete="off">
+                                                <div class="search-results"></div>
                                             </td>
                                             <td>
                                                 <input class="form-control form-control-sm text-center" type="text"
                                                     name="uom[]" id="uomInput" value="" readonly>
                                             </td>
-                                            <td><input type="number" name="price[]"></td>
+                                            <td><input type="number" name="price[]" oninput="calculateSubtotal(this)"></td>
                                             <td><input type="date" name="expdate[]"></td>
-                                            <td><input type="number" name="qty[]"></td>
+                                            <td><input type="number" name="qty[]" oninput="calculateSubtotal(this)"></td>
+                                            <td>
+                                                <input type="number" name="subtotal[]"
+                                                    class="form-control form-control-sm text-right" readonly>
+                                            </td>
                                             <td class="d-flex justify-content-center" id="removeBtn">
                                                 <div class="btn-group" role="group"
                                                     aria-label="Basic mixed styles example">
@@ -94,25 +101,124 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <script>
+            const items = @json($items); // Pass the items from your Laravel controller
+
+            // Handle the "Add Row" button click
+            $('#addRowButton').click(function() {
+                addRow();
+            });
+
+            // Handle the "Remove" button click
+            $(document).on('click', '.removeRowButton', function() {
+                removeRow(this);
+            });
+
+            // Handle the "input" event for the "Item Name" search
+            $(document).on('input', '.item-search', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                const resultsContainer = $(this).siblings('.search-results');
+                const results = items.filter(item => item.name.toLowerCase().includes(searchTerm));
+
+                resultsContainer.empty();
+
+                if (results.length > 0) {
+                    results.forEach(item => {
+                        // Include the class 'search-result-item' here
+                        const resultItem =
+                            `<div class="result-item search-result-item" data-id="${item.id}">${item.name}</div>`;
+                        resultsContainer.append(resultItem);
+                    });
+                } else {
+                    resultsContainer.append('<div class="result-item">No results found</div>');
+                }
+            });
+
+            // Handle the click event for selecting an item from the search results
+            $(document).on('click', '.result-item', function() {
+                const selectedItemId = $(this).data('id');
+                const selectedItemUom = $(this).data('uom');
+                const selectedItem = items.find(item => item.id === selectedItemId);
+                const row = $(this).closest('tr');
+
+                row.find('input[name="item_name"]').val(selectedItem.name);
+                row.find('input[name="item_id[]"]').val(selectedItem.id); // Set the item ID
+                row.find('input[name="uom[]"]').val(selectedItem.uom); // Set the item ID
+
+                $(this).parent().empty(); // Clear the search results
+            });
+        </script>
+
+
+        <script>
+            function calculateSubtotal(input) {
+                const row = input.closest('tr');
+                const price = parseFloat(row.querySelector('input[name="price[]"]').value) || 0;
+                const qty = parseFloat(row.querySelector('input[name="qty[]"]').value) || 0;
+                const subtotal = price * qty;
+                row.querySelector('input[name="subtotal[]"]').value = subtotal.toFixed(2); // You can format as needed
+            }
+
             function addRow() {
                 var table = document.getElementById("thetable").getElementsByTagName('tbody')[0];
-                var newRow = table.insertRow(table.rows.length);
-                newRow.classList.add("text-center");
 
-                // Clone the first row (template)
+                // Clone the template row
                 var templateRow = table.rows[0].cloneNode(true);
 
-                // Reset input values in the new row (optional)
+                // Reset input values in the new row
                 templateRow.querySelectorAll('input[type="text"], input[type="number"]').forEach(function(input) {
                     input.value = "";
                 });
 
-                // Assign unique IDs to the UoM input field in the new row
-                var uomInput = templateRow.querySelector('input[name="uom[]"]');
-                uomInput.id = 'uomInput' + table.rows.length;
+                // Clear the search results
+                templateRow.querySelector('.search-results').innerHTML = '';
 
+                // Assign a unique ID to the UoM input field in the new row
+                var newRowNumber = table.rows.length;
+                var uomInput = templateRow.querySelector('input[name="uom[]"]');
+                uomInput.id = 'uomInput' + newRowNumber;
+
+                // Set the subtotal in the new row to 0
+                var subtotalInput = templateRow.querySelector('input[name="subtotal[]"]');
+                subtotalInput.value = "0";
+
+                // Add the new row to the table
                 table.appendChild(templateRow);
+
+                // Update the "Total" row
+                updateTotalRow(table);
+            }
+
+            // Function to update the Total row
+            function updateTotalRow(table) {
+                var total = 0;
+                var subtotalInputs = table.querySelectorAll('input[name="subtotal[]"]');
+
+                // Calculate the total by summing up all the subtotal values
+                subtotalInputs.forEach(function(input) {
+                    total += parseFloat(input.value) || 0;
+                });
+
+                // Create the Total row and add it to the table
+                var totalRow = table.insertRow(table.rows.length);
+                totalRow.classList.add("text-center");
+
+                var cell = totalRow.insertCell(0);
+                cell.textContent = "Total";
+
+                for (var i = 1; i < 6; i++) {
+                    totalRow.insertCell(i); // Create empty cells for the other columns
+                }
+
+                var totalCell = totalRow.insertCell(6);
+                totalCell.innerHTML = '<input type="text" class="form-control form-control-sm text-right" value="' + total
+                    .toFixed(2) + '" readonly>';
+
+                var actionCell = totalRow.insertCell(7);
+                actionCell.innerHTML =
+                    '<div class="btn-group" role="group" aria-label="Basic mixed styles example"><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></div>';
             }
 
             function removeRow(button) {
@@ -121,42 +227,6 @@
             }
         </script>
 
-        <script>
-            var uomValues = {
-                @foreach ($items as $item)
-                    '{{ $item->id }}': '{{ $item->uom }}',
-                @endforeach
-            };
-
-            // Initialize UoM values for the existing rows and also for the initial load
-            document.querySelectorAll('select[name="item_id[]"]').forEach(function(selectElement) {
-                updateUOM(selectElement);
-            });
-
-            function updateUOM(selectElement) {
-                var selectedItem = selectElement.value;
-                var row = selectElement.closest('tr');
-                var uomInput = row.querySelector('input[name="uom[]"]');
-                uomInput.value = uomValues[selectedItem] || '';
-            }
-        </script>
-        <script>
-            $(document).ready(function() {
-                var formSubmitted = false;
-
-                $("#submitBtn").click(function(event) {
-                    if (formSubmitted) {
-                        event.preventDefault(); // Prevent form submission if already submitted
-                    } else {
-                        // Disable the submit button on the first click
-                        $(this).prop("disabled", true);
-
-                        // Set a flag to indicate that the form has been submitted
-                        formSubmitted = true;
-                    }
-                });
-            });
-        </script>
 
     </div>
     <!-- /.content -->

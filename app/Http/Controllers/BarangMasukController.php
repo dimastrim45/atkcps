@@ -54,6 +54,7 @@ class BarangMasukController extends Controller
      */
     public function store(StoreBarangMasukRequest $request)
     {
+        dd($request);
         // Get the current year and month
         $currentYear = date('Y');
         $currentMonth = date('m');

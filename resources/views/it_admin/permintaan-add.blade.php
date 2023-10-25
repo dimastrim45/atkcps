@@ -150,26 +150,6 @@
                 }
             }
 
-
-            // function filterItems(select) {
-            //     const selectedGroup = select.value;
-            //     const itemSelect = document.getElementById('itemSelect');
-
-            //     // Enable or disable item selection based on the selected group
-            //     itemSelect.disabled = !selectedGroup;
-
-            //     // Show items that belong to the selected group and hide others
-            //     const options = itemSelect.options;
-            //     for (let i = 0; i < options.length; i++) {
-            //         const option = options[i];
-            //         if (selectedGroup === "" || option.getAttribute('data-group') === selectedGroup) {
-            //             option.style.display = 'block';
-            //         } else {
-            //             option.style.display = 'none';
-            //         }
-            //     }
-            // }
-
             function addRow() {
                 var table = document.getElementById("thetable").getElementsByTagName('tbody')[0];
                 var newRow = table.insertRow(table.rows.length);
