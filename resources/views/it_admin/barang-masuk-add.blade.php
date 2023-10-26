@@ -63,9 +63,9 @@
                                                 <input class="form-control form-control-sm text-center" type="text"
                                                     name="uom[]" id="uomInput" value="" readonly>
                                             </td>
-                                            <td><input type="number" name="price[]" oninput="calculateSubtotal(this)"></td>
+                                            <td><input type="number" name="price[]" oninput="calculateSubtotal(this); updateTotalRow(document.getElementById('thetable'));"></td>
                                             <td><input type="date" name="expdate[]"></td>
-                                            <td><input type="number" name="qty[]" oninput="calculateSubtotal(this)"></td>
+                                            <td><input type="number" name="qty[]" oninput="calculateSubtotal(this); updateTotalRow(document.getElementById('thetable'));"></td>
                                             <td>
                                                 <input type="number" name="subtotal[]"
                                                     class="form-control form-control-sm text-right" readonly>
@@ -76,6 +76,19 @@
                                                     <button type="button" class="btn btn-danger"
                                                         onclick="removeRow(this)">Remove</button>
                                                 </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- Separate table for the "Total" row -->
+                                <table class="table" id="totaltable">
+                                    <tbody>
+                                        <tr id="totalRow">
+                                            <td colspan="6"></td>
+                                            <td class="font-weight-bold text-right">Total:</td>
+                                            <td style="width: 25%;">
+                                                <input type="text" class="form-control form-control-sm text-right"
+                                                    value="0.00" readonly>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -186,9 +199,6 @@
 
                 // Add the new row to the table
                 table.appendChild(templateRow);
-
-                // Update the "Total" row
-                updateTotalRow(table);
             }
 
             // Function to update the Total row
@@ -201,24 +211,10 @@
                     total += parseFloat(input.value) || 0;
                 });
 
-                // Create the Total row and add it to the table
-                var totalRow = table.insertRow(table.rows.length);
-                totalRow.classList.add("text-center");
-
-                var cell = totalRow.insertCell(0);
-                cell.textContent = "Total";
-
-                for (var i = 1; i < 6; i++) {
-                    totalRow.insertCell(i); // Create empty cells for the other columns
-                }
-
-                var totalCell = totalRow.insertCell(6);
-                totalCell.innerHTML = '<input type="text" class="form-control form-control-sm text-right" value="' + total
-                    .toFixed(2) + '" readonly>';
-
-                var actionCell = totalRow.insertCell(7);
-                actionCell.innerHTML =
-                    '<div class="btn-group" role="group" aria-label="Basic mixed styles example"><button type="button" class="btn btn-danger" onclick="removeRow(this)">Remove</button></div>';
+                // Update the "Total" row
+                var totalRow = document.getElementById('totalRow');
+                var totalCell = totalRow.querySelector('input[type="text"]');
+                totalCell.value = total.toFixed(2);
             }
 
             function removeRow(button) {
