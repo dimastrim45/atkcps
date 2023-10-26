@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::put('itemgroups/edit/{itemgroup:code}', [ItemGroupController::class, 'update']);
     Route::put('items/inactive/{item:id}', [ItemController::class, 'inactive'])->name('item.inactive');
     Route::put('items/active/{item:id}', [ItemController::class, 'active'])->name('item.active');
+    Route::post('items/import', [ItemController::class, 'import'])->name('items.import');
 
     // Barang Masuk
     Route::get('barangmasuks', [BarangMasukController::class, 'index'])->name('barangmasuks');

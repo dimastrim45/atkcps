@@ -27,6 +27,31 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row mb-2">
+                        <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <form action="{{ route('items.import') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="importModalLabel">Import Items from Excel</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label for="excelFile">Select Excel File:</label>
+                                                <input type="file" name="excelFile" id="excelFile" class="form-control-file">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Import</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <form action="{{ route('item.search') }}" method="GET" class="w-50">
                             @csrf <!-- Add CSRF token field -->
                             <div class="col input-group w-50">
@@ -47,6 +72,9 @@
                         @if (in_array(auth()->user()->license, ['administrator', 'hradmin', 'manager']))
                             <div class="col float-right w-50 text-right">
                                 <div class=" pr-3 ">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#importModal">
+                                        <i class="bi bi-plus-lg pr-1"></i> Import Item
+                                    </button>
                                     <a href="{{ route('itemadd') }}"><button type="button" class="btn btn-primary"
                                             data-toggle="button" aria-pressed="false" autocomplete="off">
                                             <i class="bi bi-plus-lg pr-1"></i>

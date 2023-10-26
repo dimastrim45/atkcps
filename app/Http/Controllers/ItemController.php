@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use Illuminate\Support\Facades\DB;
+use App\Imports\ItemImport;
+use Maatwebsite\Excel\Facades\Excel;
 // use Carbon\Carbon;
 // use Illuminate\Pagination\Paginator;
 
@@ -140,5 +142,27 @@ class ItemController extends Controller
 
             return $output;
         }
+    }
+
+    public function import(Request $request)
+    {
+        // validasi
+		$this->validate($request, [
+			'excelFile' => 'required|mimes:csv,xls,xlsx'
+		]);
+
+        // menangkap file excel
+		$file = $request->file('excelFile');
+
+        // membuat nama file unik
+		$nama_file = rand().$file->getClientOriginalName();
+
+        // upload ke folder file_item di dalam folder public
+		$file->move('file_item',$nama_file);
+
+        // import data
+		Excel::import(new ItemImport, public_path('/file_item/'.$nama_file));
+
+        return redirect(route("items"))->with('success', 'Items imported successfully');
     }
 }
