@@ -7,8 +7,17 @@ use App\Models\BarangMasuk;
 use App\Models\Permintaan;
 use App\Models\Pengeluaran;
 use App\Models\Selisih;
+use App\Exports\ItemListReportExport;
+use App\Exports\UserListReportExport;
+use App\Exports\BMByDateReportExport;
+use App\Exports\PermintaanByDateReportExport;
+use App\Exports\PermintaanByReqReportExport;
+use App\Exports\PengeluaranByDateReportExport;
+use App\Exports\PengeluaranByReqReportExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use PDF;
+
 
 class ReportController extends Controller
 {
@@ -41,6 +50,10 @@ class ReportController extends Controller
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
     }
+    public function exportToExcelItemList()
+    {
+        return Excel::download(new ItemListReportExport, 'item.xlsx');
+    }
 
 
     // userlist report
@@ -60,6 +73,10 @@ class ReportController extends Controller
             'users' => $users,
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
+    }
+    public function exportToExcelUserList()
+    {
+        return Excel::download(new UserListReportExport, 'User List.xlsx');
     }
 
 
@@ -94,6 +111,11 @@ class ReportController extends Controller
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
     }
+    public function exportToExcelBMByDate(Request $request)
+    {
+        return Excel::download(new BMByDateReportExport($request), 'BMByDateReport.xlsx');
+    }
+
 
 
     // Permintaan Report
@@ -127,7 +149,10 @@ class ReportController extends Controller
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
     }
-
+    public function exportToExcelPermintaanByDate(Request $request)
+    {
+        return Excel::download(new PermintaanByDateReportExport($request), 'PermintaanByDateReport.xlsx');
+    }
     public function PermintaanByReq(Request $request){
         // Get the requester values from the request
         $requester_id = $request->input('requester_id');
@@ -164,6 +189,10 @@ class ReportController extends Controller
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
     }
+    public function exportToExcelPermintaanByReq(Request $request)
+    {
+        return Excel::download(new PermintaanByReqReportExport($request), 'PermintaanByReqReport.xlsx');
+    }
     
 
     // Pengeluaran Report
@@ -196,6 +225,10 @@ class ReportController extends Controller
             'pengeluarans' => $pengeluarans,
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
+    }
+    public function exportToExcelPengeluaranByDate(Request $request)
+    {
+        return Excel::download(new PengeluaranByDateReportExport($request), 'PengeluaranByDateReport.xlsx');
     }
     public function PengeluaranByReq(Request $request){
         // Get the requester values from the request
@@ -230,6 +263,10 @@ class ReportController extends Controller
             'pengeluarans' => $pengeluarans,
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
+    }
+    public function exportToExcelPengeluaranByReq(Request $request)
+    {
+        return Excel::download(new PengeluaranByReqReportExport($request), 'PengeluaranByReqReport.xlsx');
     }
 
 

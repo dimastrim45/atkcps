@@ -15,6 +15,13 @@
                                 <i class="bi bi-printer pr-1"></i>
                                 Print
                             </button></a>
+                            <a href="{{ route('userlist-report.export-excel') }}" target="_blank">
+                                <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                                    autocomplete="off">
+                                    <i class="bi bi-printer pr-1"></i>
+                                    Export Excel
+                                </button>
+                            </a>
                     </div>
                 </div><!-- /.col -->
             </div><!-- /.row -->

@@ -107,18 +107,29 @@ Route::middleware('auth')->group(function () {
     Route::get('reports', [ReportController::class, 'index'])->name('reports');
     Route::get('itemlist-report', [ReportController::class, 'itemList'])->name('itemlist-report');
     Route::get('itemlist-report/print-pdf', [ReportController::class, 'itemList_print_pdf'])->name('itemlist-report.print-pdf');
+    Route::get('itemlist-report/export-excel', [ReportController::class, 'exportToExcelItemList'])->name('itemlist-report.export-excel');
     Route::get('userlist-report', [ReportController::class, 'userList'])->name('userlist-report');
     Route::get('userlist-report/print-pdf', [ReportController::class, 'userList_print_pdf'])->name('userlist-report.print-pdf');
+    Route::get('userlist-report/export-excel', [ReportController::class, 'exportToExcelUserList'])->name('userlist-report.export-excel');
     Route::get('bm-bydate-report', [ReportController::class, 'BMByDate'])->name('bm-bydate-report');
     Route::get('bm-bydate-report/print-pdf', [ReportController::class, 'BMByDate_print_pdf'])->name('bm-bydate-report.print-pdf');
+    Route::get('bm-bydate-report/export-excel', [ReportController::class, 'exportToExcelBMByDate'])->name('bm-bydate-report.export-excel');
     Route::get('permintaan-bydate-report', [ReportController::class, 'PermintaanByDate'])->name('permintaan-bydate-report');
     Route::get('permintaan-bydate-report/print-pdf', [ReportController::class, 'PermintaanByDate_print_pdf'])->name('permintaan-bydate-report.print-pdf');
+    Route::get('permintaan-bydate-report/export-excel', [ReportController::class, 'exportToExcelPermintaanByDate'])->name('permintaan-bydate-report.export-excel');
+
     Route::get('permintaan-byreq-report', [ReportController::class, 'PermintaanByReq'])->name('permintaan-byreq-report');
     Route::get('permintaan-byreq-report/print-pdf', [ReportController::class, 'PermintaanByReq_print_pdf'])->name('permintaan-byreq-report.print-pdf');
+    Route::get('permintaan-byreq-report/export-excel', [ReportController::class, 'exportToExcelPermintaanByReq'])->name('permintaan-byreq-report.export-excel');
+
     Route::get('pengeluaran-bydate-report', [ReportController::class, 'PengeluaranByDate'])->name('pengeluaran-bydate-report');
     Route::get('pengeluaran-bydate-report/print-pdf', [ReportController::class, 'PengeluaranByDate_print_pdf'])->name('pengeluaran-bydate-report.print-pdf');
+    Route::get('pengeluaran-bydate-report/export-excel', [ReportController::class, 'exportToExcelPengeluaranByDate'])->name('pengeluaran-bydate-report.export-excel');
+
     Route::get('pengeluaran-byreq-report', [ReportController::class, 'PengeluaranByReq'])->name('pengeluaran-byreq-report');
     Route::get('pengeluaran-byreq-report/print-pdf', [ReportController::class, 'PengeluaranByReq_print_pdf'])->name('pengeluaran-byreq-report.print-pdf');
+    Route::get('pengeluaran-byreq-report/export-excel', [ReportController::class, 'exportToExcelPengeluaranByReq'])->name('pengeluaran-byreq-report.export-excel');
+
     Route::get('selisih-bydate-report', [ReportController::class, 'SelisihByDate'])->name('selisih-bydate-report');
     Route::get('selisih-bydate-report/print-pdf', [ReportController::class, 'SelisihByDate_print_pdf'])->name('selisih-bydate-report.print-pdf');
 });

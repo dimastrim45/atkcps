@@ -6,14 +6,23 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('List Pengeluaran By Reequester ') . $pengeluarans->first()->requester_name }}</h1>
+                    <h1 class="m-0">{{ __('List Pengeluaran By Reequester ') . $pengeluarans->first()->requester_name }}
+                    </h1>
                 </div>
                 <div class="col-sm-6 float-right text-right">
-                    <div class=" pr-3 ">
-                        <form method="GET" action="{{ route('pengeluaran-byreq-report.print-pdf') }}" target="_blank">
+                    <div class=" pl-3 ">
+                        <form method="GET" action="{{ route('pengeluaran-byreq-report.print-pdf') }}" target="_blank"
+                            class="d-inline">
                             <input type="hidden" name="requester_id" value="{{ $pengeluarans->first()->requester_id }}">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-printer pr-1"></i> Print
+                            </button>
+                        </form>
+                        <form method="GET" action="{{ route('pengeluaran-byreq-report.export-excel') }}" target="_blank"
+                            class="d-inline">
+                            <input type="hidden" name="requester_id" value="{{ $pengeluarans->first()->requester_id }}">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-printer pr-1"></i> Export
                             </button>
                         </form>
                     </div>

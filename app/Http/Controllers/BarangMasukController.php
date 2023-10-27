@@ -54,7 +54,7 @@ class BarangMasukController extends Controller
      */
     public function store(StoreBarangMasukRequest $request)
     {
-        dd($request);
+        // dd($request);
         // Get the current year and month
         $currentYear = date('Y');
         $currentMonth = date('m');
@@ -84,6 +84,7 @@ class BarangMasukController extends Controller
         // Loop through the items and insert them into the "barang_masuks" table
         $itemIds = $request->input('item_id');
         $prices = $request->input('price');
+        $subtotals = $request->input('subtotal');
         $expDates = $request->input('expdate');
         $qtys = $request->input('qty');
 
@@ -105,6 +106,7 @@ class BarangMasukController extends Controller
             $barangMasuk->qty = $qtys[$key];
             $barangMasuk->expdate = $expDates[$key];
             $barangMasuk->price = $prices[$key];
+            $barangMasuk->subtotal = $subtotals[$key];
 
             // Save the current item to the database
             $barangMasuk->save();

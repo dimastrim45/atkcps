@@ -10,11 +10,18 @@
                 </div>
                 <div class="col-sm-6 float-right text-right">
                     <div class=" pr-3 ">
-                        <a href="{{ route('itemlist-report.print-pdf') }}" target="_blank"><button type="button" class="btn btn-primary"
-                                data-toggle="button" aria-pressed="false" autocomplete="off">
+                        <a href="{{ route('itemlist-report.print-pdf') }}" target="_blank"><button type="button"
+                                class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
                                 <i class="bi bi-printer pr-1"></i>
                                 Print
                             </button></a>
+                        <a href="{{ route('itemlist-report.export-excel') }}" target="_blank">
+                            <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                                autocomplete="off">
+                                <i class="bi bi-printer pr-1"></i>
+                                Export Excel
+                            </button>
+                        </a>
                     </div>
                 </div><!-- /.col -->
             </div><!-- /.row -->
