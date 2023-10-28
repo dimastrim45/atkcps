@@ -268,11 +268,7 @@ class PermintaanController extends Controller
      * Update the specified resource in storage.
      */
     public function close(Request $request, Permintaan $permintaan)
-    {
-        //
-        // Permintaan::where('docnum', $permintaan->docnum)->update(['status' => 'Closed']);
-        // return redirect(route("permintaans"))->with('success', 'Permintaan updated.');
-        
+    {        
         // Find all Permintaan instances with the given docnum
         $permintaanInstances = Permintaan::where('docnum', $permintaan->docnum)->get();
 
@@ -282,11 +278,11 @@ class PermintaanController extends Controller
 
         // Loop through each Permintaan instance
         foreach ($permintaanInstances as $permintaanInstance) {
-            $item = Item::find($permintaanInstance->item_id);
-            $item->qty += $permintaanInstance->openqty;
-            $item->save();
+            // $item = Item::find($permintaanInstance->item_id);
+            // $item->qty += $permintaanInstance->openqty;
+            // $item->save();
 
-            $permintaanInstance->openqty = 0;
+            // $permintaanInstance->openqty = 0;
 
             // Update the Permintaan status to 'Rejected'
             $permintaanInstance->update(['status' => 'Closed']);
@@ -311,14 +307,43 @@ class PermintaanController extends Controller
 
         // Loop through each Permintaan instance
         foreach ($permintaanInstances as $permintaanInstance) {
-            $item = Item::find($permintaanInstance->item_id);
-            $item->qty += $permintaanInstance->openqty;
-            $item->save();
+            // $item = Item::find($permintaanInstance->item_id);
+            // $item->qty += $permintaanInstance->openqty;
+            // $item->save();
 
-            $permintaanInstance->openqty = 0;
+            // $permintaanInstance->openqty = 0;
 
             // Update the Permintaan status to 'Rejected'
             $permintaanInstance->update(['status' => 'Rejected']);
+        }
+
+
+        // Permintaan::where('docnum', $permintaan->docnum)->update(['status' => 'Rejected']);
+        return redirect(route("permintaans"))->with('success', 'Permintaan updated.');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function open(Request $request, Permintaan $permintaan)
+    {        
+        // Find all Permintaan instances with the given docnum
+        $permintaanInstances = Permintaan::where('docnum', $permintaan->docnum)->get();
+
+        if ($permintaanInstances->isEmpty()) {
+            return redirect(route("permintaans"))->with('error', 'No Permintaan found with the specified docnum.');
+        }
+
+        // Loop through each Permintaan instance
+        foreach ($permintaanInstances as $permintaanInstance) {
+            // $item = Item::find($permintaanInstance->item_id);
+            // $item->qty += $permintaanInstance->openqty;
+            // $item->save();
+
+            // $permintaanInstance->openqty = 0;
+
+            // Update the Permintaan status to 'Rejected'
+            $permintaanInstance->update(['status' => 'Open']);
         }
 
 

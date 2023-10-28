@@ -21,6 +21,13 @@
                         <button type="submit" class="btn btn-success">Close</button>
                     </form>
                 @endif
+                @if ($permintaan->status !== 'Open')
+                    <form action="/permintaan/open/{{ $permintaan->docnum }}" method="POST">
+                        @method('PUT')
+                        @csrf
+                        <button type="submit" class="btn btn-success mr-2">Open</button>
+                    </form>
+                @endif
             </div>
         </td>
     @endif
