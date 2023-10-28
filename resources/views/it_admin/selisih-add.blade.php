@@ -22,13 +22,10 @@
                         <div class="card-body p-0">
                             <form action="{{ route('selisih.store') }}" method="POST">
                                 @csrf
-                                {{-- <div class="row pl-2 m-2">
-                                    {{ 'Nomor PO' }}
-                                    <input type="text" class="ml-2" name="nomorpo">
-                                </div> --}}
                                 <table class="table" id="thetable">
                                     <thead>
                                         <tr class="text-center">
+                                            <th>Item ID</th>
                                             <th>Item Name</th>
                                             <th>UoM</th>
                                             <th>Qty</th>
@@ -38,16 +35,17 @@
                                     <tbody>
                                         <tr class="text-center">
                                             <td>
-                                                <select name="item_id[]" class="form-select w-100"
-                                                    onchange="updateUOM(this)">
-                                                    @foreach ($items as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <input class="form-control form-control-sm text-center" type="text"
+                                                    name="item_id[]" id="itemIdInput" value="" readonly>
                                             </td>
                                             <td>
-                                                <input class="" type="text" name="uom[]" id="uomInput"
-                                                    value="" readonly>
+                                                <input type="text" name="item_name" class="form-control item-search"
+                                                    placeholder="Search for an item" autocomplete="off">
+                                                <div class="search-results"></div>
+                                            </td>
+                                            <td>
+                                                <input class="form-control form-control-sm text-center" type="text"
+                                                    name="uom[]" id="uomInput" value="" readonly>
                                             </td>
                                             <td><input type="number" name="qty[]"></td>
                                             <td class="d-flex justify-content-center" id="removeBtn">
@@ -81,6 +79,56 @@
             </div>
             <!-- /.row -->
         </div><!-- /.container-fluid -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script>
+            const items = @json($items); // Pass the items from your Laravel controller
+
+            // Handle the "Add Row" button click
+            $('#addRowButton').click(function() {
+                addRow();
+            });
+
+            // Handle the "Remove" button click
+            $(document).on('click', '.removeRowButton', function() {
+                removeRow(this);
+            });
+
+            // Handle the "input" event for the "Item Name" search
+            $(document).on('input', '.item-search', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                const resultsContainer = $(this).siblings('.search-results');
+                const results = items.filter(item => item.name.toLowerCase().includes(searchTerm));
+
+                resultsContainer.empty();
+
+                if (results.length > 0) {
+                    results.forEach(item => {
+                        // Include the class 'search-result-item' here
+                        const resultItem =
+                            `<div class="result-item search-result-item" data-id="${item.id}">${item.name}</div>`;
+                        resultsContainer.append(resultItem);
+                    });
+                } else {
+                    resultsContainer.append('<div class="result-item">No results found</div>');
+                }
+            });
+
+            // Handle the click event for selecting an item from the search results
+            $(document).on('click', '.result-item', function() {
+                const selectedItemId = $(this).data('id');
+                const selectedItemUom = $(this).data('uom');
+                const selectedItem = items.find(item => item.id === selectedItemId);
+                const row = $(this).closest('tr');
+
+                row.find('input[name="item_name"]').val(selectedItem.name);
+                row.find('input[name="item_id[]"]').val(selectedItem.id); // Set the item ID
+                row.find('input[name="uom[]"]').val(selectedItem.uom); // Set the item ID
+
+                $(this).parent().empty(); // Clear the search results
+            });
+        </script>
+
         <script>
             function addRow() {
                 var table = document.getElementById("thetable").getElementsByTagName('tbody')[0];
@@ -108,7 +156,7 @@
             }
         </script>
 
-        <script>
+        {{-- <script>
             var uomValues = {
                 @foreach ($items as $item)
                     '{{ $item->id }}': '{{ $item->uom }}',
@@ -126,7 +174,7 @@
                 var uomInput = row.querySelector('input[name="uom[]"]');
                 uomInput.value = uomValues[selectedItem] || '';
             }
-        </script>
+        </script> --}}
     </div>
     <!-- /.content -->
 @endsection
