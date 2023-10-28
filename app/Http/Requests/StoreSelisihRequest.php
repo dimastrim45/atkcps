@@ -24,7 +24,7 @@ class StoreSelisihRequest extends FormRequest
         return [
             'item_id.*' => 'required|exists:items,id', // Validate each item_id in the array to exist in the "items" table
             'uom.*' => 'required|string|max:255',
-            'qty.*' => 'required|integer|min:1',
+            'qty.*' => 'required|integer',
             'remarks' => 'required|string|max:255',
         ];
     }

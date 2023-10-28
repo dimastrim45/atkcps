@@ -189,7 +189,7 @@ class SelisihController extends Controller
             $item = Item::find($itemId);
             if ($item) {
                 // Set the item's qty to the qty from Selisih
-                $item->qty = $qty;
+                $item->qty = $item->qty+$qty;
                 $item->save();
             }
         }
