@@ -132,4 +132,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('selisih-bydate-report', [ReportController::class, 'SelisihByDate'])->name('selisih-bydate-report');
     Route::get('selisih-bydate-report/print-pdf', [ReportController::class, 'SelisihByDate_print_pdf'])->name('selisih-bydate-report.print-pdf');
+    Route::get('selisih-bydate-report/export-excel', [ReportController::class, 'exportToExcelSelisihByDate'])->name('selisih-bydate-report.export-excel');
+
 });

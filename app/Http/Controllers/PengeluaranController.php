@@ -110,6 +110,7 @@ class PengeluaranController extends Controller
         $prices = $request->input('price');
         $expDates = $request->input('expdate');
         $qtys = $request->input('qty');
+        $permintaan_id = $request->input('permintaan_id');
     
         // Define a flag to track if all items are valid
         $allItemsValid = true;
@@ -161,7 +162,6 @@ class PengeluaranController extends Controller
                 $pengeluaran->docdate = $currentDate;
                 $pengeluaran->DocId = $nextID;
                 // $pengeluaran->duedate = $request->input('duedate');
-                $pengeluaran->permintaan_id = $request->input('permintaan_id');
                 $pengeluaran->user_id = auth()->id();
                 $pengeluaran->admin = auth()->user()->name;
                 $pengeluaran->status = "Open";
@@ -174,6 +174,7 @@ class PengeluaranController extends Controller
                 $pengeluaran->qty = $qtys[$key];
                 $pengeluaran->expdate = $expDates[$key];
                 $pengeluaran->price = $prices[$key];
+                $pengeluaran->permintaan_id = $permintaan_id[$key];
     
                 // Save the current item to the database
                 $pengeluaran->save();

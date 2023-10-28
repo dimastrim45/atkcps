@@ -14,6 +14,7 @@ use App\Exports\PermintaanByDateReportExport;
 use App\Exports\PermintaanByReqReportExport;
 use App\Exports\PengeluaranByDateReportExport;
 use App\Exports\PengeluaranByReqReportExport;
+use App\Exports\SelisihByDateReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use PDF;
@@ -301,5 +302,9 @@ class ReportController extends Controller
             'selisihs' => $selisihs,
         ])->setOptions(['defaultFont' => 'sans-serif']);
         return $pdf->stream();
+    }
+    public function exportToExcelSelisihByDate(Request $request)
+    {
+        return Excel::download(new SelisihByDateReportExport($request), 'SelisihByDateReport.xlsx');
     }
 }

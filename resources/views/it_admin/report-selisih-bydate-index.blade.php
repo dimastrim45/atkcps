@@ -9,12 +9,21 @@
                     <h1 class="m-0">{{ __('List selisih Barang') }}</h1>
                 </div>
                 <div class="col-sm-6 float-right text-right">
-                    <div class=" pr-3 ">
-                        <form method="GET" action="{{ route('selisih-bydate-report.print-pdf') }}" target="_blank">
+                    <div class=" pl-3 ">
+                        <form method="GET" action="{{ route('selisih-bydate-report.print-pdf') }}" target="_blank"
+                            class="d-inline">
                             <input type="hidden" name="fromDate" value="{{ $fromDate }}">
                             <input type="hidden" name="toDate" value="{{ $toDate }}">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-printer pr-1"></i> Print
+                            </button>
+                        </form>
+                        <form method="GET" action="{{ route('selisih-bydate-report.export-excel') }}" target="_blank"
+                            class="d-inline">
+                            <input type="hidden" name="fromDate" value="{{ $fromDate }}">
+                            <input type="hidden" name="toDate" value="{{ $toDate }}">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-printer pr-1"></i> Export
                             </button>
                         </form>
                     </div>
