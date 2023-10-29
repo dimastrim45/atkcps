@@ -84,7 +84,8 @@ Route::middleware('auth')->group(function () {
     Route::put('selisih/update/{selisih:docnum}', [SelisihController::class, 'update'])->name('selisih.update');
 
     // Feedback
-    Route::view('feedbacks', 'it_admin.feedbacks', ['title' => 'feedbacks'])->name('feedbacks');
+    Route::view('feedbacks', 'it_admin.feedback-index', ['title' => 'feedbacks'])->name('feedbacks');
+    Route::view('chat', 'it_admin.feedback-chat', ['title' => 'feedback-chat'])->name('chat');
 
     // Plant Management
     Route::get('plants', [PlantController::class, 'index'])->name('plants');
