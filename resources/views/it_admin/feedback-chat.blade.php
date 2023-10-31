@@ -4,6 +4,15 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="row mb-2">
                 {{-- <div class="col-sm-6">
                     <h1 class="m-0">{{ __('Feedback') }}</h1>
@@ -19,8 +28,12 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="{{ route('pengeluaranadd') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('chat.store', ['feedback' => $feedback->feedback_docnum]) }}"
+                                method="POST" enctype="multipart/form-data">
                                 @csrf
+                                <input type="hidden" name="feedback_id" value="{{ $feedback->id }}">
+                                <input type="hidden" name="message_type" value="image">
+                                <input type="hidden" name="message" value="image">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="image">Select Image</label>
@@ -52,74 +65,80 @@
             <div class="row">
                 <div class="col-md-12">
                     <!-- DIRECT CHAT PRIMARY -->
-                    <div class="card card-primary card-outline direct-chat direct-chat-primary">
+                    <div class="card card-primary card-outline direct-chat direct-chat-primary" style="height: 80vh;">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h3 class="card-title">Feedback Number 201</h3>
+                                <h3 class="card-title">{{ $feedback->status }}</h3>
                                 <h3 class="card-title">Tidak menerima barang</h3>
                             </div>
                         </div>
                         <!-- /.card-header -->
-                        <div class="card-body">
+                        <div class="card-body" style="height: 100%;">
                             <!-- Conversations are loaded here -->
-                            <div class="direct-chat-messages">
-                                <!-- Message. Default to the left -->
-                                <div class="direct-chat-msg row">
-                                    <div class=" col-5">
-                                        <div class="direct-chat-infos clearfix">
-                                            <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                            <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                            <div class="direct-chat-messages" style="height: 100%;">
+                                @foreach ($chats as $chat)
+                                    @if ($chat->user_id !== auth()->user()->id)
+                                        <!-- Message. Default to the left -->
+                                        <div class="direct-chat-msg row">
+                                            <div class=" col-5">
+                                                <div class="direct-chat-infos clearfix">
+                                                    <span class="direct-chat-name float-left">{{ $chat->user->name }}</span>
+                                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                                </div>
+                                                <!-- /.direct-chat-infos -->
+                                                <img class="direct-chat-img" src="{{ asset('images/avatar.png') }}"
+                                                    alt="Message User Image">
+                                                <!-- /.direct-chat-img -->
+                                                <div class="direct-chat-text">
+                                                    {{ $chat->message }}
+                                                </div>
+                                                <!-- /.direct-chat-text -->
+                                            </div>
                                         </div>
-                                        <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"
-                                            alt="Message User Image">
-                                        <!-- /.direct-chat-img -->
-                                        <div class="direct-chat-text">
-                                            Is this thw world? That's unbelievable!
+                                        <!-- /.direct-chat-msg -->
+                                    @else
+                                        <!-- Message to the right -->
+                                        <div class="direct-chat-msg right offset-md-7 col-md-5">
+                                            <div class="direct-chat-infos clearfix">
+                                                <span class="direct-chat-name float-right">{{ $chat->user->name }}</span>
+                                                <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                            </div>
+                                            <!-- /.direct-chat-infos -->
+                                            <img class="direct-chat-img" src="{{ asset('images/avatar.png') }}"
+                                                alt="Message User Image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                {{ $chat->message }}
+                                            </div>
+                                            <!-- /.direct-chat-text -->
                                         </div>
-                                        <!-- /.direct-chat-text -->
-                                    </div>
-                                </div>
-                                <!-- /.direct-chat-msg -->
-
-                                <!-- Message to the right -->
-                                <div class="direct-chat-messages">
-                                    <!-- Message to the right -->
-                                    <div class="direct-chat-msg right offset-md-7 col-md-5">
-                                        <div class="direct-chat-infos clearfix">
-                                            <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                            <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                        </div>
-                                        <!-- /.direct-chat-infos -->
-                                        <img class="direct-chat-img" src="../dist/img/user3-128x128.jpg"
-                                            alt="Message User Image">
-                                        <!-- /.direct-chat-img -->
-                                        <div class="direct-chat-text">
-                                            You better believe it!
-                                        </div>
-                                        <!-- /.direct-chat-text -->
-                                    </div>
-                                </div>
-                                <!-- /.direct-chat-msg -->
+                                        <!-- /.direct-chat-msg -->
+                                    @endif
+                                @endforeach
                             </div>
                             <!--/.direct-chat-messages-->
-
                             <!-- /.direct-chat-pane -->
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <form action="#" method="post">
+                            <form action="{{ route('chat.store', ['feedback' => $feedback->feedback_docnum]) }}"
+                                method="POST">
+                                @csrf
+                                <input type="hidden" name="feedback_id" value="{{ $feedback->id }}">
+                                <input type="hidden" name="message_type" value="text">
                                 <div class="input-group">
-                                    <button type="button" class="btn btn-secondary" data-toggle="modal"
-                                        data-target="#exampleModal">
-                                        Attach Image
-                                    </button>
-                                    <input type="text" name="message" placeholder="Type Message ..."
-                                        class="form-control">
-                                    <span class="input-group-append">
+                                    <div class="input-group-prepend">
+                                        <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            Attach Image
+                                        </button>
+                                    </div>
+                                    <input type="text" name="message" placeholder="Type Message..." class="form-control"
+                                        autocomplete="off">
+                                    <div class="input-group-append">
                                         <button type="submit" class="btn btn-primary">Send</button>
-                                    </span>
-                                    <!-- Button to open the image attachment modal -->
+                                    </div>
                                 </div>
                             </form>
                         </div>

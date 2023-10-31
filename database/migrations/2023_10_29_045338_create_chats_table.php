@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('feedback_id');
             $table->foreignId('user_id');
-            $table->text('content'); // Use a text column to store both text messages and image paths
+            $table->text('message'); // Use a text column to store both text messages and image paths
             $table->enum('message_type', ['text', 'image']); // Add a column for message type
             $table->string('image_path')->nullable(); // Add a column for image path
             $table->timestamps();
@@ -28,5 +28,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('chats');
+    }
+
+    public function feedback(){
+        return $this->belongsTo(Feedback::class, 'feedback_id');
     }
 };

@@ -11,6 +11,8 @@ use \App\Http\Controllers\PengeluaranController;
 use \App\Http\Controllers\PlantController;
 use \App\Http\Controllers\SelisihController;
 use \App\Http\Controllers\ReportController;
+use \App\Http\Controllers\FeedbackController;
+use \App\Http\Controllers\ChatController;
 
 
 // using auth standart route
@@ -72,8 +74,6 @@ Route::middleware('auth')->group(function () {
     Route::put('pengeluaran/released/{pengeluaran:docnum}', [PengeluaranController::class, 'released'])->name('pengeluaran.released');
     Route::get('pengeluaran/search', [PengeluaranController::class, 'search'])->name('pengeluaran.search');
 
-
-
     // Selisih for stock opnam
     Route::get('selisihs', [SelisihController::class, 'index'])->name('selisihs');
     Route::get('selisihadd', [SelisihController::class, 'create'])->name('selisih.add');
@@ -84,8 +84,10 @@ Route::middleware('auth')->group(function () {
     Route::put('selisih/update/{selisih:docnum}', [SelisihController::class, 'update'])->name('selisih.update');
 
     // Feedback
-    Route::view('feedbacks', 'it_admin.feedback-index', ['title' => 'feedbacks'])->name('feedbacks');
-    Route::view('chat', 'it_admin.feedback-chat', ['title' => 'feedback-chat'])->name('chat');
+    Route::get('feedbacks', [FeedbackController::class, 'index'])->name('feedbacks');
+    Route::post('feedbacks/store', [FeedbackController::class, 'store'])->name('feedback.store');
+    Route::get('chat/{feedback:feedback_docnum}', [ChatController::class, 'index'])->name('chat');
+    Route::post('chat/{feedback:feedback_docnum}', [ChatController::class, 'store'])->name('chat.store');
 
     // Plant Management
     Route::get('plants', [PlantController::class, 'index'])->name('plants');

@@ -53,4 +53,12 @@ class User extends Authenticatable
     public function plant(){
         return $this->belongsTo(Plant::class, 'plant_id');
     }
+
+    public function feedback(){
+        return $this->hasMany(Feedback::class);
+    }
+
+    public function chat(){
+        return $this->hasMany(Chat::class);
+    }
 }

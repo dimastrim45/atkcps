@@ -15,11 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('admin_id')->nullable();
+            $table->integer('DocId');
             $table->string('feedback_docnum');
             $table->date('docdate');
             $table->date('duedate');
             $table->string('topic');
             $table->string('status');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }

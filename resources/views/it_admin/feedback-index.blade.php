@@ -16,9 +16,27 @@
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show">
+                    {{ session('success') }}
+                    <button type="button" class="close bg-white rounded" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row mb-2">
+
                         <div class="col input-group w-50">
                             <input type="text" class="form-control" placeholder="Search for item ...">
                             <div class="input-group-append">
@@ -28,14 +46,44 @@
                             </div>
                         </div>
                         <div class="col float-right w-50 text-right">
-                            {{-- <div class=" pr-3">
-                                <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
-                                    autocomplete="off">
+                            <div class=" pr-3">
+                                <button type="button" class="btn btn-primary" aria-pressed="false" autocomplete="off"
+                                    data-toggle="modal" data-target="#exampleModal">
                                     <i class="bi bi-plus-lg pr-1"></i>
-                                    Tambah Item
+                                    Tambah Feedback
                                 </button>
-                            </div> --}}
+                            </div>
                         </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Feedback
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form id="feedback-form" action="{{ route('feedback.store') }}" method="POST">
+                                        @csrf
+                                        <div class="modal-body" class="">
+                                            <div class="form-group">
+                                                <label for="topic">Insert Topic</label>
+                                                <input type="text" class="form-control" id="topic" name="topic">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="card">
@@ -47,22 +95,21 @@
                                         <th>User Name</th>
                                         <th>Date</th>
                                         <th>Branch</th>
-                                        <th>Telp. Number</th>
-                                        <th>Request Doc. Num</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach ($users as $user) --}}
-                                    <tr class="text-center">
-                                        <td><a href="{{ route('chat') }}">{{ '1' }}</a></td>
-                                        <td>{{ 'Toni' }}</td>
-                                        <td>{{ '10-08-2023' }}</td>
-                                        <td>{{ 'FAT' }}</td>
-                                        <td><a href="https://wa.me/085155058869" target="_blank">{{ '085155058869' }}</a>
-                                        </td>
-                                        <td>{{ '20230801001' }}</td>
-                                    </tr>
-                                    {{-- @endforeach --}}
+                                    @foreach ($feedbacks as $feedback)
+                                        <tr class="text-center">
+                                            <td><a
+                                                    href="{{ route('chat', ['feedback' => $feedback->feedback_docnum]) }}">{{ $feedback->feedback_docnum }}</a>
+                                            </td>
+                                            <td>{{ $feedback->user->name }}</td>
+                                            <td>{{ $feedback->docdate }}</td>
+                                            <td>{{ $feedback->user->plant->name }}</td>
+                                            <td>{{ $feedback->status }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -75,114 +122,24 @@
                 </div>
             </div>
             <!-- /.row -->
-
-            <!-- Direct Chat -->
-            <h4 class="mt-4 mb-2">Direct Chat</h4>
-            <div class="row">
-                <div class="col-md-3">
-                    <!-- DIRECT CHAT PRIMARY -->
-                    <div class="card card-primary card-outline direct-chat direct-chat-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Direct Chat</h3>
-
-                            <div class="card-tools">
-                                <span title="3 New Messages" class="badge bg-primary">3</span>
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
-                                    <i class="fas fa-comments"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <!-- Conversations are loaded here -->
-                            <div class="direct-chat-messages">
-                                <!-- Message. Default to the left -->
-                                <div class="direct-chat-msg">
-                                    <div class="direct-chat-infos clearfix">
-                                        <span class="direct-chat-name float-left">Alexander Pierce</span>
-                                        <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
-                                    </div>
-                                    <!-- /.direct-chat-infos -->
-                                    <img class="direct-chat-img" src="../dist/img/user1-128x128.jpg"
-                                        alt="Message User Image">
-                                    <!-- /.direct-chat-img -->
-                                    <div class="direct-chat-text">
-                                        Is this template really for free? That's unbelievable!
-                                    </div>
-                                    <!-- /.direct-chat-text -->
-                                </div>
-                                <!-- /.direct-chat-msg -->
-
-                                <!-- Message to the right -->
-                                <div class="direct-chat-msg right">
-                                    <div class="direct-chat-infos clearfix">
-                                        <span class="direct-chat-name float-right">Sarah Bullock</span>
-                                        <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
-                                    </div>
-                                    <!-- /.direct-chat-infos -->
-                                    <img class="direct-chat-img" src="../dist/img/user3-128x128.jpg"
-                                        alt="Message User Image">
-                                    <!-- /.direct-chat-img -->
-                                    <div class="direct-chat-text">
-                                        You better believe it!
-                                    </div>
-                                    <!-- /.direct-chat-text -->
-                                </div>
-                                <!-- /.direct-chat-msg -->
-                            </div>
-                            <!--/.direct-chat-messages-->
-
-                            <!-- Contacts are loaded here -->
-                            <div class="direct-chat-contacts">
-                                <ul class="contacts-list">
-                                    <li>
-                                        <a href="#">
-                                            <img class="contacts-list-img" src="../dist/img/user1-128x128.jpg"
-                                                alt="User Avatar">
-
-                                            <div class="contacts-list-info">
-                                                <span class="contacts-list-name">
-                                                    Count Dracula
-                                                    <small class="contacts-list-date float-right">2/28/2015</small>
-                                                </span>
-                                                <span class="contacts-list-msg">How have you been? I was...</span>
-                                            </div>
-                                            <!-- /.contacts-list-info -->
-                                        </a>
-                                    </li>
-                                    <!-- End Contact Item -->
-                                </ul>
-                                <!-- /.contatcts-list -->
-                            </div>
-                            <!-- /.direct-chat-pane -->
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <form action="#" method="post">
-                                <div class="input-group">
-                                    <input type="text" name="message" placeholder="Type Message ..."
-                                        class="form-control">
-                                    <span class="input-group-append">
-                                        <button type="submit" class="btn btn-primary">Send</button>
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- /.card-footer-->
-                    </div>
-                    <!--/.direct-chat -->
-                </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find the form and submit button by their IDs
+            const form = document.getElementById('feedback-form');
+            const submitButton = form.querySelector('button[type="submit"]');
+
+            form.addEventListener('submit', function(event) {
+                // Disable the submit button to prevent double-click
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Submitting...'; // Optionally, change the button text
+
+                // You can also prevent the form from submitting immediately, allowing you to perform validation
+                // or other tasks. If everything is valid, you can submit the form programmatically.
+                // Example: form.submit();
+            });
+        });
+    </script>
 @endsection

@@ -132,32 +132,39 @@
                                             class="form-control @error('department') is-invalid @enderror"
                                             placeholder="{{ __('Department') }}"
                                             value="{{ old('department', $user->department) }}" required>
-                                            <option value="DEL" {{ $user->department == 'DEL' ? 'selected' : '' }}>
-                                                Delivery</option>
-                                            <option value="DIST" {{ $user->department == 'DIST' ? 'selected' : '' }}>
-                                                Distribution
-                                            </option>
+                                            <option value="ENG" {{ $user->department == 'ENG' ? 'selected' : '' }}>
+                                                Engineering</option>
                                             <option value="FAT" {{ $user->department == 'FAT' ? 'selected' : '' }}>
-                                                Finance Accounting Tax</option>
-                                            <option value="HRGA" {{ $user->department == 'HRGA' ? 'selected' : '' }}>HRGA
+                                                Finance Accounting Tax
                                             </option>
-                                            <option value="MGM" {{ $user->department == 'MGM' ? 'selected' : '' }}>
-                                                Management</option>
-                                            <option value="MKT" {{ $user->department == 'MKT' ? 'selected' : '' }}>
+                                            <option value="GFG" {{ $user->department == 'GFG' ? 'selected' : '' }}>
+                                                Gudang FG</option>
+                                            <option value="GRT" {{ $user->department == 'GRT' ? 'selected' : '' }}>
+                                                Gudang Retail
+                                            </option>
+                                            <option value="GRM" {{ $user->department == 'GRM' ? 'selected' : '' }}>
+                                                Gudang RM</option>
+                                            <option value="HRGA" {{ $user->department == 'HRGA' ? 'selected' : '' }}>
+                                                HRGA</option>
+                                            <option value="DGSL" {{ $user->department == 'DGSL' ? 'selected' : '' }}>
+                                                Digital Sales</option>
+                                            <option value="SLS" {{ $user->department == 'SLS' ? 'selected' : '' }}>
+                                                Sales</option>
+                                            <option value="MRKT" {{ $user->department == 'MRKT' ? 'selected' : '' }}>
                                                 Marketing</option>
-                                            <option value="PPI" {{ $user->department == 'PPI' ? 'selected' : '' }}>
-                                                PPIC</option>
-                                            <option value="PRO" {{ $user->department == 'PRO' ? 'selected' : '' }}>
-                                                Production</option>
-                                            <option value="PUR" {{ $user->department == 'PUR' ? 'selected' : '' }}>
-                                                Purchasing</option>
-                                            <option value="RETAIL" {{ $user->department == 'RETAIL' ? 'selected' : '' }}>
-                                                Retail
+                                            <option value="DEL" {{ $user->department == 'DEL' ? 'selected' : '' }}>
+                                                Pengiriman
                                             </option>
-                                            <option value="WHS" {{ $user->department == 'WHS' ? 'selected' : '' }}>
-                                                Warehouse</option>
-                                            <option value="WHSALE" {{ $user->department == 'WHSALE' ? 'selected' : '' }}>
-                                                Wholesale
+                                            <option value="PROD" {{ $user->department == 'PROD' ? 'selected' : '' }}>
+                                                Produksi</option>
+                                            <option value="PPIC" {{ $user->department == 'PPIC' ? 'selected' : '' }}>
+                                                PPIC
+                                            </option>
+                                            <option value="RPR" {{ $user->department == 'RPR' ? 'selected' : '' }}>
+                                                Repair
+                                            </option>
+                                            <option value="PRCH" {{ $user->department == 'PRCH' ? 'selected' : '' }}>
+                                                Purchasing
                                             </option>
                                         </select>
                                         <div class="input-group-append">
