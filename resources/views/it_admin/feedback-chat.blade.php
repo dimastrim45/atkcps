@@ -1,6 +1,14 @@
 @extends('it_admin.layouts.app')
 
 @section('content')
+    <style>
+        .chat-image {
+            max-width: 10px;
+            /* Set your preferred maximum width */
+            max-height: 10px;
+            /* Set your preferred maximum height */
+        }
+    </style>
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -36,11 +44,11 @@
                                 <input type="hidden" name="message" value="image">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="image">Select Image</label>
+                                        <label for="theimage">Select Image</label>
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="image" name="image"
+                                            <input type="file" class="custom-file-input" id="image" name="theimage"
                                                 accept="image/*">
-                                            <label class="custom-file-label" for="image">Choose file</label>
+                                            <label class="custom-file-label" for="theimage">Choose file</label>
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +99,12 @@
                                                     alt="Message User Image">
                                                 <!-- /.direct-chat-img -->
                                                 <div class="direct-chat-text">
-                                                    {{ $chat->message }}
+                                                    @if ($chat->message_type === 'image')
+                                                        <img src="{{ asset($chat->image_path) }}" alt="Image"
+                                                            style="width: 50%; height: auto;">
+                                                    @else
+                                                        {{ $chat->message }}
+                                                    @endif
                                                 </div>
                                                 <!-- /.direct-chat-text -->
                                             </div>
@@ -109,7 +122,12 @@
                                                 alt="Message User Image">
                                             <!-- /.direct-chat-img -->
                                             <div class="direct-chat-text">
-                                                {{ $chat->message }}
+                                                @if ($chat->message_type === 'image')
+                                                    <img src="{{ asset($chat->image_path) }}" alt="Image"
+                                                        style="width: 50%; height: auto;">
+                                                @else
+                                                    {{ $chat->message }}
+                                                @endif
                                             </div>
                                             <!-- /.direct-chat-text -->
                                         </div>
@@ -134,8 +152,8 @@
                                             Attach Image
                                         </button>
                                     </div>
-                                    <input type="text" name="message" placeholder="Type Message..." class="form-control"
-                                        autocomplete="off">
+                                    <input type="text" name="message" placeholder="Type Message..."
+                                        class="form-control" autocomplete="off">
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-primary">Send</button>
                                     </div>

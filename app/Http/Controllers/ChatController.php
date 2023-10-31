@@ -62,12 +62,15 @@ class ChatController extends Controller
             ]);
         } elseif ($messageType === 'image') {
             // Handle image message
-            $imagePath = $request->file('image')->store('images'); // Store the image and get the path
-            
+            $imageFile = $request->file('theimage');
+            $nama_file = rand() . $imageFile->getClientOriginalName();
+            $imageFile->move('images', $nama_file);
+            $imagePath = 'images/' . $nama_file;
+
             // Save the image message to the 'message' and 'image_path' fields in the database
             Chat::create([
                 'feedback_id' => $feedbackId,
-                'user_id' => auth()->user()->id, // Assuming you have user authentication
+                'user_id' => auth()->user()->id,
                 'message' => 'image', // You can set a default message or leave it empty
                 'message_type' => 'image',
                 'image_path' => $imagePath,
