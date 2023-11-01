@@ -88,6 +88,7 @@ Route::middleware('auth')->group(function () {
     Route::post('feedbacks/store', [FeedbackController::class, 'store'])->name('feedback.store');
     Route::get('chat/{feedback:feedback_docnum}', [ChatController::class, 'index'])->name('chat');
     Route::post('chat/{feedback:feedback_docnum}', [ChatController::class, 'store'])->name('chat.store');
+    Route::put('chat/close/{feedback:feedback_docnum}', [FeedbackController::class, 'close'])->name('feedback.close');
 
     // Plant Management
     Route::get('plants', [PlantController::class, 'index'])->name('plants');

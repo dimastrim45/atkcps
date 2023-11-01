@@ -61,4 +61,24 @@ class User extends Authenticatable
     public function chat(){
         return $this->hasMany(Chat::class);
     }
+
+    public function unreadChatCount()
+    {
+        if (!$this->isStaff) {
+            $unreadChats = Chat::where('user_id', '!=', $this->id)
+                ->where('is_read', false)
+                ->get();
+        } else {
+            $staffId = $this->id; // Replace with the specific staff member's ID
+            $sql = "SELECT * FROM chats WHERE staff_id = :staff_id AND is_read = 0";
+            $unreadChats = DB::select($sql, ['staff_id' => $staffId]);
+        }
+
+        dd($unreadChats); // Add this line for debugging
+    
+        return [
+            'count' => $unreadChats->count(),
+            'chats' => $unreadChats,
+        ];
+    }
 }

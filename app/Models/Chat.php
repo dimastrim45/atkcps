@@ -12,9 +12,11 @@ class Chat extends Model
     protected $fillable = [
         'feedback_id',
         'user_id',
+        'staff_id',
         'message',
         'message_type',
         'image_path',
+        'is_read',
     ];
 
     public function feedback(){
@@ -23,6 +25,10 @@ class Chat extends Model
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function receiver(){
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 
     public function down(): void

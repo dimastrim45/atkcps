@@ -76,9 +76,19 @@
                     <div class="card card-primary card-outline direct-chat direct-chat-primary" style="height: 80vh;">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Feedback Number 201</h3>
+                                <h3 class="card-title">
+                                    {{ __('Feedback Number - ') . $feedback->feedback_docnum . ' - ' . $feedback->topic }}
+                                </h3>
                                 <h3 class="card-title">{{ $feedback->status }}</h3>
-                                <h3 class="card-title">Tidak menerima barang</h3>
+                                <h3 class="card-title">
+                                    @unless ($feedback->status === 'Close')
+                                        <form action="{{ route('feedback.close', ['feedback' => $feedback->feedback_docnum]) }}" method="POST">
+                                            @method('PUT')
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Close Feedback</button>
+                                        </form>
+                                    @endunless
+                                </h3>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -92,7 +102,8 @@
                                             <div class=" col-5">
                                                 <div class="direct-chat-infos clearfix">
                                                     <span class="direct-chat-name float-left">{{ $chat->user->name }}</span>
-                                                    <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
+                                                    <span
+                                                        class="direct-chat-timestamp float-right">{{ $chat->created_at->format('j M g:i a') }}</span>
                                                 </div>
                                                 <!-- /.direct-chat-infos -->
                                                 <img class="direct-chat-img" src="{{ asset('images/avatar.png') }}"
@@ -115,7 +126,8 @@
                                         <div class="direct-chat-msg right offset-md-7 col-md-5">
                                             <div class="direct-chat-infos clearfix">
                                                 <span class="direct-chat-name float-right">{{ $chat->user->name }}</span>
-                                                <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
+                                                <span
+                                                    class="direct-chat-timestamp float-left">{{ $chat->created_at->format('j M g:i a') }}</span>
                                             </div>
                                             <!-- /.direct-chat-infos -->
                                             <img class="direct-chat-img" src="{{ asset('images/avatar.png') }}"
@@ -140,6 +152,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
+                            @if ($feedback->status === 'Open')
                             <form action="{{ route('chat.store', ['feedback' => $feedback->feedback_docnum]) }}"
                                 method="POST">
                                 @csrf
@@ -159,6 +172,7 @@
                                     </div>
                                 </div>
                             </form>
+                            @endif
                         </div>
                         <!-- /.card-footer-->
                     </div>

@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('feedback_id');
             $table->foreignId('user_id');
+            $table->foreignId('staff_id')->nullable();
             $table->text('message'); // Use a text column to store both text messages and image paths
             $table->enum('message_type', ['text', 'image']); // Add a column for message type
             $table->string('image_path')->nullable(); // Add a column for image path
+            $table->boolean('is_read')->default(false); // Add the "is_read" field
             $table->timestamps();
         });
     }

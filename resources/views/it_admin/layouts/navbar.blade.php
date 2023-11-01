@@ -1,5 +1,8 @@
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light" >
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            @php
+                use Illuminate\Support\Str;
+            @endphp
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -139,27 +142,30 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
+                        @php
+                            $unreadChatInfo = auth()
+                                ->user()
+                                ->unreadChatCount();
+                        @endphp
+                        <span class="badge badge-warning navbar-badge">{{ $unreadChatInfo['count'] }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        <span
+                            class="dropdown-item dropdown-header">{{ $unreadChatInfo['count'] . ' Notifications' }}</span>
+                        @foreach ($unreadChatInfo['chats'] as $chat)
+                            <a href="#" class="dropdown-item">
+                                @if ($chat->message_type === 'text')
+                                    <i class="fas fa-envelope mr-2"></i> New message:
+                                    {{ Str::limit($chat->message, 20, '...') }}
+                                @else
+                                    <i class="fas fa-image mr-2"></i> New image message
+                                @endif
+                                <span
+                                    class="float-right text-muted text-sm">{{ $chat->created_at->diffForHumans() }}</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                        @endforeach
+                        <a href="{{ route('feedbacks') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

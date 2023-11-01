@@ -14,8 +14,11 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        //
-        $feedbacks = Feedback::paginate(20);
+        if (auth()->user()->license !== 'staff') {
+            $feedbacks = Feedback::paginate(20);
+        } else {
+            $feedbacks = Feedback::where('user_id', auth()->user()->id)->paginate(20);
+        }
 
         return view('it_admin.feedback-index',[
             "title" => 'feedbacks',
@@ -115,5 +118,14 @@ class FeedbackController extends Controller
     public function destroy(Feedback $feedback)
     {
         //
+    }
+
+    public function close(Feedback $feedback)
+    {
+        //
+        // $chats = Chat::paginate(20);
+        $feedbackDoc = Feedback::where('feedback_docnum', $feedback->feedback_docnum)->update(['status' => 'Closed']);
+
+        return redirect(route("feedbacks"))->with('success', 'Feedback Closed.');
     }
 }
