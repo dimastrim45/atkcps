@@ -79,6 +79,7 @@ class User extends Authenticatable
         } else {
             // dd('ELSE branch executed');
             $unreadChats = Chat::where('staff_id', $this->id)
+                ->where('user_id', '!=', $this->id)
                 ->where('is_read', false)
                 ->get();
         }
