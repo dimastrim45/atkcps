@@ -62,19 +62,28 @@ class User extends Authenticatable
         return $this->hasMany(Chat::class);
     }
 
+    public function getIsStaffAttribute()
+    {
+        // You need to add your logic here to determine if the user is a staff member.
+        // For example, you can check the 'license' attribute.
+        return $this->license === 'staff';
+    }
+
     public function unreadChatCount()
     {
         if (!$this->isStaff) {
+            // dd('IF branch executed');
             $unreadChats = Chat::where('user_id', '!=', $this->id)
                 ->where('is_read', false)
                 ->get();
         } else {
-            $staffId = $this->id; // Replace with the specific staff member's ID
-            $sql = "SELECT * FROM chats WHERE staff_id = :staff_id AND is_read = 0";
-            $unreadChats = DB::select($sql, ['staff_id' => $staffId]);
+            // dd('ELSE branch executed');
+            $unreadChats = Chat::where('staff_id', $this->id)
+                ->where('is_read', false)
+                ->get();
         }
 
-        dd($unreadChats); // Add this line for debugging
+        // dd($staffId); // Add this line for debugging
     
         return [
             'count' => $unreadChats->count(),
