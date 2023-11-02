@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PlantSeeder::class,
+            ItemGroupSeeder::class,
         ]);
     }
 }

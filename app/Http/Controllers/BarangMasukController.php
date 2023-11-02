@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BarangMasuk;
 use App\Models\Item;
+use App\Models\MovingAverage;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreBarangMasukRequest;
 use App\Http\Requests\UpdateBarangMasukRequest;
@@ -125,6 +126,31 @@ class BarangMasukController extends Controller
             //     $item->price = $averagePrice;
             //     $item->save();
             // }
+
+            //below code is updating Moving Average
+            // $lastMovingAverage = MovingAverage::where('itemSaldo_id', $barangmasukInstance->item_id)
+            // ->latest('created_at')
+            // ->first();
+
+            // if ($lastMovingAverage) {
+            //     $lastQtySaldo = $lastMovingAverage->qtySaldo;
+            //     $lastTotalSaldo = $lastMovingAverage->totalSaldo;
+            // } else {
+            //     $lastQtySaldo = 0;
+            //     $lastTotalSaldo = 0;
+            // }
+
+            // $movingAverage = new MovingAverage();
+            // $movingAverage->itemIn_id = $itemId;
+            // $movingAverage->qtyIn = $qtys[$key];
+            // $movingAverage->totalIn = $subtotals[$key];
+            // $movingAverage->DocTypeIn = $subtotals[$key];
+            // $movingAverage->DocNumIn = $currentYear . $currentMonth . $formattedID;
+            // $movingAverage->itemSaldo_id = $itemId;
+            // $movingAverage->qtySaldo = $lastQtySaldo + $qtys[$key];
+            // $movingAverage->totalSaldo = $lastTotalSaldo + $subtotals[$key];
+            // $movingAverage->docdate = $currentDate;
+            // $movingAverage->save();
         }
 
         // Redirect back or to a success page
@@ -242,14 +268,44 @@ class BarangMasukController extends Controller
             return redirect(route("barangmasuks"))->with('error', 'No BarangMasuk found with the specified docnum.');
         }
 
+        $currentDate = Carbon::now()->format('Y-m-d');
+
         // Loop through each BarangMasuk instance
         foreach ($barangmasukInstances as $barangmasukInstance) {
             $item = Item::find($barangmasukInstance->item_id);
             $item->qty += $barangmasukInstance->qty;
+            $item->expdate = $barangmasukInstance->expdate;
+            $averagePrice = ($item->price + $barangmasukInstance->price) / 2;
+            $item->price = $averagePrice;
             $item->save();
 
             // Update the BarangMasuk status to 'Approved'
             $barangmasukInstance->update(['status' => 'Approved']);
+
+            //below code is updating Moving Average
+            $lastMovingAverage = MovingAverage::where('itemSaldo_id', $barangmasukInstance->item_id)
+                ->latest('created_at')
+                ->first();
+
+            if ($lastMovingAverage) {
+                $lastQtySaldo = $lastMovingAverage->qtySaldo;
+                $lastTotalSaldo = $lastMovingAverage->totalSaldo;
+            } else {
+                $lastQtySaldo = 0;
+                $lastTotalSaldo = 0;
+            }
+
+            $movingAverage = new MovingAverage();
+            $movingAverage->itemIn_id = $barangmasukInstance->item_id;
+            $movingAverage->qtyIn = $barangmasukInstance->qty;
+            $movingAverage->totalIn = $barangmasukInstance->subtotal;
+            $movingAverage->DocTypeIn = 'Barang Masuk';
+            $movingAverage->DocNumIn = $barangmasukInstance->docnum;
+            $movingAverage->itemSaldo_id = $barangmasukInstance->item_id;
+            $movingAverage->qtySaldo = $lastQtySaldo + $barangmasukInstance->qty;
+            $movingAverage->totalSaldo = $lastTotalSaldo + $barangmasukInstance->subtotal;
+            $movingAverage->docdate = $currentDate;
+            $movingAverage->save();
         }
 
         return redirect(route("barangmasuks"))->with('success', 'BarangMasuk updated.');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pengeluaran;
 use App\Models\Permintaan;
 use App\Models\Item;
+use App\Models\MovingAverage;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Requests\StorePengeluaranRequest;
@@ -182,6 +183,33 @@ class PengeluaranController extends Controller
                 // Update the item's quantity
                 $item->qty -= $qtys[$key];
                 $item->save();
+
+                //below code is updating Moving Average
+                $lastMovingAverage = MovingAverage::where('itemSaldo_id', $itemId)
+                    ->latest('created_at')
+                    ->first();
+
+                if ($lastMovingAverage) {
+                    $lastQtySaldo = $lastMovingAverage->qtySaldo;
+                    $lastTotalSaldo = $lastMovingAverage->totalSaldo;
+                } else {
+                    $lastQtySaldo = 0;
+                    $lastTotalSaldo = 0;
+                }
+
+                $newTotalOut = $qtys[$key]*$prices[$key];
+
+                $movingAverage = new MovingAverage();
+                $movingAverage->itemOut_id = $itemId;
+                $movingAverage->qtyOut = $qtys[$key];
+                $movingAverage->totalOut = $newTotalOut;
+                $movingAverage->DocTypeOut = 'Barang Keluar';
+                $movingAverage->DocNumOut = $currentYear . $currentMonth . $formattedID;
+                $movingAverage->itemSaldo_id = $itemId;
+                $movingAverage->qtySaldo = $lastQtySaldo - $qtys[$key];
+                $movingAverage->totalSaldo = $lastTotalSaldo - $newTotalOut;
+                $movingAverage->docdate = $currentDate;
+                $movingAverage->save();
             }
 
             // Update the Permintaan's open quantity for each item
