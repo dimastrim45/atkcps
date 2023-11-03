@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('itemgroup_id');
             $table->string('name');
             $table->string('uom');      // 'uom' field of type string
-            $table->integer('price');   // 'price' field of type decimal with precision 
+            $table->decimal('price', 10, 2);   // 'price' field of type decimal with precision 
             $table->date('expdate')->nullable();   // 'expdate' field of type date, nullable
             $table->integer('qty')->nullable()->default(0);    // 'qty' field of type integer
             $table->integer('min_qty')->nullable()->default(0);

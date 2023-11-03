@@ -272,13 +272,6 @@ class BarangMasukController extends Controller
 
         // Loop through each BarangMasuk instance
         foreach ($barangmasukInstances as $barangmasukInstance) {
-            $item = Item::find($barangmasukInstance->item_id);
-            $item->qty += $barangmasukInstance->qty;
-            $item->expdate = $barangmasukInstance->expdate;
-            $averagePrice = ($item->price + $barangmasukInstance->price) / 2;
-            $item->price = $averagePrice;
-            $item->save();
-
             // Update the BarangMasuk status to 'Approved'
             $barangmasukInstance->update(['status' => 'Approved']);
 
@@ -291,8 +284,9 @@ class BarangMasukController extends Controller
                 $lastQtySaldo = $lastMovingAverage->qtySaldo;
                 $lastTotalSaldo = $lastMovingAverage->totalSaldo;
             } else {
-                $lastQtySaldo = 0;
-                $lastTotalSaldo = 0;
+                $item = Item::find($barangmasukInstance->item_id);
+                $lastQtySaldo = $item->qty;
+                $lastTotalSaldo = $item->qty*$item->price;
             }
 
             $movingAverage = new MovingAverage();
@@ -306,6 +300,14 @@ class BarangMasukController extends Controller
             $movingAverage->totalSaldo = $lastTotalSaldo + $barangmasukInstance->subtotal;
             $movingAverage->docdate = $currentDate;
             $movingAverage->save();
+
+            // updating item master data based on moving average
+            $item = Item::find($barangmasukInstance->item_id);
+            $item->qty += $barangmasukInstance->qty;
+            $item->expdate = $barangmasukInstance->expdate;
+            $averagePrice = ($lastTotalSaldo + $barangmasukInstance->subtotal) / ($lastQtySaldo + $barangmasukInstance->qty); // salah di rumus ini ambil qty and price dari item saja lalu diproses
+            $item->price = $averagePrice;
+            $item->save();
         }
 
         return redirect(route("barangmasuks"))->with('success', 'BarangMasuk updated.');

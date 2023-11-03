@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('admin');
             $table->foreignId('item_id');
             $table->integer('qty')->default(0);
-            $table->integer('price');
+            $table->decimal('price', 10, 2); 
+            $table->decimal('subtotal', 15, 2);
             $table->date('expdate')->nullable();
             $table->string('docnum');
             $table->date('docdate');

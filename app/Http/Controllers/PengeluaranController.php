@@ -175,6 +175,7 @@ class PengeluaranController extends Controller
                 $pengeluaran->qty = $qtys[$key];
                 $pengeluaran->expdate = $expDates[$key];
                 $pengeluaran->price = $prices[$key];
+                $pengeluaran->subtotal = $prices[$key]*$qtys[$key];
                 $pengeluaran->permintaan_id = $permintaan_id[$key];
     
                 // Save the current item to the database
@@ -304,8 +305,7 @@ class PengeluaranController extends Controller
         // Loop through each Pengeluaran instance
         foreach ($pengeluaranInstances as $pengeluaranInstance) {
             // Find the Permintaan instance based on docnum and item_id
-            $permintaan = Permintaan::where('docnum', $pengeluaranInstance->docnum)
-                ->where('item_id', $pengeluaranInstance->item_id)
+            $permintaan = Permintaan::where('id', $pengeluaranInstance->permintaan_id)
                 ->first();
 
             if ($permintaan) {
@@ -313,6 +313,40 @@ class PengeluaranController extends Controller
                 $permintaan->openqty += $pengeluaranInstance->qty;
                 $permintaan->status = 'Open';
                 $permintaan->save();
+
+                //below code is updating Moving Average
+                $lastMovingAverage = MovingAverage::where('itemSaldo_id', $pengeluaranInstance->item_id)
+                ->latest('created_at')
+                ->first();
+
+                if ($lastMovingAverage) {
+                    $lastQtySaldo = $lastMovingAverage->qtySaldo;
+                    $lastTotalSaldo = $lastMovingAverage->totalSaldo;
+                } else {
+                    $item = Item::find($pengeluaranInstance->item_id);
+                    $lastQtySaldo = $item->qty;
+                    $lastTotalSaldo = $item->qty*$item->price;
+                }
+
+                $movingAverage = new MovingAverage();
+                $movingAverage->itemIn_id = $pengeluaranInstance->item_id;
+                $movingAverage->qtyIn = $pengeluaranInstance->qty;
+                $movingAverage->totalIn = $pengeluaranInstance->subtotal;
+                $movingAverage->DocTypeIn = 'Barang Keluar Cancellation';
+                $movingAverage->DocNumIn = $pengeluaranInstance->docnum;
+                $movingAverage->itemSaldo_id = $pengeluaranInstance->item_id;
+                $movingAverage->qtySaldo = $lastQtySaldo + $pengeluaranInstance->qty;
+                $movingAverage->totalSaldo = $lastTotalSaldo + $pengeluaranInstance->subtotal;
+                $currentDate = Carbon::now()->format('Y-m-d');
+                $movingAverage->docdate = $currentDate;
+                $movingAverage->save();
+
+                // updating item master data based on moving average
+                $item = Item::find($pengeluaranInstance->item_id);
+                $item->qty += $pengeluaranInstance->qty;
+                $averagePrice = ($lastTotalSaldo + $pengeluaranInstance->subtotal) / ($lastQtySaldo + $pengeluaranInstance->qty); // salah di rumus ini ambil qty and price dari item saja lalu diproses
+                $item->price = $averagePrice;
+                $item->save();
             } else {
                 // Handle the case where no matching Permintaan is found
                 // You can add error handling logic here if needed.

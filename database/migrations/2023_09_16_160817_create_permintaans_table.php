@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('item_id');
             $table->integer('qty')->default(0);
             $table->integer('openqty')->default(0);
-            $table->integer('price');   // 'price' field of type decimal with precision 
+            $table->decimal('price', 10, 2);   // 'price' field of type decimal with precision 
             $table->date('expdate')->nullable();   // 'expdate' field of type date, nullable
             $table->string('docnum');
             $table->date('docdate');

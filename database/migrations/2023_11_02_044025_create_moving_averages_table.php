@@ -16,19 +16,19 @@ return new class extends Migration
 
             $table->foreignId('itemIn_id')->nullable();
             $table->integer('qtyIn')->nullable();
-            $table->integer('totalIn')->nullable();
+            $table->decimal('totalIn', 15, 2)->nullable();
             $table->string('DocTypeIn')->nullable();
             $table->string('DocNumIn')->nullable();
 
             $table->foreignId('itemOut_id')->nullable();
             $table->integer('qtyOut')->nullable();
-            $table->integer('totalOut')->nullable();
+            $table->decimal('totalOut', 15, 2)->nullable();
             $table->string('DocTypeOut')->nullable();
             $table->string('DocNumOut')->nullable();
 
             $table->foreignId('itemSaldo_id');
             $table->integer('qtySaldo');
-            $table->integer('totalSaldo');
+            $table->decimal('totalSaldo', 15, 2);
             $table->date('docdate')->nullable();
             $table->timestamps();
         });

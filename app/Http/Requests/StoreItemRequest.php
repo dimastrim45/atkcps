@@ -19,7 +19,7 @@ class StoreItemRequest extends FormRequest
             'name' => ['required', 'string', 'max:255', Rule::unique('items', 'name')],
             'min_qty' => ['nullable', 'integer'],
             'uom' => ['required'],
-            'price' => ['required', 'integer'],
+            'price' => ['required'],
             'expdate' => ['nullable'],
             'status' => ['required'],
             'itemgroup_id' => ['required'],
