@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Selisih;
 use App\Models\Item;
+use App\Models\MovingAverage;
 use App\Http\Requests\StoreSelisihRequest;
 use App\Http\Requests\UpdateSelisihRequest;
 use Carbon\Carbon;
@@ -188,9 +189,73 @@ class SelisihController extends Controller
             // Update the corresponding item in the "Item" table:
             $item = Item::find($itemId);
             if ($item) {
-                // Set the item's qty to the qty from Selisih
-                $item->qty = $item->qty+$qty;
-                $item->save();
+                // Check if $qty is positive or negative
+                if ($qty > 0) {
+                    // $qty is positive, update Moving Average for itemIn
+                    $lastMovingAverage = MovingAverage::where('itemSaldo_id', $itemId)
+                        ->latest('created_at')
+                        ->first();
+
+                    if ($lastMovingAverage) {
+                        $lastQtySaldo = $lastMovingAverage->qtySaldo;
+                        $lastTotalSaldo = $lastMovingAverage->totalSaldo;
+                    } else {
+                        // You might need to adapt this part based on your application's logic
+                        $lastQtySaldo = $item->qty;
+                        $lastTotalSaldo = $item->qty * $item->price;
+                    }
+
+                    $movingAverage = new MovingAverage();
+                    $movingAverage->itemIn_id = $itemId;
+                    $movingAverage->qtyIn = $qty;
+                    $movingAverage->totalIn = null;
+                    $movingAverage->DocTypeIn = 'Selisih';
+                    $movingAverage->DocNumIn = $selisih->docnum;
+                    $movingAverage->itemSaldo_id = $itemId;
+                    $movingAverage->qtySaldo = $lastQtySaldo + $qty;
+                    $movingAverage->totalSaldo = $lastTotalSaldo;
+                    $currentDate = Carbon::now()->format('Y-m-d');
+                    $movingAverage->docdate = $currentDate;
+                    $movingAverage->save();
+
+                    // Set the item's qty to the qty from Selisih
+                    $item->qty = $item->qty+$qty;
+                    $item->price = $lastTotalSaldo/($lastQtySaldo + $qty);
+                    $item->save();
+
+                } elseif ($qty < 0) {
+                    // $qty is negative, update Moving Average for itemOut
+                    $lastMovingAverage = MovingAverage::where('itemSaldo_id', $itemId)
+                        ->latest('created_at')
+                        ->first();
+
+                    if ($lastMovingAverage) {
+                        $lastQtySaldo = $lastMovingAverage->qtySaldo;
+                        $lastTotalSaldo = $lastMovingAverage->totalSaldo;
+                    } else {
+                        // You might need to adapt this part based on your application's logic
+                        $lastQtySaldo = $item->qty;
+                        $lastTotalSaldo = $item->qty * $item->price;
+                    }
+
+                    $movingAverage = new MovingAverage();
+                    $movingAverage->itemOut_id = $itemId;
+                    $movingAverage->qtyOut = abs($qty); // Make sure qtyOut is positive
+                    $movingAverage->totalOut = null;
+                    $movingAverage->DocTypeOut = 'Selisih';
+                    $movingAverage->DocNumOut = $selisih->docnum;
+                    $movingAverage->itemSaldo_id = $itemId;
+                    $movingAverage->qtySaldo = $lastQtySaldo + $qty;
+                    $movingAverage->totalSaldo = $lastTotalSaldo;
+                    $currentDate = Carbon::now()->format('Y-m-d');
+                    $movingAverage->docdate = $currentDate;
+                    $movingAverage->save();
+
+                    // Set the item's qty to the qty from Selisih
+                    $item->qty = $item->qty+$qty;
+                    $item->price = $lastTotalSaldo/($lastQtySaldo + $qty);
+                    $item->save();
+                }
             }
         }
         Selisih::where('docnum', $selisih->docnum)->update(['status' => 'Approved']);
