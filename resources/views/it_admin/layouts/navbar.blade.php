@@ -153,7 +153,7 @@
                         <span
                             class="dropdown-item dropdown-header">{{ $unreadChatInfo['count'] . ' Notifications' }}</span>
                         @foreach ($unreadChatInfo['chats'] as $chat)
-                            <a href="#" class="dropdown-item">
+                            <a href="{{ route('chat', ['feedback' => $chat->feedback->feedback_docnum]) }}" class="dropdown-item">
                                 @if ($chat->message_type === 'text')
                                     <i class="fas fa-envelope mr-2"></i> New message:
                                     {{ Str::limit($chat->message, 20, '...') }}

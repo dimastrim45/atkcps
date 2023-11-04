@@ -30,7 +30,7 @@ class RedirectIfAuthenticated
                 } else  if (auth()->user()->license === 'hradmin'){
                     return redirect(RouteServiceProvider::HOME);
                 } else  if (auth()->user()->license === 'manager'){
-                    return redirect(RouteServiceProvider::NEWITEMADMIN);
+                    return redirect(RouteServiceProvider::HOME);
                 } else {
                     return redirect()->intended('/');
                 }
