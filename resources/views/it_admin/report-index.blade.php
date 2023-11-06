@@ -39,6 +39,7 @@
                 <div class="col-lg-12">
                     {{-- the body --}}
                     <div class="row p-0">
+                        {{-- left side --}}
                         <div class="col-sm-6">
                             <div class="card btn btn-light btn-block"
                                 onclick="window.location.href='{{ route('userlist-report') }}';">
@@ -68,7 +69,15 @@
                                     <p class="card-text">Show all list of user</p>
                                 </div>
                             </div>
+                            <div class="card btn btn-light btn-block"
+                                onclick="window.location.href='{{ route('minimumqty-report') }}';">
+                                <div class="card-body text-left">
+                                    <h5 class="card-title">Minimum Qty Items</h5>
+                                    <p class="card-text">Show all list of item below minimum Qty</p>
+                                </div>
+                            </div>
                         </div>
+                        {{-- right side --}}
                         <div class="col-sm-6">
                             <div class="card btn btn-light btn-block"
                                 onclick="window.location.href='{{ route('itemlist-report') }}';">
@@ -96,6 +105,13 @@
                                 <div class="card-body text-left">
                                     <h5 class="card-title">Selisih Stock By Date</h5>
                                     <p class="card-text">Show all list of item</p>
+                                </div>
+                            </div>
+                            <div class="card btn btn-light btn-block"
+                                onclick="window.location.href='{{ route('movingavg-report') }}';">
+                                <div class="card-body text-left">
+                                    <h5 class="card-title">Item Moving Average</h5>
+                                    <p class="card-text">Show list of moving average</p>
                                 </div>
                             </div>
                         </div>

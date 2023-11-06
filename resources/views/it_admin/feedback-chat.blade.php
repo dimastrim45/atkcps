@@ -8,6 +8,13 @@
             max-height: 10px;
             /* Set your preferred maximum height */
         }
+
+        .custom-link {
+            color: pink;
+            /* Set the color to pink or any other color you prefer */
+            text-decoration: underline;
+            /* Add underlining to make it clear that it's a link */
+        }
     </style>
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -82,7 +89,8 @@
                                 <h3 class="card-title">{{ $feedback->status }}</h3>
                                 <h3 class="card-title">
                                     @unless ($feedback->status === 'Close')
-                                        <form action="{{ route('feedback.close', ['feedback' => $feedback->feedback_docnum]) }}" method="POST">
+                                        <form action="{{ route('feedback.close', ['feedback' => $feedback->feedback_docnum]) }}"
+                                            method="POST">
                                             @method('PUT')
                                             @csrf
                                             <button type="submit" class="btn btn-success btn-sm">Close Feedback</button>
@@ -114,7 +122,8 @@
                                                         <img src="{{ asset($chat->image_path) }}" alt="Image"
                                                             style="width: 50%; height: auto;">
                                                     @else
-                                                        {{ $chat->message }}
+                                                        {!! str_replace('<a ', '<a class="custom-link" ', html_entity_decode($chat->message)) !!}
+                                                        <!-- Use html_entity_decode to make links clickable -->
                                                     @endif
                                                 </div>
                                                 <!-- /.direct-chat-text -->
@@ -138,7 +147,8 @@
                                                     <img src="{{ asset($chat->image_path) }}" alt="Image"
                                                         style="width: 50%; height: auto;">
                                                 @else
-                                                    {{ $chat->message }}
+                                                    {!! str_replace('<a ', '<a class="custom-link" ', html_entity_decode($chat->message)) !!}
+                                                    <!-- Use html_entity_decode to make links clickable -->
                                                 @endif
                                             </div>
                                             <!-- /.direct-chat-text -->
@@ -153,25 +163,25 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             @if ($feedback->status === 'Open')
-                            <form action="{{ route('chat.store', ['feedback' => $feedback->feedback_docnum]) }}"
-                                method="POST">
-                                @csrf
-                                <input type="hidden" name="feedback_id" value="{{ $feedback->id }}">
-                                <input type="hidden" name="message_type" value="text">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <button type="button" class="btn btn-secondary" data-toggle="modal"
-                                            data-target="#exampleModal">
-                                            Attach Image
-                                        </button>
+                                <form action="{{ route('chat.store', ['feedback' => $feedback->feedback_docnum]) }}"
+                                    method="POST">
+                                    @csrf
+                                    <input type="hidden" name="feedback_id" value="{{ $feedback->id }}">
+                                    <input type="hidden" name="message_type" value="text">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                                data-target="#exampleModal">
+                                                Attach Image
+                                            </button>
+                                        </div>
+                                        <input type="text" name="message" placeholder="Type Message..."
+                                            class="form-control" autocomplete="off">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary">Send</button>
+                                        </div>
                                     </div>
-                                    <input type="text" name="message" placeholder="Type Message..."
-                                        class="form-control" autocomplete="off">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-primary">Send</button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
                             @endif
                         </div>
                         <!-- /.card-footer-->

@@ -7,6 +7,7 @@ use App\Models\BarangMasuk;
 use App\Models\Permintaan;
 use App\Models\Pengeluaran;
 use App\Models\Selisih;
+use App\Models\MovingAverage;
 use App\Exports\ItemListReportExport;
 use App\Exports\UserListReportExport;
 use App\Exports\BMByDateReportExport;
@@ -15,6 +16,8 @@ use App\Exports\PermintaanByReqReportExport;
 use App\Exports\PengeluaranByDateReportExport;
 use App\Exports\PengeluaranByReqReportExport;
 use App\Exports\SelisihByDateReportExport;
+use App\Exports\MinimumQtyReportExport;
+use App\Exports\MovingAvgReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use PDF;
@@ -306,5 +309,52 @@ class ReportController extends Controller
     public function exportToExcelSelisihByDate(Request $request)
     {
         return Excel::download(new SelisihByDateReportExport($request), 'SelisihByDateReport.xlsx');
+    }
+
+    // Minimum Qty Item report
+    public function minimumQty(){
+        // $items = Item::all();
+        $items = Item::where('qty', '<=', 'min_qty')->get();
+        return view('it_admin.report-minimumqty-index', [
+            'title' => 'Minimum Qty Report',
+            'items' => $items,
+        ]);
+    }
+    // public function itemList_print_pdf()
+    // {
+    //     $items = Item::all();
+    
+    //     $pdf = PDF::loadview('it_admin.report-item-index-pdf',[
+    //         'items'=>$items,
+    //         'title' => 'Item List Report',
+    //     ])->setOptions(['defaultFont' => 'sans-serif']);
+    //     return $pdf->stream();
+    // }
+    public function exportToExcelMinimumQty()
+    {
+        return Excel::download(new MinimumQtyReportExport, 'MinimumQtyItem.xlsx');
+    }
+
+    // Moving Avergage report
+    public function movingAvg(){
+        $movingavgs = MovingAverage::all();
+        return view('it_admin.report-movingavg-index', [
+            'title' => 'Minimum Qty Report',
+            'movingavgs' => $movingavgs,
+        ]);
+    }
+    // public function itemList_print_pdf()
+    // {
+    //     $items = Item::all();
+    
+    //     $pdf = PDF::loadview('it_admin.report-item-index-pdf',[
+    //         'items'=>$items,
+    //         'title' => 'Item List Report',
+    //     ])->setOptions(['defaultFont' => 'sans-serif']);
+    //     return $pdf->stream();
+    // }
+    public function exportToExcelMovingAvg()
+    {
+        return Excel::download(new MovingAvgReportExport, 'MovingAverage.xlsx');
     }
 }

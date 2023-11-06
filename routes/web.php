@@ -134,5 +134,8 @@ Route::middleware('auth')->group(function () {
     Route::get('selisih-bydate-report', [ReportController::class, 'SelisihByDate'])->name('selisih-bydate-report');
     Route::get('selisih-bydate-report/print-pdf', [ReportController::class, 'SelisihByDate_print_pdf'])->name('selisih-bydate-report.print-pdf');
     Route::get('selisih-bydate-report/export-excel', [ReportController::class, 'exportToExcelSelisihByDate'])->name('selisih-bydate-report.export-excel');
-
+    Route::get('minimumqty-report', [ReportController::class, 'minimumQty'])->name('minimumqty-report');
+    Route::get('minimumqty-report/export-excel', [ReportController::class, 'exportToExcelMinimumQty'])->name('minimumqty-report.export-excel');
+    Route::get('movingavg-report', [ReportController::class, 'movingAvg'])->name('movingavg-report');
+    Route::get('movingavg-report/export-excel', [ReportController::class, 'exportToExcelMovingAvg'])->name('movingavg-report.export-excel');
 });
