@@ -357,4 +357,54 @@ class ReportController extends Controller
     {
         return Excel::download(new MovingAvgReportExport, 'MovingAverage.xlsx');
     }
+
+    // inventory in warehouse report
+    public function inventoryInWhs() {
+        // Retrieve a list of all items
+        $items = Item::all();
+    
+        // Initialize an array to store the inventory data for each item
+        $inventoryData = [];
+    
+        // Loop through each item and calculate the inventory information
+        foreach ($items as $item) {
+            // Calculate the total Permintaan quantity with "Open" status for the item
+            $totalPermintaan = Permintaan::where('item_id', $item->id)
+                ->where('status', 'Open')
+                ->sum('qty');
+    
+            // Calculate the total Pengeluaran quantity with "Open" status for the item
+            $totalPengeluaran = Pengeluaran::where('item_id', $item->id)
+                ->where('status', 'Open')
+                ->sum('qty');
+    
+            // Calculate the Available quantity for the item
+            $available = $item->qty - $totalPermintaan;
+    
+            // Calculate the Total value for the item
+            $totalValue = $item->price * $item->qty;
+    
+            // Create an array with the calculated inventory data for the item
+            $inventoryItemData = [
+                'item_name' => $item->name,
+                'uom' => $item->uom,
+                'in_stock' => $item->qty,
+                'permintaan' => $totalPermintaan,
+                'pengeluaran_barang' => $totalPengeluaran,
+                'available' => $available,
+                'item_price_per_uom' => $item->uom,
+                'total' => $totalValue,
+            ];
+    
+            // Add the item's inventory data to the inventoryData array
+            $inventoryData[] = $inventoryItemData;
+        }
+
+        // dd($inventoryData);
+    
+        return view('it_admin.report-inventoryinwhs-index', [
+            'title' => 'Inventory in Warehouse',
+            'inventoryData' => $inventoryData,
+        ]);
+    }
 }

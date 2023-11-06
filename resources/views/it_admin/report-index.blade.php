@@ -76,6 +76,13 @@
                                     <p class="card-text">Show all list of item below minimum Qty</p>
                                 </div>
                             </div>
+                            <div class="card btn btn-light btn-block"
+                                onclick="window.location.href='{{ route('inventoryinwhs-report') }}';">
+                                <div class="card-body text-left">
+                                    <h5 class="card-title">Inventory In Warehouse</h5>
+                                    <p class="card-text">Show Inventory In Warehouse</p>
+                                </div>
+                            </div>
                         </div>
                         {{-- right side --}}
                         <div class="col-sm-6">

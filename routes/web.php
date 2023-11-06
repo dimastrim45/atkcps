@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function () {
     // for admin
     Route::get('homeadminit', [HomeController::class, 'indexadminit'])->name('homeadminit');
     Route::get('no_license', [HomeController::class, 'no_license'])->name('no_license');
+    Route::get('canceledbm', [HomeController::class, 'canceledBM'])->name('canceledbm');
+    Route::get('rejectedpermintaaan', [HomeController::class, 'rejectedPermintaan'])->name('rejectedpermintaaan');
 
     // Item CRUD
     Route::get('items', [ItemController::class, 'index'])->name('items');
@@ -138,4 +140,5 @@ Route::middleware('auth')->group(function () {
     Route::get('minimumqty-report/export-excel', [ReportController::class, 'exportToExcelMinimumQty'])->name('minimumqty-report.export-excel');
     Route::get('movingavg-report', [ReportController::class, 'movingAvg'])->name('movingavg-report');
     Route::get('movingavg-report/export-excel', [ReportController::class, 'exportToExcelMovingAvg'])->name('movingavg-report.export-excel');
+    Route::get('inventoryinwhs-report', [ReportController::class, 'inventoryInWhs'])->name('inventoryinwhs-report');
 });

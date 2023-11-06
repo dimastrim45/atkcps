@@ -6,7 +6,9 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button" id="sidebar-toggle-button">
+                        <i class="fas fa-bars"></i>
+                    </a>
                 </li>
             </ul>
 
@@ -153,7 +155,8 @@
                         <span
                             class="dropdown-item dropdown-header">{{ $unreadChatInfo['count'] . ' Notifications' }}</span>
                         @foreach ($unreadChatInfo['chats'] as $chat)
-                            <a href="{{ route('chat', ['feedback' => $chat->feedback->feedback_docnum]) }}" class="dropdown-item">
+                            <a href="{{ route('chat', ['feedback' => $chat->feedback->feedback_docnum]) }}"
+                                class="dropdown-item">
                                 @if ($chat->message_type === 'text')
                                     <i class="fas fa-envelope mr-2"></i> New message:
                                     {{ Str::limit($chat->message, 20, '...') }}
@@ -165,7 +168,8 @@
                             </a>
                             <div class="dropdown-divider"></div>
                         @endforeach
-                        <a href="{{ route('feedbacks') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        <a href="{{ route('feedbacks') }}" class="dropdown-item dropdown-footer">See All
+                            Notifications</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

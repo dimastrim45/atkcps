@@ -80,6 +80,12 @@
     <!-- REQUIRED SCRIPTS -->
 
     @vite('resources/js/app.js')
+    <!-- jQuery -->
+    <script src="{{ asset('js/jquery/jquery.min.js') }}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{ asset('js/jquery-ui/jquery-ui.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ asset('js/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('js/adminlte.min.js') }}" defer></script>
     <!-- ChartJS -->
