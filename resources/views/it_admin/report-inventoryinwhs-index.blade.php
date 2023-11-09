@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('Item Master Data') }}</h1>
+                    <h1 class="m-0">{{ __('Inventory In Warehouse Report') }}</h1>
                 </div>
                 <div class="col-sm-6 float-right text-right">
                     <div class=" pr-3 ">
@@ -43,7 +43,6 @@
                                         <th>UoM</th>
                                         <th>In Stock</th>
                                         <th>Permintaan</th>
-                                        <th>Pengeluaran Barang</th>
                                         <th>Available</th>
                                         <th>Item Price Per Uom</th>
                                         <th>Total</th>
@@ -56,7 +55,6 @@
                                             <td>{{ $item['uom'] }}</td>
                                             <td>{{ $item['in_stock'] }}</td>
                                             <td>{{ $item['permintaan'] }}</td>
-                                            <td>{{ $item['pengeluaran_barang'] }}</td>
                                             <td>{{ $item['available'] }}</td>
                                             <td>{{ $item['item_price_per_uom'] }}</td>
                                             <td>{{ $item['total'] }}</td>

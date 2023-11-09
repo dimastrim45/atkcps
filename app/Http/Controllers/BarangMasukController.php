@@ -247,9 +247,9 @@ class BarangMasukController extends Controller
 
         // Loop through each BarangMasuk instance
         foreach ($barangmasukInstances as $barangmasukInstance) {
-            $item = Item::find($barangmasukInstance->item_id);
-            $item->qty += $barangmasukInstance->openqty;
-            $item->save();
+            // $item = Item::find($barangmasukInstance->item_id);
+            // $item->qty += $barangmasukInstance->openqty;
+            // $item->save();
 
             // Update the BarangMasuk status to 'Canceled'
             $barangmasukInstance->update(['status' => 'Canceled']);
@@ -305,8 +305,69 @@ class BarangMasukController extends Controller
             $item = Item::find($barangmasukInstance->item_id);
             $item->qty += $barangmasukInstance->qty;
             $item->expdate = $barangmasukInstance->expdate;
-            $averagePrice = ($lastTotalSaldo + $barangmasukInstance->subtotal) / ($lastQtySaldo + $barangmasukInstance->qty); // salah di rumus ini ambil qty and price dari item saja lalu diproses
+            $averagePrice = ($lastTotalSaldo + $barangmasukInstance->subtotal) / ($lastQtySaldo + $barangmasukInstance->qty); 
             $item->price = $averagePrice;
+            $item->save();
+        }
+
+        return redirect(route("barangmasuks"))->with('success', 'BarangMasuk updated.');
+    }
+
+    public function cancellation(Request $request, BarangMasuk $barangmasuk)
+    {
+        // Find all BarangMasuk instances with the given docnum
+        $barangmasukInstances = BarangMasuk::where('docnum', $barangmasuk->docnum)->get();
+
+        if ($barangmasukInstances->isEmpty()) {
+            return redirect(route("barangmasuks"))->with('error', 'No BarangMasuk found with the specified docnum.');
+        }
+
+        foreach ($barangmasukInstances as $barangmasukInstance) {
+            $item = Item::find($barangmasukInstance->item_id);
+            if ($item->qty - $barangmasukInstance->qty < 0) {
+                // Quantity is insufficient, send an error message
+                return redirect(route("barangmasuks"))->with('error', 'Insufficient quantity');
+            }
+        }
+
+        $currentDate = Carbon::now()->format('Y-m-d');
+
+        // Loop through each BarangMasuk instance
+        foreach ($barangmasukInstances as $barangmasukInstance) {
+            // Update the BarangMasuk status to 'Approved'
+            $barangmasukInstance->update(['status' => 'Canceled']);
+
+            //below code is updating Moving Average
+            $lastMovingAverage = MovingAverage::where('itemSaldo_id', $barangmasukInstance->item_id)
+                ->latest('created_at')
+                ->first();
+
+            if ($lastMovingAverage) {
+                $lastQtySaldo = $lastMovingAverage->qtySaldo;
+                $lastTotalSaldo = $lastMovingAverage->totalSaldo;
+            } else {
+                $item = Item::find($barangmasukInstance->item_id);
+                $lastQtySaldo = $item->qty;
+                $lastTotalSaldo = $item->qty*$item->price;
+            }
+
+            $movingAverage = new MovingAverage();
+            $movingAverage->itemOut_id = $barangmasukInstance->item_id;
+            $movingAverage->qtyOut = $barangmasukInstance->qty;
+            $movingAverage->totalOut = $barangmasukInstance->subtotal;
+            $movingAverage->DocTypeOut = 'Barang Masuk Cancellation';
+            $movingAverage->DocNumOut = $barangmasukInstance->docnum;
+            $movingAverage->itemSaldo_id = $barangmasukInstance->item_id;
+            $movingAverage->qtySaldo = $lastQtySaldo - $barangmasukInstance->qty;
+            $movingAverage->totalSaldo = $lastTotalSaldo - $barangmasukInstance->subtotal;
+            $movingAverage->docdate = $currentDate;
+            $movingAverage->save();
+
+            // updating item master data based on moving average
+            $item = Item::find($barangmasukInstance->item_id);
+            $item->qty -= $barangmasukInstance->qty;
+            $item->expdate = $barangmasukInstance->expdate;
+            $averagePrice = ($lastTotalSaldo - $barangmasukInstance->subtotal) / ($lastQtySaldo - $barangmasukInstance->qty); 
             $item->save();
         }
 

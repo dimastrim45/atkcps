@@ -23,6 +23,13 @@
                         <button type="submit" class="btn btn-success">Approve</button>
                     </form>
                 @endif
+                @if ($barangmasuk->status === 'Approved')
+                    <form action="/barangmasuk/cancellation/{{ $barangmasuk->docnum }}" method="POST">
+                        @method('PUT')
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                    </form>
+                @endif
             @endif
         </div>
     </td>

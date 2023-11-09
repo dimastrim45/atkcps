@@ -97,14 +97,14 @@
                             <table class="table" id="myTable">
                                 <thead>
                                     <tr class="text-center">
-                                        <th onclick="sortTable(0)">Item Name</th>
-                                        <th onclick="sortTable(1)">Item Group</th>
-                                        <th onclick="sortTable(2)">UoM</th>
-                                        <th onclick="sortTable(3)">Price</th>
-                                        <th onclick="sortTable(4)">Expired Date</th>
-                                        <th onclick="sortTable(5)">Qty</th>
-                                        <th onclick="sortTable(6)">Min. Qty</th>
-                                        <th onclick="sortTable(7)">Status</th>
+                                        <th>Item Name</th>
+                                        <th>Item Group</th>
+                                        <th>UoM</th>
+                                        <th>Price</th>
+                                        <th>Expired Date</th>
+                                        <th>Qty</th>
+                                        <th>Min. Qty</th>
+                                        <th>Status</th>
                                         @if (in_array(auth()->user()->license, ['administrator', 'hradmin']))
                                             <th>Action</th>
                                         @endif

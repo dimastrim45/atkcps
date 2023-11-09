@@ -63,7 +63,7 @@
                                             <td>{{ $movingavg->DocNumIn }}</td>
                                             <td>{{ $movingavg->qtyOut }}</td>
                                             <td>{{ $movingavg->totalOut }}</td>
-                                            <td>{{ $movingavg->DoctypeOut }}</td>
+                                            <td>{{ $movingavg->DocTypeOut }}</td>
                                             <td>{{ $movingavg->DocNumOut }}</td>
                                             <td>{{ $movingavg->qtySaldo }}</td>
                                             <td>{{ $movingavg->totalSaldo }}</td>
@@ -85,23 +85,4 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-    <script>
-        $(document).ready(function() {
-            $('#search').on('keyup', function() {
-                let query = $(this).val();
-
-                $.ajax({
-                    url: '{{ route('item.search') }}', // Replace with your search route
-                    method: 'GET',
-                    data: {
-                        query: query
-                    },
-                    success: function(data) {
-                        // Update the search results div with the received data
-                        $('#search-results').html(data);
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

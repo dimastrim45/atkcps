@@ -320,16 +320,6 @@ class ReportController extends Controller
             'items' => $items,
         ]);
     }
-    // public function itemList_print_pdf()
-    // {
-    //     $items = Item::all();
-    
-    //     $pdf = PDF::loadview('it_admin.report-item-index-pdf',[
-    //         'items'=>$items,
-    //         'title' => 'Item List Report',
-    //     ])->setOptions(['defaultFont' => 'sans-serif']);
-    //     return $pdf->stream();
-    // }
     public function exportToExcelMinimumQty()
     {
         return Excel::download(new MinimumQtyReportExport, 'MinimumQtyItem.xlsx');
@@ -343,16 +333,6 @@ class ReportController extends Controller
             'movingavgs' => $movingavgs,
         ]);
     }
-    // public function itemList_print_pdf()
-    // {
-    //     $items = Item::all();
-    
-    //     $pdf = PDF::loadview('it_admin.report-item-index-pdf',[
-    //         'items'=>$items,
-    //         'title' => 'Item List Report',
-    //     ])->setOptions(['defaultFont' => 'sans-serif']);
-    //     return $pdf->stream();
-    // }
     public function exportToExcelMovingAvg()
     {
         return Excel::download(new MovingAvgReportExport, 'MovingAverage.xlsx');
@@ -392,7 +372,7 @@ class ReportController extends Controller
                 'permintaan' => $totalPermintaan,
                 'pengeluaran_barang' => $totalPengeluaran,
                 'available' => $available,
-                'item_price_per_uom' => $item->uom,
+                'item_price_per_uom' => $item->price,
                 'total' => $totalValue,
             ];
     

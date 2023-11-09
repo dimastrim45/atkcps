@@ -2,7 +2,7 @@
     <td>{{ $item->name }}</td>
     <td>{{ $item->itemgroup->code }}</td>
     <td>{{ $item->uom }}</td>
-    <td>{{ $item->price }}</td>
+    <td>{{ number_format($item->price, 2, '.', ',') }}</td>
     <td>{{ $item->expdate }}</td>
     <td>{{ $item->qty }}</td>
     <td>{{ $item->min_qty }}</td>
