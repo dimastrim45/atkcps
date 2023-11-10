@@ -63,11 +63,17 @@
                                                 <input class="form-control form-control-sm text-center" type="text"
                                                     name="uom[]" id="uomInput" value="" readonly>
                                             </td>
-                                            <td><input type="number" name="price[]" oninput="calculateSubtotal(this); updateTotalRow(document.getElementById('thetable'));"></td>
+                                            <td><input type="text" name="price[]"
+                                                    oninput="calculateSubtotal(this); updateTotalRow(document.getElementById('thetable'));">
+                                            </td>
                                             <td><input type="date" name="expdate[]"></td>
-                                            <td><input type="number" name="qty[]" oninput="calculateSubtotal(this); updateTotalRow(document.getElementById('thetable'));"></td>
+                                            <td><input type="number" name="qty[]"
+                                                    oninput="calculateSubtotal(this); updateTotalRow(document.getElementById('thetable'));">
+                                            </td>
                                             <td>
-                                                <input type="number" name="subtotal[]"
+                                                <input type="hidden" name="subtotal[]"
+                                                    class="form-control form-control-sm text-right" readonly>
+                                                <input type="text" name="subtotalString[]"
                                                     class="form-control form-control-sm text-right" readonly>
                                             </td>
                                             <td class="d-flex justify-content-center" id="removeBtn">
@@ -166,12 +172,31 @@
 
 
         <script>
+            function formatNumber(number) {
+                return number.toLocaleString('en-US', {
+                    style: 'decimal',
+                    maximumFractionDigits: 2
+                });
+            }
+
             function calculateSubtotal(input) {
                 const row = input.closest('tr');
                 const price = parseFloat(row.querySelector('input[name="price[]"]').value) || 0;
                 const qty = parseFloat(row.querySelector('input[name="qty[]"]').value) || 0;
                 const subtotal = price * qty;
-                row.querySelector('input[name="subtotal[]"]').value = subtotal.toFixed(2); // You can format as needed
+                // row.querySelector('input[name="subtotal[]"]').value = subtotal.toFixed(2); // You can format as needed
+                // Format subtotal with thousand separator
+                // Format subtotal with thousand separator
+                const formattedSubtotal = subtotal.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
+                // Set the actual numerical value
+                row.querySelector('input[name="subtotal[]"]').value = subtotal.toFixed(2);
+
+                // Set the formatted value for display
+                row.querySelector('input[name="subtotalString[]"]').value = formattedSubtotal;
             }
 
             function addRow() {
@@ -211,10 +236,16 @@
                     total += parseFloat(input.value) || 0;
                 });
 
+                // Format total with thousand separator and two decimal places
+                var formattedTotal = total.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+
                 // Update the "Total" row
                 var totalRow = document.getElementById('totalRow');
                 var totalCell = totalRow.querySelector('input[type="text"]');
-                totalCell.value = total.toFixed(2);
+                totalCell.value = formattedTotal;
             }
 
             function removeRow(button) {

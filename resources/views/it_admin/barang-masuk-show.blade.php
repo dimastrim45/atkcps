@@ -61,7 +61,7 @@
                                                 {{ $barangmasuk->item->uom }}
                                             </td>
                                             <td>
-                                                {{ $barangmasuk->price }}
+                                                {{ number_format($barangmasuk->price, 2, '.', ',') }}
                                             </td>
                                             <td>
                                                 {{ $barangmasuk->expdate }}

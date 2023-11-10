@@ -327,7 +327,7 @@ class ReportController extends Controller
 
     // Moving Avergage report
     public function movingAvg(){
-        $movingavgs = MovingAverage::all();
+        $movingavgs = MovingAverage::orderBy('itemSaldo_id')->get();
         return view('it_admin.report-movingavg-index', [
             'title' => 'Minimum Qty Report',
             'movingavgs' => $movingavgs,
@@ -372,8 +372,8 @@ class ReportController extends Controller
                 'permintaan' => $totalPermintaan,
                 'pengeluaran_barang' => $totalPengeluaran,
                 'available' => $available,
-                'item_price_per_uom' => $item->price,
-                'total' => $totalValue,
+                'item_price_per_uom' => number_format($item->price, 2, '.', ','),
+                'total' => number_format($totalValue, 2, '.', ','),
             ];
     
             // Add the item's inventory data to the inventoryData array

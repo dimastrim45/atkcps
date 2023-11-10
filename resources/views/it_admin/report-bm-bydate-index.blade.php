@@ -65,7 +65,7 @@
                                             <td>{{ $barangmasuk->item->name }}</td>
                                             <td>{{ $barangmasuk->qty }}</td>
                                             <td>{{ date('d-m-Y', strtotime($barangmasuk->expdate)) }}</td>
-                                            <td>{{ $barangmasuk->price }}</td>
+                                            <td>{{ number_format($barangmasuk->price, 2, '.', ',') }}</td>
                                             <td>{{ $barangmasuk->admin }}</td>
                                             <td>{{ $barangmasuk->po_docnum }}</td>
                                             <td class="word-wrap: break-word w-25">

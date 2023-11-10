@@ -72,7 +72,7 @@
                                             <td>{{ $pengeluaran->qty }}</td>
                                             <td>{{ $pengeluaran->openqty }}</td>
                                             <td>{{ date('d-m-Y', strtotime($pengeluaran->expdate)) }}</td>
-                                            <td>{{ $pengeluaran->price }}</td>
+                                            <td>{{ number_format($pengeluaran->price, 2, '.', ',') }}</td>
                                             <td class="word-wrap: break-word w-25">
                                                 {{ $pengeluaran->remarks }}
                                             </td>

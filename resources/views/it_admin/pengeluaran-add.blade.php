@@ -29,7 +29,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body p-0">
-                            <form action="{{ route('pengeluaranadd.store') }}" method="POST">
+                            <form id="myForm" action="{{ route('pengeluaranadd.store') }}" method="POST">
                                 @csrf
                                 {{-- <div class="row pl-2 m-2">
                                     {{ 'Due Date' }}
@@ -50,11 +50,14 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($permintaans as $permintaan)
-                                        <input type="hidden" name="permintaan_id[]" value="{{ $permintaan->id }}">
-                                        <input type="hidden" name="permintaan_docnum" value="{{ $permintaan->docnum }}">
-                                        <input type="hidden" name="requester_name" value="{{ $permintaan->requester }}">
-                                        <input type="hidden" name="requester_id" value="{{ $permintaan->user_id }}">
-                                        <input type="hidden" name="branch" value="{{ $permintaan->user->plant->name }}">
+                                            <input type="hidden" name="permintaan_id[]" value="{{ $permintaan->id }}">
+                                            <input type="hidden" name="permintaan_docnum"
+                                                value="{{ $permintaan->docnum }}">
+                                            <input type="hidden" name="requester_name"
+                                                value="{{ $permintaan->requester }}">
+                                            <input type="hidden" name="requester_id" value="{{ $permintaan->user_id }}">
+                                            <input type="hidden" name="branch"
+                                                value="{{ $permintaan->user->plant->name }}">
                                             <tr class="text-center">
                                                 <td class=" w-25">
                                                     <input type="hidden" name="item_id[]"
@@ -69,8 +72,9 @@
                                                         readonly>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control form-control-sm text-center" type="number"
-                                                        name="price[]" id="priceInput" value="{{ $permintaan->price }}"
+                                                    <input class="form-control form-control-sm text-center" type="text"
+                                                        name="price[]" id="priceInput"
+                                                        value="{{ number_format($permintaan->price, 2, '.', ',') }}"
                                                         readonly>
                                                 </td>
                                                 <td>
@@ -85,8 +89,8 @@
                                                 </td>
                                                 <td>
                                                     <input class="form-control form-control-sm text-center" type="openqty"
-                                                        name="openqty[]" id="openqtyInput" value="{{ $permintaan->openqty }}"
-                                                        readonly>
+                                                        name="openqty[]" id="openqtyInput"
+                                                        value="{{ $permintaan->openqty }}" readonly>
                                                 </td>
                                                 <td><input type="number" name="qty[]"></td>
                                                 <td class="d-flex justify-content-center" id="removeBtn">
@@ -125,6 +129,17 @@
                 var row = button.closest('tr');
                 row.parentNode.removeChild(row);
             }
+        </script>
+
+        <script>
+            document.getElementById('myForm').addEventListener('submit', function(event) {
+                // Iterate over the price input fields and remove commas
+                var priceInputs = document.querySelectorAll('input[name="price[]"]');
+                priceInputs.forEach(function(input) {
+                    // Remove commas from the value
+                    input.value = input.value.replace(/,/g, '');
+                });
+            });
         </script>
 
         {{-- <script>
@@ -178,6 +193,7 @@
                 updateFields(selectElement);
             });
         </script> --}}
+
 
     </div>
     <!-- /.content -->

@@ -80,7 +80,7 @@
                                                 {{ $pengeluaran->item->uom }}
                                             </td>
                                             <td>
-                                                {{ $pengeluaran->price }}
+                                                {{ number_format($pengeluaran->price, 2, '.', ',') }}
                                             </td>
                                             <td>
                                                 {{ $pengeluaran->expdate }}

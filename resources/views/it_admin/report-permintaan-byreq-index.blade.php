@@ -6,7 +6,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ __('List Permintaan By Reequester ') . $requester->name }}</h1>
+                    <h1 class="m-0">{{ __('List Permintaan By Requester ') . $requester->name }}</h1>
                 </div>
                 <div class="col-sm-6 float-right text-right">
                     <div class="pl-3">
@@ -66,7 +66,7 @@
                                             <td>{{ $permintaan->qty }}</td>
                                             <td>{{ $permintaan->openqty }}</td>
                                             <td>{{ date('d-m-Y', strtotime($permintaan->expdate)) }}</td>
-                                            <td>{{ $permintaan->price }}</td>
+                                            <td>{{ number_format($permintaan->price, 2, '.', ',') }}</td>
                                             <td class="word-wrap: break-word w-25">
                                                 {{ $permintaan->remarks }}
                                             </td>

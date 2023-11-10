@@ -58,15 +58,15 @@
                                         <tr class="text-center">
                                             <td>{{ $movingavg->item->name }}</td>
                                             <td>{{ $movingavg->qtyIn }}</td>
-                                            <td>{{ $movingavg->totalIn }}</td>
+                                            <td>{{ number_format($movingavg->totalIn, 2, '.', ',') }}</td>
                                             <td>{{ $movingavg->DocTypeIn }}</td>
                                             <td>{{ $movingavg->DocNumIn }}</td>
                                             <td>{{ $movingavg->qtyOut }}</td>
-                                            <td>{{ $movingavg->totalOut }}</td>
+                                            <td>{{ number_format($movingavg->totalOut, 2, '.', ',') }}</td>
                                             <td>{{ $movingavg->DocTypeOut }}</td>
                                             <td>{{ $movingavg->DocNumOut }}</td>
                                             <td>{{ $movingavg->qtySaldo }}</td>
-                                            <td>{{ $movingavg->totalSaldo }}</td>
+                                            <td>{{ number_format($movingavg->totalSaldo, 2, '.', ',') }}</td>
                                             <td>{{ $movingavg->docdate }}</td>
                                         </tr>
                                     @endforeach

@@ -29,7 +29,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body p-0">
-                            <form action="{{ route('permintaanadd.store') }}" method="POST">
+                            <form id="myForm" action="{{ route('permintaanadd.store') }}" method="POST">
                                 @csrf
                                 <div class="row pl-2 m-2">
                                     {{ 'Due Date' }}
@@ -76,7 +76,7 @@
                                                 <input class="form-control form-control-sm text-center" type="text"
                                                     name="uom[]" id="uomInput" value="" readonly>
                                             </td>
-                                            <td><input class="form-control form-control-sm text-center" type="number"
+                                            <td><input class="form-control form-control-sm text-center" type="text"
                                                     name="price[]" id="priceInput" value="" readonly></td>
                                             <td><input class="form-control form-control-sm text-center" type="date"
                                                     name="expdate[]" id="expdateInput" value="" readonly></td>
@@ -194,8 +194,16 @@
                 uomInput.value = uomValues[selectedItem] || '';
 
                 // Update Price input
+                // var priceInput = row.querySelector('input[name="price[]"]');
+                // priceInput.value = priceValues[selectedItem] || '';
+                // Update Price input
                 var priceInput = row.querySelector('input[name="price[]"]');
-                priceInput.value = priceValues[selectedItem] || '';
+                var formattedPrice = priceValues[selectedItem] ? parseFloat(priceValues[selectedItem]).toLocaleString(
+                    undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) : '';
+                priceInput.value = formattedPrice;
 
                 // Update Expdate input
                 var expdateInput = row.querySelector('input[name="expdate[]"]');
@@ -233,6 +241,17 @@
             // Initialize values for the existing rows
             document.querySelectorAll('select[name="item_id[]"]').forEach(function(selectElement) {
                 updateFields(selectElement);
+            });
+        </script>
+
+        <script>
+            document.getElementById('myForm').addEventListener('submit', function(event) {
+                // Iterate over the price input fields and remove commas
+                var priceInputs = document.querySelectorAll('input[name="price[]"]');
+                priceInputs.forEach(function(input) {
+                    // Remove commas from the value
+                    input.value = input.value.replace(/,/g, '');
+                });
             });
         </script>
 

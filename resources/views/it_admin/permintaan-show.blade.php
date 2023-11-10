@@ -78,7 +78,7 @@
                                                 {{ $permintaan->item->uom }}
                                             </td>
                                             <td>
-                                                {{ $permintaan->price }}
+                                                {{ number_format($permintaan->price, 2, '.', ',') }}
                                             </td>
                                             <td>
                                                 {{ $permintaan->expdate }}

@@ -69,7 +69,7 @@
                                             <td>{{ $permintaan->qty }}</td>
                                             <td>{{ $permintaan->openqty }}</td>
                                             <td>{{ date('d-m-Y', strtotime($permintaan->expdate)) }}</td>
-                                            <td>{{ $permintaan->price }}</td>
+                                            <td>{{ number_format($permintaan->price, 2, '.', ',') }}</td>
                                             <td class="word-wrap: break-word w-25">
                                                 {{ $permintaan->remarks }}
                                             </td>
