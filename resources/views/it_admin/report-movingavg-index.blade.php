@@ -42,12 +42,12 @@
                                         <th>Item Name</th>
                                         <th>Qty In</th>
                                         <th>Total In</th>
-                                        <th>Doctype In</th>
-                                        <th>Docnum In</th>
+                                        <th>DocType In</th>
+                                        <th>DocNum In</th>
                                         <th>Qty Out</th>
                                         <th>Total Out</th>
-                                        <th>Doctype Out</th>
-                                        <th>Docnum Out</th>
+                                        <th>DocType Out</th>
+                                        <th>DocNum Out</th>
                                         <th>Qty Saldo</th>
                                         <th>Total Saldo</th>
                                         <th>Date</th>
