@@ -30,6 +30,7 @@ class MovingAvgReportExport implements FromCollection, WithHeadings
             'docdate as Date'
         )
         ->leftJoin('items', 'moving_averages.itemSaldo_id', '=', 'items.id')
+        ->orderBy('itemSaldo_id') // Add this line for ordering
         ->get();
     }
 

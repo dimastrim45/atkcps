@@ -229,21 +229,21 @@
                             <input type="text" class="knob" data-readonly="true" value="20" disabled
                                 style="text-align: center;">
 
-                            <div class="text-white">Mail-Orders</div>
+                            <div class="text-white">Permintaan</div>
                         </div>
                         <!-- ./col -->
                         <div class="col-4 text-center">
-                            <input type="text" class="knob" data-readonly="true" value="50" disabled
+                            <input type="text" class="knob" data-readonly="true" value="" disabled
                                 style="text-align: center;">
 
-                            <div class="text-white">Online</div>
+                            <div class="text-white"></div>
                         </div>
                         <!-- ./col -->
                         <div class="col-4 text-center">
                             <input type="text" class="knob" data-readonly="true" value="30" disabled
                                 style="text-align: center;">
 
-                            <div class="text-white">In-Store</div>
+                            <div class="text-white">Pengeluaran</div>
                         </div>
                         <!-- ./col -->
                     </div>
@@ -263,14 +263,14 @@
                 '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'
             ], // Days of the month
             datasets: [{
-                    label: 'Mail-Orders',
+                    label: 'Permintaan',
                     borderColor: 'white', // Set line color to white
                     data: [20, 18, 25, 22, 28, 30, 32, 31, 29, 27, 24, 22, 20, 18, 20, 21, 23, 26, 27, 25, 24, 28,
                         27, 30, 32, 31, 29, 27, 24, 22, 20
                     ],
                 },
                 {
-                    label: 'Online',
+                    label: 'Pengeluaran',
                     borderColor: 'yellow', // Set line color to yellow
                     data: [50, 52, 48, 55, 58, 62, 61, 59, 57, 53, 56, 55, 50, 52, 53, 58, 60, 59, 61, 58, 55, 58,
                         62, 61, 59, 57, 53, 56, 55, 50, 52
