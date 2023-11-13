@@ -31,6 +31,12 @@ Route::middleware('auth')->group(function () {
     Route::get('no_license', [HomeController::class, 'no_license'])->name('no_license');
     Route::get('canceledbm', [HomeController::class, 'canceledBM'])->name('canceledbm');
     Route::get('rejectedpermintaaan', [HomeController::class, 'rejectedPermintaan'])->name('rejectedpermintaaan');
+    Route::get('newpermintaan', [HomeController::class, 'newPermintaan'])->name('newpermintaan');
+    Route::get('openpermintaan', [HomeController::class, 'openPermintaan'])->name('openpermintaan');
+    Route::get('overduepermintaan', [HomeController::class, 'overduePermintaan'])->name('overduepermintaan');
+    Route::get('closedpermintaan', [HomeController::class, 'closedPermintaan'])->name('closedpermintaan');
+    Route::get('openpengeluaran', [HomeController::class, 'openPengeluaran'])->name('openpengeluaran');
+    Route::get('expitems', [HomeController::class, 'expItems'])->name('expitems');
 
     // Item CRUD
     Route::get('items', [ItemController::class, 'index'])->name('items');

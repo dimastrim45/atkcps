@@ -6,6 +6,8 @@ use App\Models\Permintaan;
 use App\Models\BarangMasuk;
 use App\Models\Pengeluaran;
 use App\Models\User;
+use App\Models\Item;
+use App\Models\ItemGroup;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -64,6 +66,13 @@ class HomeController extends Controller
         // Extract the count from the result
         $countOP = $openPermintaan[0]->count;
 
+        $openPermintaanUser = Permintaan::select(\DB::raw('COUNT(DISTINCT docnum) as count'))
+            ->where('status', 'Open')
+            ->where('user_id', auth()->user()->id)
+            ->get();
+        // Extract the count from the result
+        $countOPUser = $openPermintaanUser[0]->count;
+
         // Query to get open and overdue permintaan
         $overduePermintaan = Permintaan::select(\DB::raw('COUNT(DISTINCT docnum) as count'))
             ->whereDate('duedate', '<', $threeDaysAgo)
@@ -72,12 +81,29 @@ class HomeController extends Controller
         // Extract the count from the result
         $countOVP = $overduePermintaan[0]->count;
 
+        // Query to get open and overdue permintaan By User
+        $overduePermintaanUser = Permintaan::select(\DB::raw('COUNT(DISTINCT docnum) as count'))
+            ->whereDate('duedate', '<', $threeDaysAgo)
+            ->where('status', 'Open')
+            ->where('user_id', auth()->user()->id)
+            ->get();
+        // Extract the count from the result
+        $countOVPUser = $overduePermintaanUser[0]->count;
+
         // Query to get closed permintaan
         $closedPermintaan = Permintaan::select(\DB::raw('COUNT(DISTINCT docnum) as count'))
             ->where('status', 'Closed')
             ->get();
         // Extract the count from the result
         $countCP = $closedPermintaan[0]->count;
+
+        // Query to get closed permintaan By User
+        $closedPermintaanUser = Permintaan::select(\DB::raw('COUNT(DISTINCT docnum) as count'))
+            ->where('status', 'Closed')
+            ->where('user_id', auth()->user()->id)
+            ->get();
+        // Extract the count from the result
+        $countCPUser = $closedPermintaanUser[0]->count;
 
         // Query to get rejected permintaan
         $rejectedPermintaan = Permintaan::select(\DB::raw('COUNT(DISTINCT docnum) as count'))
@@ -119,6 +145,9 @@ class HomeController extends Controller
             'overduePengeluaran' => $countOVPG,
             'rejectedPermintaan' => $countRP,
             'canceledBarangMasuk' => $countCBM,
+            'openPermintaanUser' => $countOPUser,
+            'overduePermintaanUser' => $countOVPUser,
+            'closedPermintaanUser' => $countCPUser,
         ]);
     }
 
@@ -200,6 +229,68 @@ class HomeController extends Controller
         return view('it_admin.permintaan-index', [
             'title' => 'permintaans',
             'permintaans' => $permintaans,
+        ]);
+    }
+
+    // show Closed permintaan
+    public function closedPermintaan() {
+        $permintaans = Permintaan::whereIn('id', function($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('permintaans')
+                ->groupBy('docnum');
+        })->where('status', 'Closed')
+            ->paginate(20);
+    
+        return view('it_admin.permintaan-index', [
+            'title' => 'permintaans',
+            'permintaans' => $permintaans,
+        ]);
+    }
+
+    // show Open Pengeluaran
+    public function openPengeluaran() {
+        $pengeluarans = Pengeluaran::whereIn('id', function($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('pengeluarans')
+                ->groupBy('docnum');
+        })->where('status', 'Open')
+            ->paginate(20);
+    
+        return view('it_admin.pengeluaran-index', [
+            'title' => 'pengeluarans',
+            'pengeluarans' => $pengeluarans,
+        ]);
+    }
+
+    // show overdue Pengeluaran
+    public function overduePengeluaran() {
+        // Get today's date in the format 'Y-m-d'
+        $today = Carbon::now()->toDateString();
+    
+        $pengeluarans = Pengeluaran::whereIn('id', function($query) {
+            $query->selectRaw('MIN(id)')
+                ->from('pengeluarans')
+                ->groupBy('docnum');
+        })->where('duedate', '<', $today) // Filter by duedate smaller than today
+            ->paginate(20);
+    
+        return view('it_admin.permintaan-index', [
+            'title' => 'pengeluarans',
+            'pengeluarans' => $pengeluarans,
+        ]);
+    }
+
+    public function expItems() {
+        // Get today's date in the format 'Y-m-d'
+        $today = Carbon::now()->toDateString();
+    
+        $expItems = Item::where('expdate', '<', $today)
+            ->paginate(20);
+        $itemgroups = ItemGroup::all();
+    
+        return view('your_view_name', [
+            'title' => 'Expired Items',
+            'expItems' => $expItems,
         ]);
     }
 }
