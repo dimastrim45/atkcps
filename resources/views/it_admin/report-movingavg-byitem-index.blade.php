@@ -15,7 +15,7 @@
                                 <i class="bi bi-printer pr-1"></i>
                                 Print
                             </button></a> --}}
-                        <form method="GET" action="{{ route('movingavg-report.export-excel') }}" target="_blank"
+                        <form method="GET" action="{{ route('movingavg-byitem-report.export-excel') }}" target="_blank"
                             class="d-inline">
                             <input type="hidden" name="itemId" value="{{ $movingavgs->first()->item->id }}">
                             <button type="submit" class="btn btn-primary">

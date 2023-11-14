@@ -148,4 +148,6 @@ Route::middleware('auth')->group(function () {
     Route::get('movingavg-report', [ReportController::class, 'movingAvg'])->name('movingavg-report');
     Route::get('movingavg-report/export-excel', [ReportController::class, 'exportToExcelMovingAvg'])->name('movingavg-report.export-excel');
     Route::get('inventoryinwhs-report', [ReportController::class, 'inventoryInWhs'])->name('inventoryinwhs-report');
+    Route::get('movingavg-byitem-report', [ReportController::class, 'movingAvgByItem'])->name('movingavg-byitem-report');
+    Route::get('movingavg-byitem-report/export-excel', [ReportController::class, 'exportToExcelMovingAvgByItem'])->name('movingavg-byitem-report.export-excel');
 });

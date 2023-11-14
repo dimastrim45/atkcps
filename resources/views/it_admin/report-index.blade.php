@@ -121,6 +121,13 @@
                                     <p class="card-text">Show list of moving average</p>
                                 </div>
                             </div>
+                            <div class="card btn btn-light btn-block" aria-pressed="false" autocomplete="off"
+                                data-toggle="modal" data-target="#MovingAvgByItemModal">
+                                <div class="card-body text-left">
+                                    <h5 class="card-title">Item Moving Average By Item</h5>
+                                    <p class="card-text">Show list of moving average Filter By Item</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -344,7 +351,72 @@
                     </div>
                 </div>
             </div>
+
+            {{-- Moving Average By Item modal --}}
+            <div class="modal fade" id="MovingAvgByItemModal" tabindex="-1" role="dialog"
+                aria-labelledby="MovingAvgByItemModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="MovingAvgByItemModalLabel">Choose Item
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('movingavg-byitem-report') }}" method="GET">
+                            @csrf
+                            <div class="modal-body" class="">
+                                <input type="text" name="item_name" class="form-control item-search"
+                                    placeholder="Search for an item" autocomplete="off">
+                                <input type="hidden" name="item_id" id="selectedItemId">
+                                <div class="search-results"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div><!-- /.container-fluid -->
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const items = @json($items); // Pass the items from your Laravel controller
+
+        // Handle the "input" event for the "Item Name" search
+        $(document).on('input', '.item-search', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            const resultsContainer = $(this).siblings('.search-results');
+            const results = items.filter(item => item.name.toLowerCase().includes(searchTerm));
+
+            resultsContainer.empty();
+
+            if (results.length > 0) {
+                results.forEach(item => {
+                    // Include the class 'search-result-item' here
+                    const resultItem =
+                        `<div class="result-item search-result-item" data-id="${item.id}">${item.name}</div>`;
+                    resultsContainer.append(resultItem);
+                });
+            } else {
+                resultsContainer.append('<div class="result-item">No results found</div>');
+            }
+        });
+
+        // Handle the click event for selecting an item from the search results
+        $(document).on('click', '.result-item', function() {
+            const selectedItemId = $(this).data('id');
+            const selectedItem = items.find(item => item.id === selectedItemId);
+            const row = $(this).closest('.modal-body');
+
+            row.find('input[name="item_name"]').val(selectedItem.name);
+            row.find('#selectedItemId').val(selectedItem.id); // Set the value of the hidden input for item ID
+
+            $(this).parent().empty(); // Clear the search results
+        });
+    </script>
     <!-- /.content -->
 @endsection

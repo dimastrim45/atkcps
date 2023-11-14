@@ -17,9 +17,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('cron:create-minimum-quantity-alert')->everyMinute();
-            // ->dailyAt('18:00');
-            // ->withoutOverlapping();
+        $schedule->command('cron:create-minimum-quantity-alert')
+            ->dailyAt('18:00')
+            ->withoutOverlapping();
     }
 
     /**

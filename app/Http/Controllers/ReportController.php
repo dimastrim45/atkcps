@@ -18,6 +18,7 @@ use App\Exports\PengeluaranByReqReportExport;
 use App\Exports\SelisihByDateReportExport;
 use App\Exports\MinimumQtyReportExport;
 use App\Exports\MovingAvgReportExport;
+use App\Exports\MovingAvgByItemReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use PDF;
@@ -29,9 +30,11 @@ class ReportController extends Controller
     public function index()
     {
         $users = User::all();
+        $items = Item::all();
         return view('it_admin.report-index', [
             'title' => 'reports',
             'users' => $users,
+            'items' => $items,
         ]);
     }
 
@@ -327,7 +330,9 @@ class ReportController extends Controller
 
     // Moving Avergage report
     public function movingAvg(){
-        $movingavgs = MovingAverage::orderBy('itemSaldo_id')->get();
+        $movingavgs = MovingAverage::orderBy('itemSaldo_id')
+        ->orderBy('created_at', 'asc') // Add this line for sorting
+        ->get();
         return view('it_admin.report-movingavg-index', [
             'title' => 'Minimum Qty Report',
             'movingavgs' => $movingavgs,
@@ -386,5 +391,25 @@ class ReportController extends Controller
             'title' => 'Inventory in Warehouse',
             'inventoryData' => $inventoryData,
         ]);
+    }
+
+    // Moving Avergage report
+    public function movingAvgByItem(Request $request){
+        // Retrieve the item ID from the request
+        $item_id = $request->input('item_id');
+
+        // Query the MovingAverage records based on the item ID and order by created_at in descending order
+        $movingavgs = MovingAverage::where('itemSaldo_id', $item_id)
+        ->orderBy('created_at', 'asc') // Add this line for sorting
+        ->get();
+
+        return view('it_admin.report-movingavg-byitem-index', [
+            'title' => 'Minimum Qty Report',
+            'movingavgs' => $movingavgs,
+        ]);
+    }
+    public function exportToExcelMovingAvgByItem()
+    {
+        return Excel::download(new MovingAvgByItemReportExport, 'MovingAverageByItem.xlsx');
     }
 }

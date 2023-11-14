@@ -7,14 +7,16 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use DB;
 
-class MovingAvgReportExport implements FromCollection, WithHeadings
+class MovingAvgByItemReportExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection, WithHeadings
     */
     public function collection()
     {
-        //
+        // Retrieve the item ID from the form data
+        $itemId = request()->input('itemId');
+
         return MovingAverage::select(
             'items.name as Item Name',
             'qtyIn as Qty In',
@@ -31,7 +33,8 @@ class MovingAvgReportExport implements FromCollection, WithHeadings
             \DB::raw("DATE_FORMAT(moving_averages.created_at, '%H:%i:%s') as Time") // Add this line for time
         )
         ->leftJoin('items', 'moving_averages.itemSaldo_id', '=', 'items.id')
-        ->orderBy('itemSaldo_id') // Add this line for ordering
+        ->where('itemSaldo_id', $itemId) // Add this line for the condition
+        ->orderBy('itemSaldo_id')
         ->get();
     }
 
