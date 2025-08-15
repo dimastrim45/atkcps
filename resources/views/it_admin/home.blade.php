@@ -269,7 +269,7 @@
             <!-- /.row -->
 
             <!-- solid sales graph -->
-            <div class="card bg-gradient-info">
+            {{-- <div class="card bg-gradient-info">
                 <div class="card-header border-0">
                     <h3 class="card-title">
                         <i class="fas fa-th mr-1"></i>
@@ -284,13 +284,13 @@
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                </div>
+                </div> --}}
                 {{-- <div class="card-body">
                     <canvas class="chart" id="line-chart"
                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%"></canvas></canvas>
                 </div> --}}
                 <!-- /.card-body -->
-                <div class="card-footer bg-transparent">
+                {{-- <div class="card-footer bg-transparent">
                     <div class="row">
                         <div class="col-4 text-center">
                             <input type="text" class="knob" data-readonly="true" value="20" disabled
@@ -314,9 +314,9 @@
                         </div>
                         <!-- ./col -->
                     </div>
-                </div>
+                </div> --}}
                 <!-- /.row -->
-            </div>
+            {{-- </div> --}}
             <!-- /.card-footer -->
         </div>
         <!-- /.card -->
