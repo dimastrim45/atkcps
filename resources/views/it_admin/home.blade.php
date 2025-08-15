@@ -285,10 +285,10 @@
                         </button>
                     </div>
                 </div>
-                <div class="card-body">
+                {{-- <div class="card-body">
                     <canvas class="chart" id="line-chart"
                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%"></canvas></canvas>
-                </div>
+                </div> --}}
                 <!-- /.card-body -->
                 <div class="card-footer bg-transparent">
                     <div class="row">
@@ -323,7 +323,7 @@
     </div><!-- /.container-fluid -->
 
     </div>
-    <script>
+    {{-- <script>
         // Sample data for two lines
         const data = {
             labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18',
@@ -368,6 +368,6 @@
                 },
             },
         });
-    </script>
+    </script> --}}
     <!-- /.content -->
 @endsection
