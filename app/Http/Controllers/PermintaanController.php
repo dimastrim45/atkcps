@@ -59,53 +59,58 @@ class PermintaanController extends Controller
             $departmentColumns[] = 'isFAT';
         }
 
-        if ($user->department === 'GFG') {
-            $departmentColumns[] = 'isGFG';
+        if ($user->department === 'WFG') {
+            $departmentColumns[] = 'isWFG';
         }
 
-        if ($user->department === 'GRT') {
-            $departmentColumns[] = 'isGRT';
+        if ($user->department === 'WRT') {
+            $departmentColumns[] = 'isWRT';
         }
 
-        if ($user->department === 'GRM') {
-            $departmentColumns[] = 'isGRM';
+        if ($user->department === 'WRM') {
+            $departmentColumns[] = 'isWRM';
         }
 
         if ($user->department === 'HRGA') {
-            $departmentColumns[] = 'isHRGA';
+            $departmentColumns[] = 'isHRG';
         }
 
-        if ($user->department === 'DGSL') {
-            $departmentColumns[] = 'isDGSL';
+        if ($user->department === 'DGS') {
+            $departmentColumns[] = 'isDGS';
         }
 
         if ($user->department === 'SLS') {
             $departmentColumns[] = 'isSLS';
         }
 
-        if ($user->department === 'MRKT') {
-            $departmentColumns[] = 'isMRKT';
+        if ($user->department === 'MKT') {
+            $departmentColumns[] = 'isMKT';
         }
 
         if ($user->department === 'DEL') {
             $departmentColumns[] = 'isDEL';
         }
 
-        if ($user->department === 'PROD') {
-            $departmentColumns[] = 'isPROD';
+        if ($user->department === 'PRD') {
+            $departmentColumns[] = 'isPRD';
         }
 
-        if ($user->department === 'PPIC') {
-            $departmentColumns[] = 'isPPIC';
+        if ($user->department === 'PPI') {
+            $departmentColumns[] = 'isPPI';
         }
 
         if ($user->department === 'RPR') {
             $departmentColumns[] = 'isRPR';
         }
 
-        if ($user->department === 'PRCH') {
-            $departmentColumns[] = 'isPRCH';
+        if ($user->department === 'PCH') {
+            $departmentColumns[] = 'isPCH';
         }
+
+        if ($user->department === 'QCT') {
+            $departmentColumns[] = 'isQCT';
+        }
+
 
         // Retrieve item groups based on the user's license
         $itemGroups = ItemGroup::where(function($query) use ($departmentColumns) {

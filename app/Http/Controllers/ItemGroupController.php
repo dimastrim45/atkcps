@@ -78,18 +78,19 @@ class ItemGroupController extends Controller
             'code' => ['required', 'string', Rule::unique('item_groups', 'code')->ignore($itemgroup->id),],
             'isENG' => ['boolean'], // Add the boolean validation rule for isENG
             'isFAT' => ['boolean'], // Add the boolean validation rule for isFAT
-            'isGFG' => ['boolean'], // Add the boolean validation rule for isGFG
-            'isGRT' => ['boolean'], // Add the boolean validation rule for isGRT
-            'isGRM' => ['boolean'], // Add the boolean validation rule for isGRM
-            'isHRGA' => ['boolean'], // Add the boolean validation rule for isHRGA
-            'isDGSL' => ['boolean'], // Add the boolean validation rule for isDGSL
+            'isWFG' => ['boolean'], // Add the boolean validation rule for isGFG
+            'isWRT' => ['boolean'], // Add the boolean validation rule for isGRT
+            'isWRM' => ['boolean'], // Add the boolean validation rule for isGRM
+            'isHRG' => ['boolean'], // Add the boolean validation rule for isHRGA
+            'isDGS' => ['boolean'], // Add the boolean validation rule for isDGSL
             'isSLS' => ['boolean'], // Add the boolean validation rule for isSLS
-            'isMRKT' => ['boolean'], // Add the boolean validation rule for isMRKT
+            'isMKT' => ['boolean'], // Add the boolean validation rule for isMRKT
             'isDEL' => ['boolean'], // Add the boolean validation rule for isDEL
-            'isPROD' => ['boolean'], // Add the boolean validation rule for isPROD
-            'isPPIC' => ['boolean'], // Add the boolean validation rule for isPPIC
+            'isPRD' => ['boolean'], // Add the boolean validation rule for isPROD
+            'isPPI' => ['boolean'], // Add the boolean validation rule for isPPIC
             'isRPR' => ['boolean'], // Add the boolean validation rule for isRPR
-            'isPRCH' => ['boolean'], // Add the boolean validation rule for isPRCH
+            'isPCH' => ['boolean'], // Add the boolean validation rule for isPRCH
+            'isQCT' => ['boolean'], // Add the boolean validation rule for isQCT
         ]);
         // dd($validatedData);
 

@@ -21,7 +21,7 @@ class UserFactory extends Factory
     {
         $faker = \Faker\Factory::create();
         // $branches = ['BLB', 'BLI', 'HO', 'JKT', 'KRN', 'MKTSL', 'MWR', 'PGS', 'PROD', 'SMR', 'SPJ', 'TLA', 'WNS'];
-        $departments = ['ENG', 'FAT', 'GFG', 'GRT', 'GRM', 'HRGA', 'DGSL', 'SLS', 'MRKT', 'PROD', 'RPR', 'PRCH'];
+        $departments = ['ENG', 'FAT', 'WFG', 'WRT', 'WRM', 'HRG', 'DGS', 'SLS', 'MKT', 'PRD', 'RPR', 'PCH', 'QCT', 'PPI', 'DEL'];
         $licenses = ['administrator', 'staff', 'hradmin', 'manager'];
 
         return [

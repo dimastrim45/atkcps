@@ -14,7 +14,7 @@ class PlantSeeder extends Seeder
     {
         $plants = [
             [
-                'code' => 'WNSR',
+                'code' => 'WNR',
                 'name' => 'Wonosari',
                 'city' => 'Surabaya',
                 'province' => 'Jawa Timur',
@@ -51,6 +51,30 @@ class PlantSeeder extends Seeder
                 'city' => 'Sidoarjo',
                 'province' => 'Jawa Timur',
                 'address' => 'Jl. Mayjen Bambang Yuwono',
+                'status' => 'Active',
+            ],
+            [
+                'code' => 'KRT',
+                'name' => 'Kartini',
+                'city' => 'Surabaya',
+                'province' => 'Jawa Timur',
+                'address' => 'Jl. RA. Kartini No. 16',
+                'status' => 'Active',
+            ],
+            [
+                'code' => 'JKT',
+                'name' => 'Kosambi',
+                'city' => 'Jakarta',
+                'province' => 'DKI Jakarta',
+                'address' => 'Pergudangan Kosambi Permai Raya Prancis blok O no 69',
+                'status' => 'Active',
+            ],
+            [
+                'code' => 'PGS',
+                'name' => 'PGS',
+                'city' => 'Surabaya',
+                'province' => 'Jawa Timur',
+                'address' => 'PGS Surabaya',
                 'status' => 'Active',
             ],
             // Add more plant data as needed
