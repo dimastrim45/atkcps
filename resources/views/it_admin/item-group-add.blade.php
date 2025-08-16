@@ -84,7 +84,7 @@
                                             </td>
                                             <td></td>
                                             <td>Finance Accounting Tax</td>
-                                            <td >
+                                            <td>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="isFAT"
                                                         id="isFATTrue" value="1">
@@ -97,33 +97,32 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <!-- Repeat the above block for each of your new boolean fields -->
                                         <tr>
                                             <td>Gudang FG</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isGFG"
-                                                        id="isGFGTrue" value="1">
-                                                    <label class="form-check-label" for="isGFGTrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isWFG"
+                                                        id="isWFGTrue" value="1">
+                                                    <label class="form-check-label" for="isWFGTrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isGFG"
-                                                        id="isGFGFalse" value="0">
-                                                    <label class="form-check-label" for="isGFGFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isWFG"
+                                                        id="isWFGFalse" value="0">
+                                                    <label class="form-check-label" for="isWFGFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                             <td></td>
                                             <td>Gudang Retail</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isGRT"
-                                                        id="isGRTTrue" value="1">
-                                                    <label class="form-check-label" for="isGRTTrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isWRT"
+                                                        id="isWRTTrue" value="1">
+                                                    <label class="form-check-label" for="isWRTTrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isGRT"
-                                                        id="isGRTFalse" value="0">
-                                                    <label class="form-check-label" for="isGRTFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isWRT"
+                                                        id="isWRTFalse" value="0">
+                                                    <label class="form-check-label" for="isWRTFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                         </tr>
@@ -131,28 +130,28 @@
                                             <td>Gudang RM</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isGRM"
-                                                        id="isGRMTrue" value="1">
-                                                    <label class="form-check-label" for="isGRMTrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isWRM"
+                                                        id="isWRMTrue" value="1">
+                                                    <label class="form-check-label" for="isWRMTrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isGRM"
-                                                        id="isGRMFalse" value="0">
-                                                    <label class="form-check-label" for="isGRMFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isWRM"
+                                                        id="isWRMFalse" value="0">
+                                                    <label class="form-check-label" for="isWRMFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                             <td></td>
-                                            <td>HRGA</td>
+                                            <td>HRG</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isHRGA"
-                                                        id="isHRGATrue" value="1">
-                                                    <label class="form-check-label" for="isHRGATrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isHRG"
+                                                        id="isHRGTrue" value="1">
+                                                    <label class="form-check-label" for="isHRGTrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isHRGA"
-                                                        id="isHRGAFalse" value="0">
-                                                    <label class="form-check-label" for="isHRGAFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isHRG"
+                                                        id="isHRGFalse" value="0">
+                                                    <label class="form-check-label" for="isHRGFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                         </tr>
@@ -160,14 +159,14 @@
                                             <td>Digital Sales</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isDGSL"
-                                                        id="isDGSLTrue" value="1">
-                                                    <label class="form-check-label" for="isDGSLTrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isDGS"
+                                                        id="isDGSTrue" value="1">
+                                                    <label class="form-check-label" for="isDGSTrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isDGSL"
-                                                        id="isDGSLFalse" value="0">
-                                                    <label class="form-check-label" for="isDGSLFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isDGS"
+                                                        id="isDGSFalse" value="0">
+                                                    <label class="form-check-label" for="isDGSFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                             <td></td>
@@ -189,14 +188,14 @@
                                             <td>Marketing</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isMRKT"
-                                                        id="isMRKTTrue" value="1">
-                                                    <label class="form-check-label" for="isMRKTTrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isMKT"
+                                                        id="isMKTTrue" value="1">
+                                                    <label class="form-check-label" for="isMKTTrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isMRKT"
-                                                        id="isMRKTFalse" value="0">
-                                                    <label class="form-check-label" for="isMRKTFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isMKT"
+                                                        id="isMKTFalse" value="0">
+                                                    <label class="form-check-label" for="isMKTFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                             <td></td>
@@ -218,28 +217,28 @@
                                             <td>Produksi</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isPROD"
-                                                        id="isPRODTrue" value="1">
-                                                    <label class="form-check-label" for="isPRODTrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isPRD"
+                                                        id="isPRDTrue" value="1">
+                                                    <label class="form-check-label" for="isPRDTrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isPROD"
-                                                        id="isPRODFalse" value="0">
-                                                    <label class="form-check-label" for="isPRODFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isPRD"
+                                                        id="isPRDFalse" value="0">
+                                                    <label class="form-check-label" for="isPRDFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                             <td></td>
                                             <td>PPIC</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isPPIC"
-                                                        id="isPPICTrue" value="1">
-                                                    <label class="form-check-label" for="isPPICTrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isPPI"
+                                                        id="isPPITrue" value="1">
+                                                    <label class="form-check-label" for="isPPITrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isPPIC"
-                                                        id="isPPICFalse" value="0">
-                                                    <label class="form-check-label" for="isPPICFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isPPI"
+                                                        id="isPPIFalse" value="0">
+                                                    <label class="form-check-label" for="isPPIFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                         </tr>
@@ -261,18 +260,32 @@
                                             <td>Purchasing</td>
                                             <td>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isPRCH"
-                                                        id="isPRCHTrue" value="1">
-                                                    <label class="form-check-label" for="isPRCHTrue">Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isPCH"
+                                                        id="isPCHTrue" value="1">
+                                                    <label class="form-check-label" for="isPCHTrue">Allowed</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="isPRCH"
-                                                        id="isPRCHFalse" value="0">
-                                                    <label class="form-check-label" for="isPRCHFalse">Not Allowed</label>
+                                                    <input class="form-check-input" type="radio" name="isPCH"
+                                                        id="isPCHFalse" value="0">
+                                                    <label class="form-check-label" for="isPCHFalse">Not Allowed</label>
                                                 </div>
                                             </td>
                                         </tr>
-                                        <!-- Repeat this pattern for all 14 boolean fields -->
+                                        <tr>
+                                            <td>Quality Control</td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isQCT"
+                                                        id="isQCTTrue" value="1">
+                                                    <label class="form-check-label" for="isQCTTrue">Allowed</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="isQCT"
+                                                        id="isQCTFalse" value="0">
+                                                    <label class="form-check-label" for="isQCTFalse">Not Allowed</label>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
